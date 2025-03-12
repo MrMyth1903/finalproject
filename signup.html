@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-Up Form</title>
+    <link rel="icon" href="photo/Untitled-removebg-preview.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(120deg, #84fab0, #8fd3f4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .background-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+    .video-container {
+        display: none;
+    }
+        .box {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .box h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+        .input {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .input i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+        .input input {
+            width: 100%;
+            padding: 10px 10px 10px 35px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .input input:focus {
+            border-color: #84fab0;
+        }
+        .Register {
+            background: linear-gradient(120deg, #84fab0, #8fd3f4);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        .Register:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        .Register:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+<video class="background-video" id="bgVideo" autoplay muted loop>
+        <source src="video/istockphoto-1680698591-640_adpp_is.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+<form action="php/signup.php" method="post" onsubmit="return validateEmail()">
+    <div class="box">
+        <h1>Sign-Up Form</h1>
+        <div class="input">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <input type="text" placeholder="First Name" class="fname" id="n1" name="firstname" >
+        </div>
+        <div class="input">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <input type="text" placeholder="Last Name" class="lname" id="n2" name="lastname" >
+        </div>
+        <div class="input">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <input type="text" placeholder="Phone Number" class="lastname" id="n2" name="phone" >
+        </div>
+        <div class="input">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+            <input type="email" placeholder="Email" class="inpt" id="mail" name="mail" >
+        </div>
+        <div class="input">
+            <i class="fa fa-key" aria-hidden="true"></i>
+            <input type="password" placeholder="Password" class="inpt" id="n4" name="pass">
+        </div>
+        <div class="input">
+            <i class="fa fa-calendar-o" aria-hidden="true"></i>
+            <input type="Date" placeholder="D.O.B" class="inpt" id="n5" name="dob">
+        </div>
+        <div class="input">
+            <i class="fa fa-address-card" aria-hidden="true"></i>
+            <input type="text" placeholder="City" class="inpt" id="n8" name="city">
+        </div>
+        <button type="submit" class="Register" name="submit" onclick="return myform()">Register</button>
+    </div>
+</form>
+<script>
+    function validateEmail() {
+        var email = document.getElementById('mail').value;
+        var regex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;  // Regular expression for Gmail addresses 
+        if (!regex.test(email)) {
+            alert("Please enter a valid Gmail address (e.g., example@gmail.com/example@yahoo.com/example@nttf.co.in).");
+            return false;
+        }
+        return true;
+    }
+</script>
+<script>
+    function myform() {
+        var a = document.getElementById("n1").value;
+        var b = document.getElementById("n2").value;
+        var c = document.getElementById("mail").value;
+        var d = document.getElementById("n4").value;
+        var e = document.getElementById("n5").value;
+        var h = document.getElementById("n8").value;
+
+        if (a === "" || b === "" || c === "" || d === "" || e === "" || h === "") {
+            alert("Please fill all the given fields");
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
+</body>
+</html>

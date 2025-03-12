@@ -1,0 +1,7 @@
+{
+    "json.schemas": [
+
+    ],
+    "json.trace.server": "off",
+    "workbench.settings.useSplitJSON": true
+}
