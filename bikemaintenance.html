@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Booking</title>
+    <link rel="icon" href="photo/Untitled-removebg-preview.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .background-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+    .video-container {
+        display: none;
+    }
+        header {
+            background-color: #0073e6;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            font-size: 1.1rem;
+            color: #333;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        select, input[type="text"], input[type="date"], input[type="time"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .button-container {
+            text-align: center;
+        }
+        .submit-btn {
+            background-color: #0073e6;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #005bb5;
+        }
+        .error {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .success {
+            color: green;
+            font-size: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<video class="background-video" id="bgVideo" autoplay muted loop>
+        <source src="video/bike.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <!-- <header>
+        <h1>Book Your Appointment</h1>
+    </header> -->
+
+    <div class="container">
+        <h2>Bike Service Form</h2>
+        <form action="php/bikedb.php" method="post">
+            <div class="form-group">
+                <label for="service">Select Service Type</label>
+                <select id="service" name="service" required>
+                   <option value="Bike Servicing">Bike Servicing</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="date">Preferred Date</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="time">Preferred Time</label>
+                <input type="time" id="time" name="time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="submit-btn" name="submit">Submit Appointment</button>
+            </div>
+            <p id="error-message" class="error"></p>
+            <p id="success-message" class="success"></p>
+        </form>
+    </div>
+
+    <script>
+        // Form Validation and Submission Logic
+        const form = document.getElementById('appointmentForm');
+        const serviceField = document.getElementById('service');
+        const dateField = document.getElementById('date');
+        const timeField = document.getElementById('time');
+        const nameField = document.getElementById('name');
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Reset messages
+            errorMessage.textContent = '';
+            successMessage.textContent = '';
+
+            // Get form values
+            const service = serviceField.value;
+            const date = dateField.value;
+            const time = timeField.value;
+            const name = nameField.value.trim();
+
+            // Validation checks
+            if (!service || !date || !time || !name) {
+                errorMessage.textContent = 'Please fill out all fields.';
+                return;
+            }
+
+            // If all fields are filled, simulate a successful appointment
+            successMessage.textContent = `Appointment successfully booked for ${name}. 
+                                          Service: ${service} on ${date} at ${time}.`;
+
+            // Clear the form after submission
+            form.reset();
+        });
+    </script>
+
+</body>
+</html>

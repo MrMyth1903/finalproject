@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Booking</title>
+    <link rel="icon" href="photo/Untitled-removebg-preview.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .video-container {
+            display: none;
+        }
+        header {
+            background-color: #0073e6;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            font-size: 1.1rem;
+            color: #333;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        select, input[type="text"], input[type="date"], input[type="time"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .button-container {
+            text-align: center;
+        }
+        .submit-btn {
+            background-color: #0073e6;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #005bb5;
+        }
+        .error {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .success {
+            color: green;
+            font-size: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        #other-service {
+            display: none;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <video class="background-video" id="bgVideo" autoplay muted loop>
+        <source src="video/istockphoto-1680698591-640_adpp_is.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <div class="container">
+        <h2>Service Appointment Form</h2>
+        <form action="php/appoiintment.php" method="post" id="appointmentForm">
+            <div class="form-group">
+                <label for="service">Select Service Type</label>
+                <select id="service" name="service" required>
+                    <option value="">--Select Service--</option>
+                    <option value="Car Maintenance">Car Maintenance</option>
+                    <option value="Bike Servicing">Bike Servicing</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="date">Preferred Date</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="time">Preferred Time</label>
+                <input type="time" id="time" name="time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="vehicle">Vehicle number</label>
+                <input type="text" id="vehicle" name="vehicle" placeholder="Enter your vehicle number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="want">What you want</label>
+                <select id="want" name="want" required>
+                    <option value="">--Select Service--</option>
+                    <option value="Tire Change">Tire Change</option>
+                    <option value="Mobil Change">Mobil Change</option>
+                    <option value="Brake Shoe Change">Brake Shoe Change</option>
+                    <option value="Coolent Change">Coolent Change</option>
+                    <option value="Brake Issue">Brake Issue</option>
+                    <option value="Diesel Tank">Diesel Tank</option>
+                    <option value="Mobile Tank">Mobile Tank</option>
+                    <option value="Head Light">Head Light</option>
+                    <option value="Deeper">Deeper</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- Text input box for "Other" service -->
+            <div class="form-group" id="other-service">
+                <label for="other">Please specify:</label>
+                <input type="text" id="other" name="other" placeholder="Enter your service request">
+            </div>
+
+            <div class="form-group">
+                <label for="phone_number">Phone Number</label>
+                <input type="text" id="phone_number" name="phone_number" placeholder="Enter your phone number" required>
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="submit-btn" name="submit">Submit Appointment</button>
+            </div>
+            <p id="error-message" class="error"></p>
+            <p id="success-message" class="success"></p>
+        </form>
+    </div>
+
+    <script>
+        // Show or hide the "Other" text box when the "Other" option is selected
+        const wantField = document.getElementById('want');
+        const otherServiceField = document.getElementById('other-service');
+
+        wantField.addEventListener('change', function() {
+            if (wantField.value === 'Other') {
+                otherServiceField.style.display = 'block';  // Show the input box
+            } else {
+                otherServiceField.style.display = 'none';   // Hide the input box
+            }
+        });
+
+        // Initialize form with the "Other" service hidden
+        if (wantField.value !== 'Other') {
+            otherServiceField.style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>

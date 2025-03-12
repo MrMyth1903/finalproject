@@ -1,0 +1,72 @@
+body{
+    /* background: transparent; */
+    background-color: rgb(206, 167, 109);
+}
+.box{
+    background-color: aliceblue;
+    border: 2px solid rgb(80, 76, 76);
+    width: 300px;
+    box-shadow: 0 0 3px 0 rgba(0,0,0.3,0);
+    padding: 20px;
+    margin: 5% auto 0;
+    text-align: center;
+}
+h1{
+    color: #1c8adb;
+   
+}
+.fname{
+    height: 20px;
+    width: 84px;
+    margin-top: 22px;
+    border: 1px solid goldenrod;
+    border-radius: 7px;
+}
+.fnm{
+    display: flex;
+    margin-left: 33px;
+    
+}
+.lname{
+    height: 20px;
+    width: 70px;
+    margin-top: 22px;
+    border: 1px solid goldenrod;
+    border-radius: 7px;
+}
+.inpt{
+    height: 25px;
+    width: 200px;
+    border: 1px solid gold;
+    margin: 10px;
+    border-radius: 7px;
+}
+.input i{
+    padding: 3px;
+    border: 1px solid goldenrod;
+    width: 15px;
+    height: 18px;
+    margin-top: 22px;
+    border-radius: 7px;
+}
+.gender{
+    margin-top: 22px;
+    font-size: 20px;
+    margin-right: 110px;
+}
+.Register{
+    height: 30px;
+    width: 250px;
+    cursor: pointer;
+    border: 2px solid goldenrod;
+    background-color: lightskyblue;
+    font-size: 16px;
+    margin-top: 18px;
+}
+.Register a{
+    text-decoration: none;
+    color: black;
+}
+.Register:hover{
+    background-color: lightgreen;
+}

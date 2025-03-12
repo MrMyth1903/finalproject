@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .background-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+    .video-container {
+        display: none;
+    }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+        .form-group textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        span{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<video class="background-video" id="bgVideo" autoplay muted loop>
+        <source src="video/clean.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    <div class="container">
+        <h2>Feedback Form</h2>
+        <form action="php/feedbackdb.php" method="POST">
+            <div class="form-group">
+                <label for="name">Your Name<span>*</span></label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Your Email<span>*</span></label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="Image">Your Image<span>*</span></label>
+                <input type="file" id="email" name="image" required>
+            </div>
+            <div class="form-group">
+                <label for="feedback">Your Feedback<span>*</span></label>
+                <textarea id="feedback" name="feedback" required></textarea>
+            </div>
+            <button type="submit" name="submit" class="btn">Submit Feedback</button>
+        </form>
+        <script>
+    function validateEmail() {
+        var email = document.getElementById('email').value;
+        var regex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;  // Regular expression for Gmail addresses
+        var regex = /^[a-zA-Z0-9._%+-]+@yahoo\.com$/;  // Regular expression for Gmail addresses
+        var regex = /^[a-zA-Z0-9._%+-]+@nttf\.co\.in$/;// Regular expression for Gmail addresses 
+        if (!regex.test(email)) {
+            alert("Please enter a valid Gmail address (e.g., example@gmail.com/example@yahoo.com/example@nttf.co.in).");
+            return false;
+        }
+        return true;
+    }
+</script>
+    </div>
+</body>
+</html>

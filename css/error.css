@@ -1,0 +1,17 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+body{
+    /*background-image: url('photo/360_F_571067620_JS5T5TkDtu3gf8Wqm78KoJRF1vobPvo6.jpg');*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #f8e7f6;
+}
+h1{
+    padding: 12px 12px 12px 12px;
+}
+h3{
+    padding: 12px 12px 12px 12px; 
+}
