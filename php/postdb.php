@@ -4,6 +4,7 @@ $conn = mysqli_connect('localhost', 'root', '', 'final');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = $_POST['title'];
+    $image=$_POST['image'];
     $content = $_POST['content'];
     $author = $_POST['name'];
 
