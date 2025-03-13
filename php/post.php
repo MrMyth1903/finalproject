@@ -1,13 +1,10 @@
 <?php
-// Fetch posts from the database (assuming you have a database connection here)
-
-// Sample connection (make sure to update with your actual credentials)
+// Database connection
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "final"; // Replace with your actual database name
+$dbname = "final"; 
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
@@ -15,8 +12,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// SQL query to fetch posts
-$sql = "SELECT * FROM posts";
+// Fetch posts
+$sql = "SELECT * FROM posts ORDER BY DATE DESC";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -34,45 +31,60 @@ $result = $conn->query($sql);
             padding: 0;
         }
         .container {
-            width: 80%;
+            width: 90%;
             margin: 20px auto;
-        }
-        .main-content {
             display: flex;
             gap: 20px;
         }
-        #posts-container {
+        .main-content {
             width: 70%;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
         .post {
             background: #fff;
             padding: 15px;
-            margin-bottom: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .post img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
         }
         .post h2 {
             color: #333;
+            margin-top: 10px;
         }
         .post p {
             color: #555;
+            font-size: 14px;
         }
-        .post button {
-            background: #4CAF50;
-            color: white;
-            border: none;
+        .post .btn {
+            display: inline-block;
             padding: 10px 15px;
+            margin: 5px;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-right: 5px;
-            transition: 0.3s;
+            font-size: 14px;
         }
-        .post button:hover {
+        .btn.edit {
+            background: #4CAF50;
+            color: white;
+        }
+        .btn.edit:hover {
             background: #45a049;
+        }
+        .btn.delete {
+            background: #f44336;
+            color: white;
+        }
+        .btn.delete:hover {
+            background: #e53935;
         }
         .sidebar {
             width: 30%;
@@ -80,6 +92,11 @@ $result = $conn->query($sql);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+        .sidebar h3 {
+            text-align: center;
+            color: #333;
         }
         .sidebar input, .sidebar textarea {
             width: 100%;
@@ -87,6 +104,7 @@ $result = $conn->query($sql);
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            font-size: 14px;
         }
         .sidebar button {
             width: 100%;
@@ -96,40 +114,21 @@ $result = $conn->query($sql);
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 14px;
             transition: 0.3s;
         }
         .sidebar button:hover {
             background: #45a049;
         }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 1rem;
-        }
-        .right-header {
-            margin-left: auto;
-            display: flex;
-            gap: 15px;
-        }
-        .right-header a {
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            padding: 8px 15px;
-            background: linear-gradient(145deg, rgb(94, 165, 209), rgb(162, 96, 198));
-            border-radius: 4px;
-        }
-        .right-header a:hover {
-            background: linear-gradient(145deg, rgb(68, 152, 42), rgb(83, 165, 144));
-        }
         @media (max-width: 768px) {
-            .main-content {
+            .container {
                 flex-direction: column;
             }
-            #posts-container, .sidebar {
+            .main-content {
+                grid-template-columns: 1fr;
+                width: 100%;
+            }
+            .sidebar {
                 width: 100%;
             }
         }
@@ -139,43 +138,37 @@ $result = $conn->query($sql);
     
     <div class="container">
         <div class="main-content">
-            <div id="posts-container">
-                <?php
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<div class="post">';
-                        if (!empty($row['IMAGE'])) {
-                            echo '<img src="' . htmlspecialchars($row['IMAGE']) . '" alt="Blog Image">';
-                        }
-                        echo '<p><strong>By ' . htmlspecialchars($row['NAME']) . '</strong> on ' . date('F j, Y', strtotime($row['DATE'])) . '</p>';
-                        echo '<p>' . nl2br(htmlspecialchars($row['CONTENT'])) . '</p>';
-                        echo '<form action="update_post.php" method="post" style="display:inline;">';
-                        echo '<input type="hidden" name="post_id" value="' . $row['ID'] . '">';
-                        echo '<button type="submit">Update</button>';
-                        echo '</form>';
-                        echo '<form action="delete_post.php" method="post" style="display:inline;">';
-                        echo '<input type="hidden" name="post_id" value="' . $row['ID'] . '">';
-                        echo '<button type="submit" onclick="return confirm(\'Are you sure you want to delete this post?\')">Delete</button>';
-                        echo '</form>';
-                        echo '</div><hr>';
+            <?php
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="post">';
+                    if (!empty($row['IMAGE'])) {
+                        echo '<img src="' . htmlspecialchars($row['IMAGE']) . '" alt="Blog Image">';
                     }
-                } else {
-                    echo '<p>No posts available.</p>';
+                    echo '<h2>' . htmlspecialchars($row['TITLE']) . '</h2>';
+                    echo '<p><strong>By ' . htmlspecialchars($row['NAME']) . '</strong> on ' . date('F j, Y', strtotime($row['DATE'])) . '</p>';
+                    echo '<p>' . nl2br(htmlspecialchars($row['CONTENT'])) . '</p>';
+                    echo '<a href="post_update.php?id=' . $row['ID'] . '"><button class="btn edit">Edit</button></a>';
+                    echo '<a href="post_delete.php?id=' . $row['ID'] . '" onclick="return confirm(\'Are you sure you want to delete this post?\');"><button class="btn delete">Delete</button></a>';
+                    echo '</div>';
                 }
-                $conn->close();
-                ?>
-            </div>
-            <aside class="sidebar">
-                <h3>Add a New Post</h3>
-                <form action="postdb.php" method="post" enctype="multipart/form-data">
-                    <input type="text" name="title" placeholder="Post Title" required>
-                    <textarea name="content" placeholder="Post Content" required></textarea>
-                    <input type="text" name="name" placeholder="Your Name" required>
-                    <input type="file" name="image" accept="image/*">
-                    <button type="submit">Add Post</button>
-                </form>
-            </aside>
+            } else {
+                echo '<p>No posts available.</p>';
+            }
+            $conn->close();
+            ?>
         </div>
+        
+        <aside class="sidebar">
+            <h3>Add a New Post</h3>
+            <form action="postdb.php" method="post" enctype="multipart/form-data">
+                <input type="text" name="title" placeholder="Post Title" required>
+                <textarea name="content" placeholder="Post Content" required></textarea>
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="file" name="image" accept="image/*">
+                <button type="submit">Add Post</button>
+            </form>
+        </aside>
     </div>
 </body>
 </html>
