@@ -110,6 +110,7 @@
         <!-- Right side with buttons -->
         <div class="right-buttons">
             <button onclick="loadGraphData()">Home</button>
+            <button onclick="loadPage('vendor')">Vendor</button>
             <button onclick="loadPage('vehicles')">Vehicle</button>
             <button onclick="loadPage('workers')">Workers</button>
             <button onclick="loadPage('service_record')">Service Record</button>
@@ -148,6 +149,9 @@
                 case 'home':
                     pageURL = 'graph.php'; // Load graph.php when Home is clicked
                     break;
+                case 'vendor':
+                    pageURL = 'vendor.php'; // Load graph.php when Home is clicked
+                    break;    
                 case 'workers':
                     pageURL = 'workers.php';
                     break;
