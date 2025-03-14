@@ -3,40 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Page with Sections</title>
+    <title>Request Page</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(120deg, #f6d365, #fda085);
+            background: linear-gradient(120deg,rgb(129, 24, 115),rgb(133, 253, 197));
             color: #333;
         }
         .background-video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: -1;
-    }
-    .video-container {
-        display: none;
-    }
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
         h1 {
             text-align: center;
             padding: 20px;
-            color: #ffffff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            font-size: 38px;
+            font-weight: bold;
+            background: linear-gradient(120deg,rgb(226, 65, 15),rgb(226, 65, 15));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         section {
             margin: 20px auto;
             padding: 20px;
             max-width: 800px;
-            background: #ffffff;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
         .container {
             display: flex;
@@ -56,16 +59,17 @@
         }
         label {
             font-weight: bold;
-            color: #555;
+            color: #fff;
         }
-        select, textarea {
+        select, input, textarea {
             padding: 10px;
             font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 10px;
             width: 100%;
             max-width: 300px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         textarea {
             resize: none;
@@ -90,19 +94,15 @@
             transform: translateY(-3px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         }
-        .submit-button button:active {
-            transform: translateY(0);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        }
     </style>
 </head>
 <body>
-<video class="background-video" id="bgVideo" autoplay muted loop>
-        <source src="video/istockphoto-1680698591-640_adpp_is.mp4" type="video/mp4">
-        Your browser does not support HTML5 video.
-    </video>
-    <br>
-<h1> Request Page</h1>
+<video class="background-video" autoplay muted loop>
+    <source src="video/istockphoto-1680698591-640_adpp_is.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+</video>
+
+<h1>Request Page</h1>
 
 <section >
 <form action="php/service/servicedb.php" method="post">    
