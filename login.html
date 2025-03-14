@@ -4,120 +4,165 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="icon" href="photo/Untitled-removebg-preview.png"> -->
-    <title>Registration</title>
+    <title>Sign-In</title>
     <link rel="icon" href="photo/Untitled-removebg-preview.png">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #ff9966, #ff5e62);
-            color: #333;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background: linear-gradient(135deg, #141E30, #243B55);
+            overflow: hidden;
         }
+
         .background-video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: -1;
-    }
-    .video-container {
-        display: none;
-    }
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
         .sign-up-form {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 15px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-            padding: 30px 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px 50px;
             width: 100%;
             max-width: 400px;
             text-align: center;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
+
+        .sign-up-form:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
         .sign-up-form h1 {
-            font-size: 24px;
+            font-size: 26px;
             margin-bottom: 20px;
-            color: #ff5e62;
+            background: linear-gradient(to right, #04b3e4, #72fa7f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
-        .sign-up-form .input-box {
+
+        .input-box {
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        .sign-up-form .signup-btn {
-            width: 100%;
-            padding: 10px;
+            padding: 12px;
+            margin: 12px 0;
             border: none;
             border-radius: 25px;
-            background: linear-gradient(to right, #ff9966, #ff5e62);
-            color: #fff;
             font-size: 16px;
+            background: rgba(255, 255, 255, 0.8);
+            color: black;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-box::placeholder {
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        .input-box:focus {
+            background: rgba(255, 255, 255, 1);
+            border: 2px solid #00C9FF;
+        }
+
+        .signup-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(to right, #00C9FF, #92FE9D);
+            color: black;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
         }
-        .sign-up-form .signup-btn:hover {
+
+        .signup-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
         }
-        .sign-up-form .signup-btn:active {
+
+        .signup-btn:active {
             transform: translateY(0);
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
-        .sign-up-form .or {
+
+        .or {
             margin: 20px 0;
-            color: #666;
+            color: black;
             font-size: 14px;
         }
-        .sign-up-form .signup-in a {
+
+        .signup-in a {
             text-decoration: none;
-            color: #ff5e62;
+            color: #00C9FF;
             font-weight: bold;
+            transition: 0.3s ease;
         }
-        .sign-up-form .signup-in a:hover {
+
+        .signup-in a:hover {
             text-decoration: underline;
+            color: #92FE9D;
+        }
+
+        p {
+            color: black;
         }
     </style>
     <script>
         function login1() {
-            var a = document.getElementById("n1").value;
-            var b = document.getElementById("n2").value;
+            var email = document.getElementById("n1").value;
+            var password = document.getElementById("n2").value;
 
-            if (a === "" || b === "") {
-                alert("Please Fill All The Fields");
+            if (email === "" || password === "") {
+                alert("Please fill all the fields.");
                 return false;
-            } else {
-                return true;
             }
+            return true;
         }
     </script>
 </head>
 <body>
 
-<video class="background-video" id="bgVideo" autoplay muted loop>
+    <video class="background-video" autoplay muted loop>
         <source src="video/istockphoto-1680698591-640_adpp_is.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>
+
     <div class="sign-up-form">
-        <h1>Sign-In Now</h1>
+        <h1>Sign In</h1>
         <form action="php/logincheck.php" method="post">
             <input type="email" class="input-box" placeholder="email_Id@gmail.com" id="n1" name="username">
             <input type="password" class="input-box" placeholder="P@ssw0rd" id="n2" name="password">
-            <button type="submit" class="signup-btn" onclick="return login1()" name="submit">Login In</button>
-            <hr>
+            <button type="submit" class="signup-btn" onclick="return login1()" name="submit">Login</button>
+            <hr class="or">
             <p class="or">OR</p>
             <p>Don't have an account? <a href="signup.html">Register</a></p>
         </form>
     </div>
+
 </body>
 </html>
