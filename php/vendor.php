@@ -113,7 +113,7 @@ $result = $conn->query("SELECT * FROM vendor");
         <input type="text" name="email" placeholder="Email address" required>
         <input type="text" name="address" placeholder="Address" required>
         <input type="text" name="phone" placeholder="Phone Number" required>
-        <button type="submit">Add Member</button>
+        <button type="submit" name="submit">Add Member</button>
     </form>
 
     <h2>Member List</h2>
@@ -129,16 +129,15 @@ $result = $conn->query("SELECT * FROM vendor");
         </tr>
         <?php while ($row = $result->fetch_assoc()): ?>
         <tr>
-            <td><?= $row["id"] ?></td>
+            <td><?= $row["ID"] ?></td>
             <td><?= $row["VEN_NAME"] ?></td>
             <td><?= $row["AADHAR_NO"] ?></td>
             <td><?= $row["EMAIL"] ?></td>
             <td><?= $row["ADDRESS"] ?></td>
             <td><?= $row["PHONE"] ?></td>
             <td class="action-buttons">
-               <a href="assign_vehicle.php?id=<?= $row['id'] ?>"><button class="assign" onclick="assignVehicle(<?= $row['id'] ?>)">Assign Vehicle</button></a>
-                <a href="edit_member.php?id=<?= $row['id'] ?>" class="edit">Edit</a>
-                <a href="delete_member.php?id=<?= $row['id'] ?>" class="remove" onclick="return confirm('Are you sure you want to remove this member?');">Remove</a>
+                <a href="edit_vendor.php?id=<?= $row['ID'] ?>" class="edit">Edit</a>
+                <a href="delete_vendor.php?id=<?= $row['ID'] ?>" class="remove" onclick="return confirm('Are you sure you want to remove this member?');">Remove</a>
             </td>
         </tr>
         <?php endwhile; ?>
