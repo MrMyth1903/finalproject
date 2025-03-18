@@ -36,11 +36,12 @@ $result = $conn->query($sql);
             width: 80%;
             margin: 20px auto;
         }
-        .main-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+        h1 {
+            text-align: center;
+            color: #444;
+            margin-bottom: 20px;
         }
+        
         #posts-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -99,6 +100,7 @@ $result = $conn->query($sql);
     
     <div class="container">
         <div class="main-content">
+       <h1>Welcome to My Blog</h1>
             <div id="posts-container">
             <?php
                 if ($result->num_rows > 0) {
