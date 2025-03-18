@@ -10,45 +10,57 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            overflow: hidden;
         }
         .background-video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: -1;
-    }
-    .video-container {
-        display: none;
-    }
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
         .container {
             width: 50%;
             margin: 50px auto;
             padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
         }
         h2 {
-            text-align: center;
-            color: #333;
+            font-size: 26px;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #ffde24, #3a3602);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
         .form-group {
             margin-bottom: 15px;
+            text-align: left;
         }
         .form-group label {
             display: block;
             font-size: 14px;
+            color: #fff;
             margin-bottom: 5px;
         }
         .form-group input, .form-group textarea {
-            width: 100%;
+            width: calc(100% - 20px);
             padding: 10px;
             border-radius: 5px;
-            border: 1px solid #ddd;
+            border: none;
             font-size: 14px;
+            background: rgba(255, 255, 255, 0.8);
+            outline: none;
+            display: block;
+            margin: 0 auto;
         }
         .form-group textarea {
             resize: vertical;
@@ -56,31 +68,33 @@
         }
         .btn {
             display: block;
-            width: 100%;
+            width: calc(100% - 20px);
             padding: 10px;
-            background-color: #4CAF50;
-            color: white;
+            background: linear-gradient(to right, #ffde24, #3a3602);
+            color: rgb(0, 0, 0);
             border: none;
             font-size: 16px;
             border-radius: 5px;
             cursor: pointer;
+            transition: 0.3s;
+            margin: 0 auto;
         }
         .btn:hover {
-            background-color: #45a049;
+            background-color: #e68900;
         }
-        span{
-            color:red;
+        span {
+            color: red;
         }
     </style>
 </head>
 <body>
-<video class="background-video" id="bgVideo" autoplay muted loop>
+    <video class="background-video" id="bgVideo" autoplay muted loop>
         <source src="video/clean.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>
     <div class="container">
         <h2>Feedback Form</h2>
-        <form action="php/feedbackdb.php" method="POST">
+        <form action="php/feedbackdb.php" method="POST" enctype="multipart/form-data" onsubmit="return validateEmail()">
             <div class="form-group">
                 <label for="name">Your Name<span>*</span></label>
                 <input type="text" id="name" name="name" required>
@@ -90,8 +104,8 @@
                 <input type="email" id="email" name="email" required>
             </div>
             <div class="form-group">
-                <label for="Image">Your Image<span>*</span></label>
-                <input type="file" id="email" name="image" required>
+                <label for="image">Your Image<span>*</span></label>
+                <input type="file" id="image" name="image" accept="image/*" required>
             </div>
             <div class="form-group">
                 <label for="feedback">Your Feedback<span>*</span></label>
@@ -99,19 +113,18 @@
             </div>
             <button type="submit" name="submit" class="btn">Submit Feedback</button>
         </form>
-        <script>
-    function validateEmail() {
-        var email = document.getElementById('email').value;
-        var regex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;  // Regular expression for Gmail addresses
-        var regex = /^[a-zA-Z0-9._%+-]+@yahoo\.com$/;  // Regular expression for Gmail addresses
-        var regex = /^[a-zA-Z0-9._%+-]+@nttf\.co\.in$/;// Regular expression for Gmail addresses 
-        if (!regex.test(email)) {
-            alert("Please enter a valid Gmail address (e.g., example@gmail.com/example@yahoo.com/example@nttf.co.in).");
-            return false;
-        }
-        return true;
-    }
-</script>
     </div>
+
+    <script>
+        function validateEmail() {
+            var email = document.getElementById('email').value;
+            var regex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|nttf\.co\.in)$/;
+            if (!regex.test(email)) {
+                alert("Please enter a valid email address (example@gmail.com, example@yahoo.com, example@nttf.co.in). ");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </body>
 </html>
