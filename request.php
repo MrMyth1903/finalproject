@@ -120,6 +120,9 @@
             <label for="select2">Vehicle No:</label>
           <input type="text" name="vehicle_no" placeholder="Enter your vehicle number" required>
 
+          <label for="select2">Phone No:</label>
+          <input type="text" name="phone" placeholder="Enter your phone number" required>
+
           <label for="want">Sphere Parts:</label>
                 <select id="want" name="want" required>
                     <option value="">--Select Service--</option>
