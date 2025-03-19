@@ -3,154 +3,339 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP Layout with Included Page</title>
+    <title>Meri Gaddi - Admin Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        /* Styling for the header section */
-        p {
-            font-size: 34px;
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* Sidebar styles */
+        .sidebar {
+            position: fixed;
+            height: 100%;
+            width: 250px;
+            background: linear-gradient(135deg, #2c3e50, #1a2530);
+            padding-top: 20px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .logo-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .logo-subtitle {
+            color: #ff4757;
             font-weight: bold;
         }
-
-        span {
-            color: red;
-            font-weight: bold;
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
         }
-
-        .header {
+        
+        .sidebar-menu li {
+            padding: 0;
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #ddd;
+            text-decoration: none;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #ff4757;
+            color: white;
+        }
+        
+        .sidebar-menu i {
+            margin-right: 10px;
+            font-size: 18px;
+            width: 25px;
+            text-align: center;
+        }
+        
+        /* Main content styles */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: lightblue;
-            height: 100px;
-            padding: 0 20px;
-            flex-direction: row;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo img {
-            width: 90px;
-            height: 90px;
-            margin-right: 10px;
-        }
-
-        .header .right-buttons {
-            display: flex;
-            align-items: center;
-        }
-
-        .header .right-buttons button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
             padding: 15px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            margin-left: 10px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
-
-        .header .right-buttons button:hover {
-            background-color: #0056b3;
-        }
-
-        .dropdown {
-            display: none;
-            position: absolute;
-            background-color: #f1f1f1;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            padding: 5px 0;
-            border-radius: 5px;
-            margin-top: 5px;
-        }
-
-        .dropdown button {
-            background-color: #28a745;
-            color: white;
-            padding: 12px 16px;
-            text-align: left;
+        
+        .menu-toggle {
+            background: none;
             border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #2c3e50;
+            display: none;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+        
+        .user-profile span {
+            font-weight: 600;
+        }
+        
+        .search-bar {
+            flex-grow: 1;
+            margin: 0 20px;
+        }
+        
+        .search-bar input {
             width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
             border-radius: 5px;
+            font-size: 14px;
         }
-
-        .dropdown button:hover {
-            background-color: #218838;
-        }
-
-        /* Second Row Content */
-        .row {
-            width: 100%;
-            padding: 10px;
-        }
-
-        /* Styling for the content area */
-        #column2 {
-            min-height: 500px;
-            background-color: #f9f9f9;
+        
+        /* Content area styles */
+        .content-area {
+            background-color: white;
+            border-radius: 10px;
             padding: 20px;
-            border: 1px solid #ccc;
+            min-height: 600px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                padding-top: 10px;
+            }
+            
+            .sidebar-header {
+                padding: 10px;
+            }
+            
+            .logo-title, .logo-subtitle {
+                display: none;
+            }
+            
+            .sidebar-menu a span {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .sidebar.expanded {
+                width: 250px;
+            }
+            
+            .sidebar.expanded .logo-title,
+            .sidebar.expanded .logo-subtitle,
+            .sidebar.expanded .sidebar-menu a span {
+                display: block;
+            }
+            
+            .main-content.shifted {
+                margin-left: 250px;
+            }
+        }
+        
+        /* Additional utility classes */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .stat-card i {
+            font-size: 40px;
+            margin-right: 20px;
+            color: #ff4757;
+        }
+        
+        .stat-card .stat-info h3 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card .stat-info p {
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .recent-activity {
+            margin-top: 20px;
+        }
+        
+        .recent-activity h2 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-item i {
+            font-size: 20px;
+            margin-right: 15px;
+            color: #ff4757;
+        }
+        
+        .activity-item .activity-details {
+            flex-grow: 1;
+        }
+        
+        .activity-item .activity-time {
+            color: #777;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-
-    <!-- Header Section with Logo on Left and Buttons on Right -->
-    <div class="header">
-        <!-- Left side with logo -->
-        <div class="logo">
-            <center><p>Meri <br><span>Gaddi</span></p></center>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-title">Meri <span class="logo-subtitle">Gaddi</span></div>
         </div>
-
-        <!-- Right side with buttons -->
-        <div class="right-buttons">
-            <button onclick="loadGraphData()">Home</button>
-            <button onclick="loadPage('vendor')">Vendor</button>
-            <button onclick="loadPage('vehicles')">Vehicle</button>
-            <button onclick="loadPage('workers')">Workers</button>
-            <button onclick="loadPage('service_record')">Service Record</button>
-            <button onclick="loadPage('feedback')">Feedback</button>
-            <button onclick="loadPage('users')">Users</button>
-            <button onclick="loadPage('post')">Post</button>
+        
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active" onclick="loadGraphData()"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+            <li><a href="#" onclick="loadPage('vendor')"><i class="fas fa-store"></i> <span>Vendors</span></a></li>
+            <li><a href="#" onclick="loadPage('vehicles')"><i class="fas fa-car"></i> <span>Vehicles</span></a></li>
+            <li><a href="#" onclick="loadPage('workers')"><i class="fas fa-users"></i> <span>Workers</span></a></li>
+            <li><a href="#" onclick="loadPage('service_record')"><i class="fas fa-clipboard-list"></i> <span>Service Records</span></a></li>
+            <li><a href="#" onclick="loadPage('feedback')"><i class="fas fa-comment-alt"></i> <span>Feedback</span></a></li>
+            <li><a href="#" onclick="loadPage('users')"><i class="fas fa-user"></i> <span>Users</span></a></li>
+            <li><a href="#" onclick="loadPage('post')"><i class="fas fa-newspaper"></i> <span>Posts</span></a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+            <li><a href="#"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <button class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+            </div>
+            
+            <div class="user-profile">
+                <img src="/api/placeholder/40/40" alt="Admin">
+                <span>Admin User</span>
+            </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="content-area" id="column2">
+            <!-- Content will be loaded here -->
         </div>
     </div>
-
-       
-        <div id="column2">
-            <!-- Initially empty, will be populated by JavaScript -->
-            <script>
-    function loadGraphData() {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "graph.php", true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                document.getElementById("column2").innerHTML = xhr.responseText;
-            }
-        };
-        xhr.send();
-    }
-</script>
-        </div>
-
-
-
+    
     <script>
-        // Function to load content dynamically into the second column
+        // Toggle sidebar
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('expanded');
+            document.getElementById('main-content').classList.toggle('shifted');
+        });
+        
+        // Function to load graph data
+        function loadGraphData() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "graph.php", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("column2").innerHTML = xhr.responseText;
+                    
+                    // Set the active menu item
+                    setActiveMenuItem('home');
+                }
+            };
+            xhr.send();
+        }
+        
+        // Function to load content dynamically into the content area
         function loadPage(page) {
-            const column2 = document.getElementById('column2');
+            const contentArea = document.getElementById('column2');
             let pageURL = '';
 
             switch (page) {
                 case 'home':
-                    pageURL = 'graph.php'; // Load graph.php when Home is clicked
+                    pageURL = 'graph.php';
                     break;
                 case 'vendor':
-                    pageURL = 'vendor.php'; // Load graph.php when Home is clicked
+                    pageURL = 'vendor.php';
                     break;    
                 case 'workers':
                     pageURL = 'workers.php';
@@ -183,19 +368,36 @@
                     return response.text();
                 })
                 .then(data => {
-                    column2.innerHTML = data;
+                    contentArea.innerHTML = data;
+                    
+                    // Set the active menu item
+                    setActiveMenuItem(page);
                 })
                 .catch(error => {
                     console.error('Error loading the page:', error);
-                    column2.innerHTML = 'Error loading page content.';
+                    contentArea.innerHTML = 'Error loading page content.';
                 });
+        }
+        
+        // Function to set active menu item
+        function setActiveMenuItem(page) {
+            // Remove active class from all menu items
+            document.querySelectorAll('.sidebar-menu a').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to current menu item
+            if (page === 'home') {
+                document.querySelector('.sidebar-menu a[onclick="loadGraphData()"]').classList.add('active');
+            } else {
+                document.querySelector(`.sidebar-menu a[onclick="loadPage('${page}')"]`).classList.add('active');
+            }
         }
 
         // Load graph.php by default when the page first loads
         document.addEventListener("DOMContentLoaded", function() {
-            loadPage('home');
+            loadGraphData();
         });
     </script>
-
 </body>
 </html>

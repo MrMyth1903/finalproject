@@ -12,8 +12,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch Student Data
-$sql = "SELECT ID,SERVICE, DATE, TIME, NAME, VEHICLE_NO, WANT, SPHERE_PART, PHONE_NUMBER FROM appointment";
+// Fetch Vehicle Appointment Data
+$sql = "SELECT ID, SERVICE, DATE, TIME, NAME, VEHICLE_NO, WANT, SPHERE_PART, PHONE_NUMBER FROM appointment";
 $result = $conn->query($sql);
 ?>
 
@@ -22,191 +22,457 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student List</title>
-    <link rel="stylesheet" href="CSS/stud_reg.css"> <!-- Ensure CSS is correctly linked -->
+    <title>Vehicle Service Appointments</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* General Body Style */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f7fa;
-            color: #333;
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #2ecc71;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --text: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
-        /* Navbar Style */
-        header {
-            background-color: #34495e;
-            padding: 15px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header and Navigation */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Page Title */
+        .page-title {
             text-align: center;
-            font-size: 24px;
+            margin: 30px 0;
+            color: var(--primary);
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        /* Dashboard Stats */
+        .dashboard-stats {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            width: 23%;
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card i {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .stat-card h3 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Table Container */
+        .table-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        .table-header {
+            background-color: var(--primary);
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .add-btn {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .add-btn:hover {
+            background-color: #27ae60;
         }
 
         /* Table Styling */
         table {
-            width: 90%;
-            margin: 30px auto;
+            width: 100%;
             border-collapse: collapse;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         th, td {
             padding: 15px;
-            text-align: center;
-            border: 1px solid #ddd;
+            text-align: left;
+            border-bottom: 1px solid #eee;
         }
 
         th {
-            background-color: #2980b9;
-            color: white;
-            font-weight: bold;
-        }
-
-        tr:nth-child(even) {
-            background-color: #ecf0f1;
+            background-color: #f8f9fa;
+            color: var(--dark);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
         }
 
         tr:hover {
-            background-color: #bdc3c7;
+            background-color: #f5f8fa;
         }
 
-        /* Action Buttons Styling */
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+        /* Status Badges */
+        .status-badge {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Button Styling */
+        .button-container {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 12px;
             border-radius: 4px;
-            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        button:hover {
+        .btn-edit {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-edit:hover {
             background-color: #2980b9;
         }
 
-        a {
-            text-decoration: none;
+        .btn-delete {
+            background-color: var(--accent);
+            color: white;
         }
 
-        /* Styling for "Delete" Button */
-        .delete-btn {
-            background-color: #e74c3c;
-        }
-
-        .delete-btn:hover {
+        .btn-delete:hover {
             background-color: #c0392b;
         }
 
-        /* Form Container */
-        .form-container {
-            width: 80%;
-            margin: 30px auto;
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 5px;
+        }
+
+        .pagination a {
+            padding: 8px 12px;
             background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-container input, .form-container select, .form-container textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
+            color: var(--primary);
+            text-decoration: none;
             border-radius: 4px;
-            font-size: 14px;
+            transition: var(--transition);
         }
 
-        .form-container button {
-            width: 100%;
-            padding: 12px;
-            background-color: #2ecc71;
+        .pagination a.active {
+            background-color: var(--secondary);
             color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
+            border: 1px solid var(--secondary);
         }
 
-        .form-container button:hover {
-            background-color: #27ae60;
+        .pagination a:hover:not(.active) {
+            background-color: #f1f1f1;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
-            table {
-                width: 100%;
+        @media (max-width: 1200px) {
+            .dashboard-stats {
+                padding: 0 20px;
             }
-            .form-container {
-                width: 95%;
+            .table-container {
+                margin: 0 20px;
             }
         }
-        /* Style the container to align buttons horizontally */
-.button-container {
-    display: flex;
-    justify-content: space-around; /* You can also use 'space-between' if you prefer more space between buttons */
-    gap: 10px; /* Adds space between the buttons */
-}
 
-/* Optional: If you want to add a little space between the buttons and the cell */
-td {
-    padding: 10px;
-}
+        @media (max-width: 992px) {
+            .stat-card {
+                width: 48%;
+            }
+        }
 
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+            .table-container {
+                overflow-x: auto;
+            }
+            table {
+                min-width: 800px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stat-card {
+                width: 100%;
+            }
+            .dashboard-stats {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Header with Navigation -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-car"></i>
+                <span>Vehicle Service Center</span>
+            </div>
+            <div class="nav-links">
+                <a href="#"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="#"><i class="fas fa-calendar-alt"></i> Appointments</a>
+                <a href="#"><i class="fas fa-users"></i> Customers</a>
+                <a href="#"><i class="fas fa-cog"></i> Settings</a>
+            </div>
+        </div>
+    </div>
 
-    <!-- Table displaying students -->
-    <div class="container">
+    <!-- Page Title -->
+    <h1 class="page-title">Appointment Management</h1>
+
+    <!-- Dashboard Stats -->
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <i class="fas fa-calendar-check"></i>
+            <h3><?php echo $result->num_rows; ?></h3>
+            <p>Total Appointments</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-clock"></i>
+            <h3>8</h3>
+            <p>Pending Appointments</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-check-circle"></i>
+            <h3>24</h3>
+            <p>Completed Services</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-tools"></i>
+            <h3>5</h3>
+            <p>Available Services</p>
+        </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="table-container">
+        <div class="table-header">
+            <h2>Appointment List</h2>
+            <button class="add-btn">
+                <i class="fas fa-plus"></i> Add New Appointment
+            </button>
+        </div>
         <table>
-            <tr>
-                <th>ID</th>
-                <th>SERVICE</th>
-                <th>DATE</th>
-                <th>TIME</th>
-                <th>NAME</th>
-                <th>VEHICLE_NO</th>
-                <th>WANT</th>
-                <th>SPHERE_PART</th>
-                <th>PHONE_NO</th>
-                <th>ACTION</th>
-            </tr>
-            <?php while ($row = $result->fetch_assoc()) { ?>
+            <thead>
                 <tr>
-                    <td><?php echo $row['ID']; ?></td>
-                    <td><?php echo htmlspecialchars($row['SERVICE']); ?></td>
-                    <td><?php echo htmlspecialchars($row['DATE']); ?></td>
-                    <td><?php echo htmlspecialchars($row['TIME']); ?></td>
-                    <td><?php echo htmlspecialchars($row['NAME']); ?></td>
-                    <td><?php echo htmlspecialchars($row['VEHICLE_NO']); ?></td>
-                    <td><?php echo htmlspecialchars($row['WANT']); ?></td>
-                    <td><?php echo htmlspecialchars($row['SPHERE_PART']); ?></td>
-                    <td><?php echo htmlspecialchars($row['PHONE_NUMBER']); ?></td>
-
-                    <td>
-                        <div class="button-container">
-                            <a href="v_update.php?id=<?php echo $row['ID']; ?>"><button>Edit</button></a>
-                            <a href="v_delete.php?id=<?php echo $row['ID']; ?>" onclick="return confirm('Are you sure you want to delete this record?');">
-                        <button class="delete-btn">Delete</button>
-                        </div>
-                    </td>
-
+                    <th>ID</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Name</th>
+                    <th>Vehicle No.</th>
+                    <th>Want</th>
+                    <th>Parts</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
                 </tr>
-            <?php } ?>
+            </thead>
+            <tbody>
+                <?php while ($row = $result->fetch_assoc()) { ?>
+                    <tr>
+                        <td><?php echo $row['ID']; ?></td>
+                        <td><?php echo htmlspecialchars($row['SERVICE']); ?></td>
+                        <td><?php echo htmlspecialchars($row['DATE']); ?></td>
+                        <td><?php echo htmlspecialchars($row['TIME']); ?></td>
+                        <td><?php echo htmlspecialchars($row['NAME']); ?></td>
+                        <td><?php echo htmlspecialchars($row['VEHICLE_NO']); ?></td>
+                        <td>
+                            <span class="status-badge <?php echo strtolower($row['WANT']) == 'urgent' ? 'status-pending' : 'status-completed'; ?>">
+                                <?php echo htmlspecialchars($row['WANT']); ?>
+                            </span>
+                        </td>
+                        <td><?php echo htmlspecialchars($row['SPHERE_PART']); ?></td>
+                        <td><?php echo htmlspecialchars($row['PHONE_NUMBER']); ?></td>
+                        <td>
+                            <div class="button-container">
+                                <a href="v_update.php?id=<?php echo $row['ID']; ?>">
+                                    <button class="btn btn-edit"><i class="fas fa-edit"></i> Edit</button>
+                                </a>
+                                <a href="v_delete.php?id=<?php echo $row['ID']; ?>" onclick="return confirm('Are you sure you want to delete this appointment?');">
+                                    <button class="btn btn-delete"><i class="fas fa-trash"></i> Delete</button>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
         </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <a href="#">&laquo;</a>
+        <a href="#" class="active">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">&raquo;</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 Vehicle Service Center. All rights reserved.</p>
     </div>
 
     <script>
         function confirmDelete(id) {
-            if (confirm("Are you sure you want to delete this record?")) { 
-                window.location.href = "delete.php?id=" + id; // Redirect to delete.php with the student ID
+            if (confirm("Are you sure you want to delete this appointment?")) { 
+                window.location.href = "v_delete.php?id=" + id;
             }
         }
     </script>
-
 </body>
 </html>
