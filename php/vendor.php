@@ -43,7 +43,18 @@ $result = $conn->query("SELECT * FROM vendor");
             padding: 0;
             box-sizing: border-box;
         }
-        
+        .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f5f7fa;
@@ -398,12 +409,12 @@ $result = $conn->query("SELECT * FROM vendor");
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-store"></i>
-                    <div class="stat-value">5</div>
+                    <div class="stat-value"><?php echo $result->num_rows; ?></div>
                     <div class="stat-label">Active</div>
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-calendar-check"></i>
-                    <div class="stat-value">12</div>
+                    <div class="stat-value"><?php echo $result->num_rows; ?></div>
                     <div class="stat-label">New This Month</div>
                 </div>
             </div>
@@ -412,9 +423,9 @@ $result = $conn->query("SELECT * FROM vendor");
         <!-- Search Bar -->
         <div class="search-bar">
             <input type="text" id="searchInput" class="form-control search-input" placeholder="Search vendors...">
-            <button class="btn btn-primary" onclick="openAddModal()">
-                <i class="fas fa-plus"></i> Add Vendor
-            </button>
+            <a href="assign_vendor.php" class="btn btn-primary"><i class="fas fa-plus"></i>Add Vendor</a>
+
+
         </div>
         
         <!-- Vendor Table -->
@@ -469,47 +480,7 @@ $result = $conn->query("SELECT * FROM vendor");
             </div>
         </div>
     </div>
-    
-    <!-- Add Vendor Modal -->
-    <div class="modal-overlay" id="addVendorModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3 class="modal-title">Add New Vendor</h3>
-                <button class="modal-close" onclick="closeAddModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form action="vendordb.php" method="post" id="addVendorForm">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="name">Vendor Name</label>
-                            <input type="text" id="name" name="name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="aadhar_no">Aadhar Number</label>
-                            <input type="text" id="aadhar_no" name="aadhar_no" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Address</label>
-                        <input type="text" id="address" name="address" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="text" id="phone" name="phone" class="form-control" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn" onclick="closeAddModal()">Cancel</button>
-                <button type="submit" form="addVendorForm" class="btn btn-primary">Save Vendor</button>
-            </div>
-        </div>
-    </div>
-    
+ 
     <!-- Delete Confirmation Modal -->
     <div class="modal-overlay" id="deleteVendorModal">
         <div class="modal">
@@ -531,14 +502,7 @@ $result = $conn->query("SELECT * FROM vendor");
     </div>
     
     <script>
-        // Modal Functions
-        function openAddModal() {
-            document.getElementById('addVendorModal').style.display = 'flex';
-        }
-        
-        function closeAddModal() {
-            document.getElementById('addVendorModal').style.display = 'none';
-        }
+        // Modal Function
         
         function deleteVendor(id) {
             document.getElementById('delete_id').value = id;
