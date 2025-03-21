@@ -13,7 +13,10 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+        .user-page {
+    width: 50%; /* Default size */
+    transition: width 0.5s ease; /* Smooth transition effect */
+}
         body {
             background-color: #f5f5f5;
             color: #333;
@@ -272,30 +275,17 @@
             <li><a href="#" onclick="loadPage('workers')"><i class="fas fa-users"></i> <span>Workers</span></a></li>
             <li><a href="#" onclick="loadPage('service_record')"><i class="fas fa-clipboard-list"></i> <span>Service Records</span></a></li>
             <li><a href="#" onclick="loadPage('feedback')"><i class="fas fa-comment-alt"></i> <span>Feedback</span></a></li>
-            <li><a href="#" onclick="loadPage('users')"><i class="fas fa-user"></i> <span>Users</span></a></li>
-            <li><a href="#" onclick="loadPage('post')"><i class="fas fa-newspaper"></i> <span>Posts</span></a></li>
-            <li><a href="#"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+            <li><a href="#" onclick="loadPage('users')" ><i class="fas fa-user"></i> <span>Users</span></a></li>
+            <li><a href="post.php" onclick="loadPage('post')"><i class="fas fa-newspaper"></i> <span>Posts</span></a></li>
             <li><a href="#"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
         </ul>
     </div>
     
+
+    </script>
     <!-- Main Content -->
     <div class="main-content" id="main-content">
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <button class="menu-toggle" id="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            
-            <div class="search-bar">
-                <input type="text" placeholder="Search...">
-            </div>
-            
-            <div class="user-profile">
-                <img src="/api/placeholder/40/40" alt="Admin">
-                <span>Admin User</span>
-            </div>
-        </div>
+       
         
         <!-- Content Area -->
         <div class="content-area" id="column2">
@@ -352,11 +342,11 @@
                 case 'vehicles':
                     pageURL = 'vehicle.php';
                     break;
-                case 'post':
-                    pageURL = 'post.php';
-                    break;
+                // case 'post':
+                //     pageURL = 'post.php';
+                //     break;
                 default:
-                    pageURL = 'admin.php';
+                    pageURL = 'graph.php';
             }
 
             // Fetch the selected page content using the URL
@@ -378,6 +368,15 @@
                     contentArea.innerHTML = 'Error loading page content.';
                 });
         }
+
+        function loadPostPage() {
+            fetch('post.php')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('postContainer').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading page:', error));
+        }
         
         // Function to set active menu item
         function setActiveMenuItem(page) {
@@ -398,6 +397,17 @@
         document.addEventListener("DOMContentLoaded", function() {
             loadGraphData();
         });
+        
+        document.getElementById("userBtn").addEventListener("click", function() {
+    let userPage = document.getElementById("userContainer");
+
+    // Adjust width dynamically
+    // if (userPage.style.width === "100%") {
+    //     userPage.style.width = "50%"; // Shrink to half
+    // } else {
+    //     userPage.style.width = "100%"; // Expand fully
+    // }
+});
     </script>
 </body>
 </html>

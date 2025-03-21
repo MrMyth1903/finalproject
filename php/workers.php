@@ -462,22 +462,7 @@ $unassignedVehicles = $totalMembers - $assignedVehicles;
     </style>
 </head>
 <body>
-    <!-- Header with Navigation -->
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">
-                <i class="fas fa-users-gear"></i>
-                <span>Staff Management</span>
-            </div>
-            <div class="nav-links">
-                <a href="#"><i class="fas fa-home"></i> Dashboard</a>
-                <a href="#"><i class="fas fa-users"></i> Staff</a>
-                <a href="#"><i class="fas fa-car"></i> Vehicles</a>
-                <a href="#"><i class="fas fa-cog"></i> Settings</a>
-            </div>
-        </div>
-    </div>
-
+    
     <!-- Page Title -->
     <h1 class="page-title">Staff Management</h1>
 
@@ -576,9 +561,10 @@ $unassignedVehicles = $totalMembers - $assignedVehicles;
                                 <?php endif; ?>
                             </td>
                             <td class="action-buttons">
-                                <button class="btn btn-sm btn-success" onclick="openAssignModal(<?= $row['id'] ?>)">
+                               <a href="assign_vehicle.php?id=<?= $row['id']?>"> <button class="btn btn-sm btn-success" onclick="openAssignModal(<?= $row['id'] ?>)">
                                     <i class="fas fa-car"></i> Assign
                                 </button>
+                                </a>
                                 <a href="edit_member.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
@@ -617,10 +603,7 @@ $unassignedVehicles = $totalMembers - $assignedVehicles;
         </div>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>&copy; 2025 Vehicle Service Center. All rights reserved.</p>
-    </div>
+
 
     <script>
         // Modal Functions

@@ -351,18 +351,7 @@ if (isset($_GET['msg'])) {
 </head>
 <body>
     <div class="page-wrapper">
-        <header>
-            <div class="header-content">
-                <div>
-                    <h1 class="logo">Student<span>Feedback</span></h1>
-                    <p class="page-title">Manage student feedback submissions</p>
-                </div>
-                <a href="add_feedback.php" class="btn-add">
-                    <i class="fas fa-plus"></i> New Feedback
-                </a>
-            </div>
-        </header>
-
+        
         <div class="container">
             <?php if ($message): ?>
                 <div class="message <?php echo ($_GET['msg'] == 'update_success' || $_GET['msg'] == 'delete_success') ? 'success' : 'error'; ?>">
@@ -374,7 +363,7 @@ if (isset($_GET['msg'])) {
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">
-                        <i class="fas fa-comments"></i> Student Feedback List
+                        <i class="fas fa-comments"></i> Customer Feedback List
                     </h2>
                     <div class="search-bar">
                         <input type="text" id="searchInput" class="search-input" placeholder="Search by name or email...">
@@ -432,9 +421,7 @@ if (isset($_GET['msg'])) {
             </div>
         </div>
 
-        <footer>
-            <p>&copy; <?php echo date('Y'); ?> Student Feedback System. All rights reserved.</p>
-        </footer>
+        
     </div>
 
     <script>

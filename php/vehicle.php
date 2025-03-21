@@ -172,6 +172,7 @@ $result = $conn->query($sql);
             background-color: var(--success);
             color: white;
             border: none;
+            text-decoration: none;
             padding: 8px 16px;
             border-radius: 4px;
             cursor: pointer;
@@ -353,21 +354,7 @@ $result = $conn->query($sql);
     </style>
 </head>
 <body>
-    <!-- Header with Navigation -->
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">
-                <i class="fas fa-car"></i>
-                <span>Vehicle Service Center</span>
-            </div>
-            <div class="nav-links">
-                <a href="#"><i class="fas fa-home"></i> Dashboard</a>
-                <a href="#"><i class="fas fa-calendar-alt"></i> Appointments</a>
-                <a href="#"><i class="fas fa-users"></i> Customers</a>
-                <a href="#"><i class="fas fa-cog"></i> Settings</a>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- Page Title -->
     <h1 class="page-title">Appointment Management</h1>
@@ -401,7 +388,7 @@ $result = $conn->query($sql);
         <div class="table-header">
             <h2>Appointment List</h2>
             <button class="add-btn">
-                <i class="fas fa-plus"></i> Add New Appointment
+                <a href="../appointment.html"><i class="fas fa-plus"></i> Add New Appointment</a>
             </button>
         </div>
         <table>
@@ -462,10 +449,7 @@ $result = $conn->query($sql);
         <a href="#">&raquo;</a>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>&copy; 2025 Vehicle Service Center. All rights reserved.</p>
-    </div>
+    
 
     <script>
         function confirmDelete(id) {
