@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['email'] = $db_Mail;
                 $_SESSION['password'] = $db_Password;
                // print_r($_SESSION['email']);
-                header('refresh:1; url=http://localhost/final year/home.html');  // Redirect to a dashboard or home page
+                header('refresh:1; url=http://localhost/final year/home.php');  // Redirect to a dashboard or home page
                 exit();
             } else {
                 // Invalid password

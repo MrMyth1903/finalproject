@@ -423,7 +423,7 @@ $result = $conn->query("SELECT * FROM vendor");
         <!-- Search Bar -->
         <div class="search-bar">
             <input type="text" id="searchInput" class="form-control search-input" placeholder="Search vendors...">
-            <a href="assign_vendor.php" class="btn btn-primary"><i class="fas fa-plus"></i>Add Vendor</a>
+            <a href="add_vendor.php" class="btn btn-primary"><i class="fas fa-plus"></i>Add Vendor</a>
 
 
         </div>
