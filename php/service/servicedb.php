@@ -26,30 +26,30 @@ if (isset($_POST['submit'])) {
             // Order booked successfully
             echo "<script>alert('Successfully Booked!');</script>";
 
-            // Send SMS using Twilio
-            require __DIR__ . '/vendor/autoload.php'; // Include Twilio SDK
-            use Twilio\Rest\Client;
+            // // Send SMS using Twilio
+            // require __DIR__ . '/vendor/autoload.php'; // Include Twilio SDK
+            // use Twilio\Rest\Client;
 
-            $sid = "your_twilio_account_sid";  // Replace with your Twilio SID
-            $token = "your_twilio_auth_token"; // Replace with your Twilio Token
-            $twilio_number = "your_twilio_phone_number"; // Twilio phone number
+            // $sid = "USedddc863f857d390356ccde57dc82aa1";  // Replace with your Twilio SID
+            // $token = "your_twilio_auth_token"; // Replace with your Twilio Token
+            // $twilio_number = "8340300338"; // Twilio phone number
 
-            $client = new Client($sid, $token);
-            try {
-                $client->messages->create(
-                    $Number, // User's phone number
-                    [
-                        'from' => $twilio_number,
-                        'body' => "Your order is booked! Thank you for choosing our service."
-                    ]
-                );
-                echo "<script>alert('Your order is booked and confirmation SMS is sent!');</script>";
-            } catch (Exception $e) {
-                echo "<script>alert('Order booked but SMS failed: " . $e->getMessage() . "');</script>";
-            }
+            // $client = new Client($sid, $token);
+            // try {
+            //     $client->messages->create(
+            //         $Number, // User's phone number
+            //         [
+            //             'from' => $twilio_number,
+            //             'body' => "Your order is booked! Thank you for choosing our service."
+            //         ]
+            //     );
+            //     echo "<script>alert('Your order is booked and confirmation SMS is sent!');</script>";
+            // } catch (Exception $e) {
+            //     echo "<script>alert('Order booked but SMS failed: " . $e->getMessage() . "');</script>";
+            // }
 
             // Redirect after 1 second
-            echo "<script>setTimeout(function() { window.location.href = 'http://localhost/final year/home.php'; }, 1000);</script>";
+            echo "<script>setTimeout(function() { window.location.href = 'http://localhost/final year/php/payment.php'; }, 1000);</script>";
         } else {
             echo "<script>alert('Error: " . mysqli_error($con) . "');</script>";
         }

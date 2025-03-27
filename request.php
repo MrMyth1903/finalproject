@@ -111,7 +111,7 @@
 <h1>Request Page</h1>
 
 <section>
-<form action="php/service/servicedb.php" method="post">    
+<form action="php/service/servicedb.php" method="post" onsubmit="redirectToPayment(event)">    
     <div class="container">
         <div class="inline-elements">
             <label for="select1">Vehicle Type:</label>
