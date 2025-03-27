@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2025 at 07:39 AM
+-- Generation Time: Mar 27, 2025 at 06:22 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,7 +44,7 @@ CREATE TABLE `appointment` (
 --
 
 INSERT INTO `appointment` (`ID`, `SERVICE`, `TIME`, `DATE`, `NAME`, `VEHICLE_NO`, `WANT`, `SPHERE_PART`, `PHONE_NUMBER`) VALUES
-(7, 'Car Maintenance', '11:55:00', '2024-03-11', 'sonal singh', 'JH/05/EF/2345', 'alloy', '', 8340300338);
+(8, 'Car Maintenance', '21:42:00', '2025-03-27', 'VISHAL', 'JH/05/CH/2345', 'Other', '', 7050601433);
 
 -- --------------------------------------------------------
 
@@ -87,7 +87,7 @@ CREATE TABLE `feedback` (
   `ID` int(100) NOT NULL,
   `NAME` varchar(50) NOT NULL,
   `EMAIL` varchar(50) NOT NULL,
-  `IMAGE` longblob NOT NULL,
+  `IMAGE` varchar(255) NOT NULL,
   `FEEDBACK` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -96,7 +96,8 @@ CREATE TABLE `feedback` (
 --
 
 INSERT INTO `feedback` (`ID`, `NAME`, `EMAIL`, `IMAGE`, `FEEDBACK`) VALUES
-(15, 'sonal singh', 'sonalbsingh2001@gmail.com', 0x436170747572652e504e47, 'good');
+(18, 'Sumit Gope', 'sumitgope00006@gmail.com', 'python-essentials-1.1.png', 'xzccsdc'),
+(19, 'Sumit Gope', 'sumitgope00006@gmail.com', '200.webp', 'fgh gfhbj jjgh');
 
 -- --------------------------------------------------------
 
@@ -119,7 +120,8 @@ CREATE TABLE `members` (
 --
 
 INSERT INTO `members` (`id`, `firstname`, `middlename`, `lastname`, `phoneNumber`, `aadharNo`, `vehicle`) VALUES
-(14, 'Sukhbir', '', 'Singh', '07050603314', '2342654876897', 'JH/05/EF/2345');
+(14, 'Sukhbir', '', 'Singh', '07050603314', '2342654876897', 'JH/05/EF/2345'),
+(15, 'NAVIN', 'KUMAR', 'SHARMA', '8340300338', '234567892378', 'JH/05/DL/9013');
 
 -- --------------------------------------------------------
 
@@ -141,7 +143,7 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`ID`, `TITLE`, `IMAGE`, `CONTENT`, `NAME`, `DATE`) VALUES
-(32, 'Service point', 'uploads/200.webp', 'Come and service ', 'Chandan Singh', '2025-03-12');
+(37, 'Environment', 'uploads/200.webp', 'Good work by meri gaddi!', 'Sumit Gope', '2025-03-27');
 
 -- --------------------------------------------------------
 
@@ -153,6 +155,7 @@ CREATE TABLE `service` (
   `ID` int(100) NOT NULL,
   `V_TYPE` varchar(20) NOT NULL,
   `V_NUMBER` varchar(14) NOT NULL,
+  `PHONE` int(12) NOT NULL,
   `WANT` varchar(20) NOT NULL,
   `DATE` date NOT NULL DEFAULT current_timestamp(),
   `VENDOR` varchar(20) NOT NULL,
@@ -164,9 +167,11 @@ CREATE TABLE `service` (
 -- Dumping data for table `service`
 --
 
-INSERT INTO `service` (`ID`, `V_TYPE`, `V_NUMBER`, `WANT`, `DATE`, `VENDOR`, `QUANTITY`, `ADDRESS`) VALUES
-(1, 'option1', 'JH/05/DL/9834', 'Brake Issue', '2025-03-13', 'option1', 3, 'ROAD NO 13 C'),
-(2, '2 Wheelers', 'JH/05/DL/9834', 'Mobil Change', '2025-03-13', 'option1', 3, 'ELECTRONIC CITY, NTTF BOYS HOSTEL');
+INSERT INTO `service` (`ID`, `V_TYPE`, `V_NUMBER`, `PHONE`, `WANT`, `DATE`, `VENDOR`, `QUANTITY`, `ADDRESS`) VALUES
+(1, 'option1', 'JH/05/DL/9834', 0, 'Brake Issue', '2025-03-13', 'option1', 3, 'ROAD NO 13 C'),
+(2, '2 Wheelers', 'JH/05/DL/9834', 0, 'Mobil Change', '2025-03-13', 'option1', 3, 'ELECTRONIC CITY, NTTF BOYS HOSTEL'),
+(3, '3 Wheelers', 'JH/05/DL/9834', 2147483647, 'Brake Shoe Change', '2025-03-26', 'option1', 3, 'dsfsdfrg sdfs '),
+(4, '4 Wheelers', 'JH/05/DL/9013', 2147483647, 'Tire Change', '2025-03-27', '', 3, 'banglore');
 
 -- --------------------------------------------------------
 
@@ -190,8 +195,31 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`ID`, `FirstName`, `LastName`, `Phone`, `Mail`, `Password`, `DOB`, `City`) VALUES
-(6, 'sonal', 'singh', 8340300338, 'sonalbsingh2001@gmail.com', 'P@ssw0rd', '2001-09-04', 'Jamshedpur'),
-(7, 'CHANDAN SINGH', 'CHANDAN SINGH', 8340300338, 'chaandaan42@gmail.com', 'P@ssw0rd', '2004-05-29', 'JAMSHEDPUR');
+(7, 'CHANDAN SINGH', 'CHANDAN SINGH', 8340300338, 'chaandaan42@gmail.com', 'P@ssw0rd', '2004-05-29', 'JAMSHEDPUR'),
+(8, 'Sunny', 'kumar', 8884949579, 'sunnykumar123@gmail.com', 'Sunnykumar', '2004-11-07', 'BANGALORE');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vendor`
+--
+
+CREATE TABLE `vendor` (
+  `ID` int(100) NOT NULL,
+  `VEN_NAME` varchar(50) NOT NULL,
+  `AADHAR_NO` varchar(12) NOT NULL,
+  `EMAIL` varchar(20) NOT NULL,
+  `ADDRESS` varchar(100) NOT NULL,
+  `PHONE` varchar(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `vendor`
+--
+
+INSERT INTO `vendor` (`ID`, `VEN_NAME`, `AADHAR_NO`, `EMAIL`, `ADDRESS`, `PHONE`) VALUES
+(5, 'CHANDAN SINGH', '234567892191', 'chaandaan42@gmail.co', 'Gamharia ,Jagannathpur', '2147483647'),
+(6, 'CHANDAN SINGH', '234567892191', 'chaandaan42@gmail.co', 'Gamharia ,Jagannathpur', '8340300338');
 
 --
 -- Indexes for dumped tables
@@ -242,6 +270,12 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indexes for table `vendor`
+--
+ALTER TABLE `vendor`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -249,7 +283,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `emergency_appointment`
@@ -261,31 +295,37 @@ ALTER TABLE `emergency_appointment`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `vendor`
+--
+ALTER TABLE `vendor`
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

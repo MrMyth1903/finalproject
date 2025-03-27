@@ -17,7 +17,7 @@ echo"
     <script>
     alert('Successfully Booked !');
     </script>";
-    header('refresh:1; url=http://localhost/final year/home.html');
+    header('refresh:1; url=http://localhost/final year/home.php');
 }
 
 ?>

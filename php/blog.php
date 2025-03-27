@@ -443,7 +443,7 @@ $result = $conn->query($sql);
                         echo '</div>';
                         echo '<h3 class="post-title">' . htmlspecialchars($row['TITLE']) . '</h3>';
                         echo '<p class="post-excerpt">' . $excerpt . '</p>';
-                        echo '<a href="post.php?id=' . $row['ID'] . '" class="read-more">Read More</a>';
+                        
                         echo '</div>';
                         echo '</div>';
                     }
