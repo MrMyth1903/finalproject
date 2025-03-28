@@ -380,7 +380,7 @@
             
         </div>
         <div class="right-header">
-            <a href="home.php">Home</a>
+            <a href="home.html">Home</a>
             <a href="php/blog.php">Blog</a>
             <a href="appointment.html">Appointment</a>
             <a href="index.html">Logout</a>
@@ -401,18 +401,18 @@
     </section>
     <section class="scroll-section">
         <div class="scroll-item"><a href="request.php"><img src="servicelogo/audi.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/Honda.png" alt=""></a></div>
+        <div class="scroll-item"><a href="request.php"><img src="servicelogo/Bentley.png" alt=""></a></div>
         <div class="scroll-item"><a href="request.php"><img src="servicelogo/bmw.png" alt=""></a></div>
         <div class="scroll-item"><a href="request.php"><img src="servicelogo/ford.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/tata.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/hyundai.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/suzuki.png" alt=""></a></div>
+        <div class="scroll-item"><a href="request.php"><img src="servicelogo/jaguar.png" alt=""></a></div>
+        <div class="scroll-item"><a href="request.php"><img src="servicelogo/lamborghini.png" alt=""></a></div>
+        <div class="scroll-item"><a href="request.php"><img src="servicelogo/land rover.png" alt=""></a></div>
         <div class="scroll-item"><a href="request.php"><img src="servicelogo/mahindra.png" alt=""></a></div>
         <div class="scroll-item"><a href="request.php"><img src="servicelogo/mercedes.png" alt=""></a></div>
         <div class="scroll-item"><a href="request.php"><img src="servicelogo/MG.png" alt=""></a></div>
         <div class="scroll-item"><a href="request.php"><img src="servicelogo/nissan.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/Kia.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/tvs.png" alt=""></a></div>
+        <div class="scroll-item"><a href="request.php"><img src="servicelogo/porsche.png" alt=""></a></div>
+        <div class="scroll-item"><a href="request.php"><img src="servicelogo/tesla.png" alt=""></a></div>
         <div class="scroll-item"><a href="request.php"><img src="servicelogo/toyota.png" alt=""></a></div>
         <div class="scroll-item"><a href="request.php"><img src="servicelogo/volkswagen.png" alt=""></a></div>
     </section>
