@@ -1,4 +1,10 @@
-
+<?php
+session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: login.html");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -369,6 +375,58 @@
             background-color: #005bb5;
         }
         
+        .user-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.user-email {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 15px;
+    background: linear-gradient(145deg, rgb(94, 165, 209), rgb(162, 96, 198));
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    transition: background 0.3s ease;
+}
+
+.user-email:hover {
+    background: linear-gradient(145deg, rgb(68, 152, 42), rgb(83, 165, 144));
+}
+
+.logout-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 4px;
+    padding: 5px 0;
+    min-width: 100px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.logout-menu a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    display: block;
+    background: linear-gradient(145deg, rgb(255, 94, 94), rgb(198, 68, 68));
+    border-radius: 4px;
+}
+
+.logout-menu a:hover {
+    background: linear-gradient(145deg, rgb(165, 42, 42), rgb(144, 68, 68));
+}
+
+/* Show logout when hovering over email */
+.user-menu:hover .logout-menu {
+    display: block;
+}
+
     </style>
 </head>
 <body>
@@ -382,11 +440,17 @@
             
         </div>
         <div class="right-header">
-            <a href="home.html">Home</a>
-            <a href="php/blog.php">Blog</a>
-            <a href="appointment.html">Appointment</a>
-            <a href="index.html">Logout</a>
+    <a href="home.php">Home</a>
+    <a href="php/blog.php">Blog</a>
+    <a href="appointment.html">Appointment</a>
+    <div class="user-menu">
+        <a href="#" class="user-email"><?php echo htmlspecialchars($_SESSION['email']); ?></a>
+        <div class="logout-menu">
+            <a href="logout.php">Logout</a>
         </div>
+    </div>
+</div>
+
     </header>
     <section>
         <div class="auto-typing">
