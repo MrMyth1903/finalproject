@@ -10,6 +10,7 @@ if (isset($_POST['submit'])) {
     // Sanitize input to prevent SQL injection
     $FirstName = mysqli_real_escape_string($con, $_POST['type']);
     $LastName = mysqli_real_escape_string($con, $_POST['vehicle_no']);
+    $Email = mysqli_real_escape_string($con, $_POST['email']);
     $Number = mysqli_real_escape_string($con, $_POST['phone']);
     $Phone = mysqli_real_escape_string($con, $_POST['want']);
     $Pass = intval($_POST['quantity']); // Convert to integer
@@ -19,8 +20,8 @@ if (isset($_POST['submit'])) {
     // Ensure price is valid
     if ($Price > 0) {
         // Insert into database
-        $stmt = "INSERT INTO service (V_TYPE, V_NUMBER, PHONE, WANT, QUANTITY, ADDRESS, PRICE) 
-                 VALUES ('$FirstName', '$LastName', '$Number', '$Phone', '$Pass', '$DOB', '$Price')";
+        $stmt = "INSERT INTO service (V_TYPE, V_NUMBER,EMAIL, PHONE, WANT, QUANTITY, ADDRESS, PRICE) 
+                 VALUES ('$FirstName', '$LastName','$Email', '$Number', '$Phone', '$Pass', '$DOB', '$Price')";
 
         if (mysqli_query($con, $stmt)) {
             // Order booked successfully

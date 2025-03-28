@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,7 +98,7 @@
         .price-display {
             font-weight: bold;
             font-size: 18px;
-            color: green;
+            color: #ff5e62;
             margin-top: 10px;
         }
     </style>
@@ -111,7 +112,7 @@
 <h1>Request Page</h1>
 
 <section>
-<form action="php/service/servicedb.php" method="post" onsubmit="redirectToPayment(event)">    
+<form action="php/service/servicedb.php" method="post" >    
     <div class="container">
         <div class="inline-elements">
             <label for="select1">Vehicle Type:</label>
@@ -124,8 +125,11 @@
             <label for="select2">Vehicle No:</label>
             <input type="text" name="vehicle_no" placeholder="Enter your vehicle number" required>
 
+            <label for="select2">Email:</label>
+            <input type="text" name="email" placeholder="Enter your vehicle number" required>
+
             <label for="select2">Phone No:</label>
-            <input type="text" name="phone" placeholder="Enter your phone number" required>
+            <input type="mail" name="phone" placeholder="Enter your phone number" required>
 
             <label for="want">Sphere Parts:</label>
             <select id="want" name="want" required>
@@ -149,16 +153,14 @@
 
             <label for="address">Address:</label>
             <textarea id="address" name="address" rows="4" cols="30" placeholder="Enter your address here..."></textarea>
-        
-        <!-- Price Display -->
-    <div id="price-display" class="price-display"></div>
-
-<!-- Hidden Price Input -->
-<input type="hidden" id="price" name="price">
         </div>
     </div>
 
-    
+    <!-- Price Display -->
+    <div id="price-display" class="price-display"></div>
+
+    <!-- Hidden Price Input -->
+    <input type="hidden" id="price" name="price">
 
     <script>
         // Price data for each service
