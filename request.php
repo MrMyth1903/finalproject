@@ -97,7 +97,7 @@
         .price-display {
             font-weight: bold;
             font-size: 18px;
-            color: #ff5e62;
+            color: green;
             margin-top: 10px;
         }
     </style>
@@ -149,14 +149,16 @@
 
             <label for="address">Address:</label>
             <textarea id="address" name="address" rows="4" cols="30" placeholder="Enter your address here..."></textarea>
+        
+        <!-- Price Display -->
+    <div id="price-display" class="price-display"></div>
+
+<!-- Hidden Price Input -->
+<input type="hidden" id="price" name="price">
         </div>
     </div>
 
-    <!-- Price Display -->
-    <div id="price-display" class="price-display"></div>
-
-    <!-- Hidden Price Input -->
-    <input type="hidden" id="price" name="price">
+    
 
     <script>
         // Price data for each service
