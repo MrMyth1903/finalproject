@@ -403,10 +403,10 @@ $result = $conn->query($sql);
             
         </div>
         <div class="right-header">
-            <a href="home.html">Home</a>
-            <a href="php/blog.php">Blog</a>
-            <a href="appointment.html">Appointment</a>
-            <a href="index.html">Logout</a>
+            <a href="../home.php">Home</a>
+            <a href="blog.php">Blog</a>
+            <a href="../appointment.html">Appointment</a>
+            <a href="../index.html">Logout</a>
         </div>
     </header>
 
