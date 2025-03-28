@@ -94,12 +94,6 @@
             transform: translateY(-3px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         }
-        .price-display {
-            font-weight: bold;
-            font-size: 18px;
-            color: #ff5e62;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -110,104 +104,83 @@
 
 <h1>Request Page</h1>
 
-<section>
-<form action="php/service/servicedb.php" method="post" onsubmit="redirectToPayment(event)">    
+<section >
+<form action="php/service/servicedb.php" method="post">    
     <div class="container">
+        <!-- First Div -->
         <div class="inline-elements">
             <label for="select1">Vehicle Type:</label>
             <select id="select1" name="type">
                 <option value="">Select...</option>
                 <option value="2 Wheelers">2 Wheelers</option>
+                <option value="3 Wheelers">3 Wheelers</option>
                 <option value="4 Wheelers">4 Wheelers</option>
             </select>
 
             <label for="select2">Vehicle No:</label>
-            <input type="text" name="vehicle_no" placeholder="Enter your vehicle number" required>
+          <input type="text" name="vehicle_no" placeholder="Enter your vehicle number" required>
 
-            <label for="select2">Phone No:</label>
-            <input type="text" name="phone" placeholder="Enter your phone number" required>
+          <label for="select2">Phone No:</label>
+          <input type="text" name="phone" placeholder="Enter your phone number" required>
 
-            <label for="want">Sphere Parts:</label>
-            <select id="want" name="want" required>
-                <option value="">--Select Service--</option>
-                <option value="Tire Change">Tire Change</option>
-                <option value="Mobil Change">Mobil Change</option>
-                <option value="Brake Shoe Change">Brake Shoe Change</option>
-                <option value="Coolent Change">Coolent Change</option>
-                <option value="Brake Issue">Brake Issue</option>
-                <option value="Diesel Tank">Diesel Tank</option>
-                <option value="Mobile Tank">Mobile Tank</option>
-                <option value="Head Light">Head Light</option>
-                <option value="Deeper">Deeper</option>
-                <option value="Other">Other</option>
+          <label for="want">Sphere Parts:</label>
+                <select id="want" name="want" required>
+                    <option value="">--Select Service--</option>
+                    <option value="Tire Change">Tire Change</option>
+                    <option value="Mobil Change">Mobil Change</option>
+                    <option value="Brake Shoe Change">Brake Shoe Change</option>
+                    <option value="Coolent Change">Coolent Change</option>
+                    <option value="Brake Issue">Brake Issue</option>
+                    <option value="Diesel Tank">Diesel Tank</option>
+                    <option value="Mobile Tank">Mobile Tank</option>
+                    <option value="Head Light">Head Light</option>
+                    <option value="Deeper">Deeper</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <script>
+                    // Show or hide the "Other" text box when the "Other" option is selected
+                    const wantField = document.getElementById('want');
+                    const otherServiceField = document.getElementById('other-service');
+            
+                    wantField.addEventListener('change', function() {
+                        if (wantField.value === 'Other') {
+                            otherServiceField.style.display = 'block';  // Show the input box
+                        } else {
+                            otherServiceField.style.display = 'none';   // Hide the input box
+                        }
+                    });
+            
+                    // Initialize form with the "Other" service hidden
+                    if (wantField.value !== 'Other') {
+                        otherServiceField.style.display = 'none';
+                    }
+                </script>
+
+            <label for="select3">Vendor:</label>
+            <select id="select3" name="vendor">
+                <option value="">Select...</option>
+                <option value="option1"></option>
+                <option value="option2"></option>
+                <option value="option3"></option>
             </select>
         </div>
 
+        <!-- Second Div -->
         <div class="inline-elements">
-            <label for="quantity">Quantity:</label>
-            <input type="number" name="quantity" id="quantity" value="1" min="1" required>
+        <label for="address">Quantity:</label>
+        <input type="text" name="quantity" placeholder="Enter your quantity" required>
+
 
             <label for="address">Address:</label>
             <textarea id="address" name="address" rows="4" cols="30" placeholder="Enter your address here..."></textarea>
         </div>
     </div>
 
-    <!-- Price Display -->
-    <div id="price-display" class="price-display"></div>
 
-    <!-- Hidden Price Input -->
-    <input type="hidden" id="price" name="price">
-
-    <script>
-        // Price data for each service
-        const servicePrices = {
-            "Tire Change": 500,
-            "Mobil Change": 300,
-            "Brake Shoe Change": 400,
-            "Coolent Change": 350,
-            "Brake Issue": 600,
-            "Diesel Tank": 450,
-            "Mobile Tank": 350,
-            "Head Light": 150,
-            "Deeper": 1000
-        };
-
-        // Reference elements
-        const wantField = document.getElementById('want');
-        const quantityField = document.getElementById('quantity');
-        const priceDisplay = document.getElementById('price-display');
-        const priceField = document.getElementById('price');
-
-        function updatePrice() {
-            const selectedService = wantField.value;
-            const quantity = parseInt(quantityField.value) || 1;
-
-            if (selectedService && servicePrices[selectedService]) {
-                const unitPrice = servicePrices[selectedService];
-                const totalPrice = unitPrice * quantity;
-
-                // Display price
-                priceDisplay.textContent = `Price for ${selectedService}: ₹${unitPrice} (Total Price: ₹${totalPrice})`;
-
-                // Update hidden price field
-                priceField.value = totalPrice;
-            } else {
-                priceDisplay.textContent = 'Please select a valid service';
-                priceField.value = ''; // Clear price if no service is selected
-            }
-        }
-
-        // Attach event listeners
-        wantField.addEventListener('change', updatePrice);
-        quantityField.addEventListener('input', updatePrice);
-
-        // Initialize price calculation
-        updatePrice();
-    </script>
-
-    <div class="submit-button">
-        <button type="submit" name="submit">Submit</button>
-    </div>
+<div class="submit-button">
+    <button type="submit" name="submit">Submit</button>
+</div>
 </form>
 </section>
 </body>
