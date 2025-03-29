@@ -1,4 +1,13 @@
 <?php
+
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/PHPMailer-master/src/Exception.php';
+require 'PHPMailer/PHPMailer-master/src/PHPMailer.php';
+require 'PHPMailer/PHPMailer-master/src/SMTP.php';
+
 session_start();
 if (!isset($_SESSION['email'])) {
     exit();
@@ -22,28 +31,62 @@ if ($result) {
 }
 mysqli_close($con);
 
-// Handle payment submission
+// Handle payment submission and email sending
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payment_method'])) {
     $payment_method = $_POST['payment_method'];
+    $payment_message = "";
     switch ($payment_method) {
         case 'credit_card':
-            echo "Processing Credit Card Payment...";
+            $payment_message = "Processing Credit Card Payment...";
             break;
         case 'debit_card':
-            echo "Processing Debit Card Payment...";
+            $payment_message = "Processing Debit Card Payment...";
             break;
         case 'upi':
-            echo "Processing UPI Payment...";
+            $payment_message = "Processing UPI Payment...";
             break;
         case 'cash_on_delivery':
-            echo "Cash on Delivery Selected!";
+            $payment_message = "Cash on Delivery Selected!";
             break;
         case 'qr_code':
-            echo "Please scan the QR Code to make payment!";
+            $payment_message = "Please scan the QR Code to make payment!";
             break;
         default:
-            echo "Invalid payment method!";
+            $payment_message = "Invalid payment method!";
             break;
+    }
+    
+    // Prepare email content
+    $emailTo = $email; // Send email to logged-in user
+    $subject = 'Your Order Details';
+    $itemList = "";
+    foreach ($services as $service) {
+        $itemList .= "- ID: " . $service['ID'] . " | Vehicle No: " . $service['V_NUMBER'] . " | Part: " . $service['WANT'] . " | Quantity: " . $service['QUANTITY'] . " | Price: " . $service['PRICE'] . "\n";
+    }
+    
+    $body = "Thank you for your purchase! Here are your order details:\n\n" . $itemList . "\nPayment Method: " . strtoupper($payment_method);
+    
+    // Send email
+    $mail = new PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host = 'smtp.example.com'; // Replace with your SMTP server
+        $mail->SMTPAuth = true;
+        $mail->Username = 'your-email@example.com'; // Replace with your email
+        $mail->Password = 'your-email-password'; // Replace with your email password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+        
+        $mail->setFrom('your-email@example.com', 'Your Store');
+        $mail->addAddress($emailTo);
+        
+        $mail->Subject = $subject;
+        $mail->Body = $body;
+        
+        $mail->send();
+        echo "<script>alert('Order placed successfully! Email sent. $payment_message');</script>";
+    } catch (Exception $e) {
+        echo "<script>alert('Email could not be sent. Error: " . $mail->ErrorInfo . "');</script>";
     }
 }
 ?>
@@ -115,14 +158,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payment_method'])) {
 <strong>Invoice Details</strong>
     <ul>
         <?php foreach ($services as $service): ?>
-            <li>Email:<?php echo htmlspecialchars($service['EMAIL']); ?></li> 
-            <li>ID:<?php echo htmlspecialchars($service['ID']); ?></li> 
+            <li>ID: <?php echo htmlspecialchars($service['ID']); ?></li> 
             <li>Vehicle No: <?php echo htmlspecialchars($service['V_NUMBER']); ?></li>  
-            <li>Phone: <?php echo htmlspecialchars($service['PHONE']); ?></li>
             <li>Part: <?php echo htmlspecialchars($service['WANT']); ?></li>
             <li>Quantity: <?php echo htmlspecialchars($service['QUANTITY']); ?></li>
             <li>Price: <?php echo htmlspecialchars($service['PRICE']); ?></li>
-            <?php endforeach; ?>
+        <?php endforeach; ?>
     </ul>
 </DIV>
 <div class="container">
