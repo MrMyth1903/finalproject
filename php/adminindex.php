@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['admin_email'])) {
+    header("Location: ../adminlogin.html"); // Redirect to login if session is not set
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -277,7 +284,7 @@
             <li><a href="#" onclick="loadPage('feedback')"><i class="fas fa-comment-alt"></i> <span>Feedback</span></a></li>
             <li><a href="#" onclick="loadPage('users')" ><i class="fas fa-user"></i> <span>Users</span></a></li>
             <li><a href="post.php" onclick="loadPage('post')"><i class="fas fa-newspaper"></i> <span>Posts</span></a></li>
-            <li><a href="#"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+            <li><a href="adminlogout.php"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
         </ul>
     </div>
     

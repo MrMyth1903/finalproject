@@ -154,15 +154,11 @@
     </video>
 
     <div class="sign-up-form">
-        <h1>Sign In</h1>
-        <form action="php/logincheck.php" method="post">
-            <input type="email" class="input-box" placeholder="email_Id@gmail.com" id="n1" name="username">
+        <h1>Admin login</h1>
+        <form action="php/admincheck.php" method="post">
+            <input type="email" class="input-box" placeholder="email_Id@gmail.com" id="n1" name="email">
             <input type="password" class="input-box" placeholder="P@ssw0rd" id="n2" name="password">
             <button type="submit" class="signup-btn" onclick="return login1()" name="submit">Login</button>
-            <hr class="or">
-            <p class="or">OR</p>
-            <p>Admin login <a href="adminlogin.html">Admin</a></p>
-            <p>Don't have an account? <a href="signup.html">Register</a></p>
         </form>
     </div>
 
