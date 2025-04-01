@@ -466,21 +466,21 @@ if (!isset($_SESSION['email'])) {
         </div>
     </section>
     <section class="scroll-section">
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/audi.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/Honda.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/bmw.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/ford.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/hyundai.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/Kia.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/suzuki.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/mahindra.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/mercedes.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/MG.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/nissan.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/tata.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/tvs.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/toyota.png" alt=""></a></div>
-        <div class="scroll-item"><a href="request.php"><img src="servicelogo/volkswagen.png" alt=""></a></div>
+        <div class="scroll-item"><a href="audirequest.php"><img src="servicelogo/audi.png" alt=""></a></div>
+        <div class="scroll-item"><a href="hondarequest.php"><img src="servicelogo/Honda.png" alt=""></a></div>
+        <div class="scroll-item"><a href="bmwrequest.php"><img src="servicelogo/bmw.png" alt=""></a></div>
+        <div class="scroll-item"><a href="fordrequest.php"><img src="servicelogo/ford.png" alt=""></a></div>
+        <div class="scroll-item"><a href="hundayrequest.php"><img src="servicelogo/hyundai.png" alt=""></a></div>
+        <div class="scroll-item"><a href="kiarequest.php"><img src="servicelogo/Kia.png" alt=""></a></div>
+        <div class="scroll-item"><a href="suzukirequest.php"><img src="servicelogo/suzuki.png" alt=""></a></div>
+        <div class="scroll-item"><a href="mahendrarequest.php"><img src="servicelogo/mahindra.png" alt=""></a></div>
+        <div class="scroll-item"><a href="mercidiserequest.php"><img src="servicelogo/mercedes.png" alt=""></a></div>
+        <div class="scroll-item"><a href="mgrequest.php"><img src="servicelogo/MG.png" alt=""></a></div>
+        <div class="scroll-item"><a href="nisanrequest.php"><img src="servicelogo/nissan.png" alt=""></a></div>
+        <div class="scroll-item"><a href="tatarequest.php"><img src="servicelogo/tata.png" alt=""></a></div>
+        <div class="scroll-item"><a href="tvsrequest.php"><img src="servicelogo/tvs.png" alt=""></a></div>
+        <div class="scroll-item"><a href="tyotarequest.php"><img src="servicelogo/toyota.png" alt=""></a></div>
+        <div class="scroll-item"><a href="herorequest.php"><img src="servicelogo/hero.png" alt=""></a></div>
     </section>
     <button class="feedback-button" onclick="location.href='feedback.html'">Feedback</button>
     
