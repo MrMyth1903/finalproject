@@ -6,11 +6,11 @@ if (!$conn) {
 }
 
 if (isset($_POST['submit'])) {
-    $name = trim($_POST['name']);
-    $aadhar = trim($_POST['aadhar_no']);
+    $name = trim($_POST['vendor_name']);
+    $aadhar = trim($_POST['aadhaar']);
     $email = trim($_POST['email']);
-    $address = trim($_POST['address']);
     $phone = trim($_POST['phone']);
+    $address = trim($_POST['address']);
 
     // Input Validation
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
