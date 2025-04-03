@@ -63,25 +63,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payment_method'])) {
         $itemList .= "- ID: " . $service['ID'] . " | Vehicle No: " . $service['V_NUMBER'] . " | Part: " . $service['WANT'] . " | Quantity: " . $service['QUANTITY'] . " | Price: " . $service['PRICE'] . "\n";
     }
     
-    $body = "Thank you for your purchase! Here are your order details:\n\n" . $itemList . "\nPayment Method: " . strtoupper($payment_method);
+    $body = "Thank you for your purchase! Here are your order details:\n\n Your item will delivered in 3 Days" . $itemList . "\nPayment Method: " . strtoupper($payment_method);
     
     // Send email
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
-        $mail->Host = 'smtp.example.com'; // Replace with your SMTP server
+        $mail->Host = 'smtp.gmail.com'; // Replace with your SMTP server
         $mail->SMTPAuth = true;
-        $mail->Username = 'your-email@example.com'; // Replace with your email
-        $mail->Password = 'your-email-password'; // Replace with your email password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
+        $mail->Username = 'merigaddi0008@gmail.com'; // Replace with your email
+        $mail->Password = 'yqvqgtuselknvezr '; // Replace with your email password
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port = 465;
         
-        $mail->setFrom('your-email@example.com', 'Your Store');
+        $mail->setFrom('merigaddi0008@gmail.com', 'Meri Gaddi');
         $mail->addAddress($emailTo);
         
         $mail->Subject = $subject;
         $mail->Body = $body;
         
+        // yqvq gtus elkn vezr   PASSWORD
         $mail->send();
         echo "<script>alert('Order placed successfully! Email sent. $payment_message');</script>";
     } catch (Exception $e) {

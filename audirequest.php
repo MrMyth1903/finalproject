@@ -1,4 +1,9 @@
-
+<?php
+session_start();
+if (!isset($_SESSION['email'])) {
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
