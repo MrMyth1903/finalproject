@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2025 at 05:06 PM
+-- Generation Time: Apr 03, 2025 at 09:43 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,13 +38,6 @@ CREATE TABLE `appointment` (
   `SPHERE_PART` varchar(100) NOT NULL,
   `PHONE_NUMBER` bigint(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `appointment`
---
-
-INSERT INTO `appointment` (`ID`, `SERVICE`, `TIME`, `DATE`, `NAME`, `VEHICLE_NO`, `WANT`, `SPHERE_PART`, `PHONE_NUMBER`) VALUES
-(8, 'Car Maintenance', '21:42:00', '2025-03-27', 'VISHAL', 'JH/05/CH/2345', 'Other', '', 7050601433);
 
 -- --------------------------------------------------------
 
@@ -115,14 +108,6 @@ CREATE TABLE `members` (
   `vehicle` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `members`
---
-
-INSERT INTO `members` (`id`, `firstname`, `middlename`, `lastname`, `phoneNumber`, `aadharNo`, `vehicle`) VALUES
-(14, 'Sukhbir', '', 'Singh', '07050603314', '2342654876897', 'JH/05/EF/2345'),
-(15, 'NAVIN', 'KUMAR', 'SHARMA', '8340300338', '234567892378', 'JH/05/DL/9013');
-
 -- --------------------------------------------------------
 
 --
@@ -164,27 +149,6 @@ CREATE TABLE `service` (
   `ADDRESS` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `service`
---
-
-INSERT INTO `service` (`ID`, `V_TYPE`, `V_NUMBER`, `EMAIL`, `PHONE`, `WANT`, `DATE`, `PRICE`, `QUANTITY`, `ADDRESS`) VALUES
-(15, '2 Wheelers', 'jh/05/dl/9834', '', '8340300338', 'Tire Change', '2025-03-27', 2000, 4, 'GAMHARIA'),
-(16, '2 Wheelers', 'JH/05/DL/9834', '', '8340300338', 'Mobile Tank', '2025-03-27', 1050, 3, 'safs'),
-(17, '2 Wheelers', 'JH/05/DL/9834', '', '8340300338', 'Mobile Tank', '2025-03-27', 1050, 3, 'safs'),
-(18, '2 Wheelers', 'JH/05/DL/9834', '', '8340300338', 'Deeper', '2025-03-27', 1000, 1, 'hgjh'),
-(19, '2 Wheelers', 'JH/05/DL/9834', '', '8340300338', 'Head Light', '2025-03-27', 600, 4, 'dfgdf'),
-(20, '2 Wheelers', 'JH/05/DL/9834', '', '8340300338', 'Diesel Tank', '2025-03-28', 1800, 4, 'fghrt'),
-(21, '2 Wheelers', 'JH/05/DL/9834', '', '8340300338', 'Diesel Tank', '2025-03-28', 1800, 4, 'jhj jkhj'),
-(22, '2 Wheelers', 'JH/05/DL/9834', '', '8340300338', 'Brake Issue', '2025-03-28', 2400, 4, 'jhass jkash '),
-(23, '2 Wheelers', 'JH/05/DL/9834', '', '8340300338', 'Brake Issue', '2025-03-28', 2400, 4, 'jhass jkash '),
-(26, '2 Wheelers', 'JH/05/DL/9834', 'ranjan@gmail.com', '8340300338', 'Brake Issue', '2025-03-28', 600, 1, 'mbh'),
-(27, '4 Wheelers', 'JH/05/DL/9834', 'chaandaan42@gmail.co', '8340300338', 'Diesel Tank', '2025-03-28', 900, 2, 'Gamharia ,Jagannathpur'),
-(28, '4 Wheelers', 'JH/05/DL/9834', 'ranjan@gmail.com', '8340300338', 'Diesel Tank', '2025-03-28', 900, 2, 'Gamharia ,Jagannathpur'),
-(29, '4 Wheelers', 'JH/05/DL/9834', 'chaandaan42@gmail.com', '8340300338', 'Coolent Change', '2025-03-28', 350, 1, 'hgjh'),
-(30, '4 Wheelers', 'JH/05/DL/9834', 'chaandaan42@gmail.com', '8340300338', 'Coolent Change', '2025-03-28', 350, 1, 'hgjh'),
-(31, '2 Wheelers', 'JH/05/DL/9834', 'soham@gmail.com', '8340300338', 'Coolent Change', '2025-03-28', 1050, 3, 'Gmaharia');
-
 -- --------------------------------------------------------
 
 --
@@ -207,9 +171,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`ID`, `FirstName`, `LastName`, `Phone`, `Mail`, `Password`, `DOB`, `City`) VALUES
-(7, 'CHANDAN SINGH', 'CHANDAN SINGH', 8340300338, 'chaandaan42@gmail.com', 'P@ssw0rd', '2004-05-29', 'JAMSHEDPUR'),
-(10, 'RANJAN', 'SINGH', 8340300338, 'ranjan@gmail.com', 'P@ssw0rd', '2004-02-09', 'JAMSHEDPUR'),
-(11, 'SOHAM', 'CHAKROBARTY', 8340300338, 'soham@gmail.com', 'P@ssw0rd', '2025-03-05', 'KARNATAKA');
+(18, 'CHANDAN ', 'SINGH', 8340300338, 'chaandaan42@gmail.com', 'P@ssw0rd', '2005-02-09', 'JAMSHEDPUR');
 
 -- --------------------------------------------------------
 
@@ -326,13 +288,13 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `vendor`

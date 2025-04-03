@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
 
         if (mysqli_query($con, $stmt)) {
             // Order booked successfully
-            echo "<script>alert('Successfully Booked!');</script>";
+            echo "<script>alert('Accessories Added to Cart !');</script>";
 
             // // Send SMS using Twilio
             // require __DIR__ . '/vendor/autoload.php'; // Include Twilio SDK

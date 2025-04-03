@@ -35,7 +35,7 @@ echo"
     <script>
     alert('Successfully Registered !');
     </script>";
-    header('refresh:1; url=http://localhost/final year/index.html');
+    header('refresh:1; url=http://localhost/final year/home.php');
 }
 }
 
