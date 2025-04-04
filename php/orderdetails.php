@@ -427,6 +427,184 @@ if (!isset($_SESSION['email'])) {
     display: block;
 }
 
+h1 {
+            text-align: center;
+            color: var(--dark);
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .data-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        .message {
+            text-align: center;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .message.success {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: var(--success);
+        }
+        
+        .message.error {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: var(--danger);
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background-color: var(--light);
+            color: var(--dark);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+        
+        tr:hover {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .status-pill {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .vehicle-type {
+            font-weight: 600;
+        }
+        
+        .vehicle-number {
+            color: var(--primary);
+            font-family: monospace;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        .date-display {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .price-display {
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 5px;
+        }
+        
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .accept {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .accept:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        .decline {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .decline:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .no-records {
+            text-align: center;
+            padding: 40px 0;
+            color: #7f8c8d;
+            font-size: 18px;
+        }
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 0;
+        }
+        
+        .empty-state i {
+            font-size: 60px;
+            color: #bdc3c7;
+            margin-bottom: 20px;
+        }
+        
+        .empty-state p {
+            font-size: 18px;
+            color: #7f8c8d;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            th, td {
+                padding: 8px;
+            }
+            
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            /* Stack the button container on small screens */
+            .button-container {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
@@ -440,161 +618,97 @@ if (!isset($_SESSION['email'])) {
             
         </div>
         <div class="right-header">
-    <a href="home.php">Home</a>
-    <a href="php/blog.php">Blog</a>
-    <a href="appointment.html">Appointment</a>
+    <a href="../home.php">Home</a>
+    <a href="blog.php">Blog</a>
+    <a href="../appointment.html">Appointment</a>
     <div class="user-menu">
         <a href="#" class="user-email"><?php echo htmlspecialchars($_SESSION['email']); ?></a>
         <div class="logout-menu">
             <a href="php/orderdetails.php">Order Details</a>
-            <a href="logout.php">Logout</a>
+            <a href="../logout.php">Logout</a>
         </div>
     </div>
 </div>
 
     </header>
-    <section>
-        <div class="auto-typing">
-       <center> 
-            <h2>Register your</h2>
-            <p><span id="typing">Car</span></p>
-            <h6>If you have any issue complent
-             here to raise your ticket </h6>
-        </center>
+   
+
+
+
+
+    <!-- body section  -->
+
+    <?php
+        include 'signup.php';
+        error_reporting(E_ALL);
+
+        // Fetch records from the database
+        $query = "SELECT * FROM service where EMAIL='" . mysqli_real_escape_string($con, $_SESSION['email']) . "'";
+        $run = mysqli_query($con, $query);
+        $count = mysqli_num_rows($run);
+
+        if ($count > 0) {
+        ?>
+        <div class="data-container">
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Vehicle</th>
+                        <th>Contact Info</th>
+                        <th>Service Details</th>
+                        <th>Date & Location</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($call = mysqli_fetch_assoc($run)) { ?>
+                        <tr id="row-<?php echo $call['ID']; ?>">
+                            <td>#<?php echo htmlspecialchars($call['ID']); ?></td>
+                            <td>
+                                <div class="vehicle-type"><?php echo htmlspecialchars($call['V_TYPE']); ?></div>
+                                <div class="vehicle-number"><?php echo htmlspecialchars($call['V_NUMBER']); ?></div>
+                            </td>
+                            <td>
+                                <div><?php echo htmlspecialchars($call['EMAIL']); ?></div>
+                                <div><?php echo htmlspecialchars($call['PHONE']); ?></div>
+                            </td>
+                            <td>
+                                <div><strong>Service:</strong> <?php echo htmlspecialchars($call['WANT']); ?></div>
+                                <div><strong>Qty:</strong> <?php echo htmlspecialchars($call['QUANTITY']); ?></div>
+                                <div class="price-display">Price: <span class="price-value"><?php echo htmlspecialchars($call['PRICE']); ?></span></div>
+                            </td>
+                            <td>
+                                <div class="date-display">
+                                    <i class="far fa-calendar-alt"></i> 
+                                    <span class="date-value"><?php echo htmlspecialchars($call['DATE']); ?></span>
+                                </div>
+                                <div><small><?php echo htmlspecialchars($call['ADDRESS']); ?></small></div>
+                            </td>
+                           
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <i class="fas fa-clipboard-check"></i>
+                <p>All service requests have been processed</p>
+            </div>
         </div>
-        <div class="image-container">
-            <img src="photo/pngtree-auto-repair-vector-png-image_6888531.png" alt="Vehicle Servicing System">
+        <?php
+        } else {
+        ?>
+        <div class="data-container">
+            <div class="empty-state">
+                <i class="fas fa-clipboard-check"></i>
+                <p>No service requests available at this time</p>
+            </div>
         </div>
-    </section>
-    <section class="scroll-section">
-        <div class="scroll-item"><a href="audirequest.php"><img src="servicelogo/audi.png" alt=""></a></div>
-        <div class="scroll-item"><a href="hondarequest.php"><img src="servicelogo/Honda.png" alt=""></a></div>
-        <div class="scroll-item"><a href="bmwrequest.php"><img src="servicelogo/bmw.png" alt=""></a></div>
-        <div class="scroll-item"><a href="fordrequest.php"><img src="servicelogo/ford.png" alt=""></a></div>
-        <div class="scroll-item"><a href="hundayrequest.php"><img src="servicelogo/hyundai.png" alt=""></a></div>
-        <div class="scroll-item"><a href="kiarequest.php"><img src="servicelogo/Kia.png" alt=""></a></div>
-        <div class="scroll-item"><a href="suzukirequest.php"><img src="servicelogo/suzuki.png" alt=""></a></div>
-        <div class="scroll-item"><a href="mahendrarequest.php"><img src="servicelogo/mahindra.png" alt=""></a></div>
-        <div class="scroll-item"><a href="mercidiserequest.php"><img src="servicelogo/mercedes.png" alt=""></a></div>
-        <div class="scroll-item"><a href="mgrequest.php"><img src="servicelogo/MG.png" alt=""></a></div>
-        <div class="scroll-item"><a href="nisanrequest.php"><img src="servicelogo/nissan.png" alt=""></a></div>
-        <div class="scroll-item"><a href="tatarequest.php"><img src="servicelogo/tata.png" alt=""></a></div>
-        <div class="scroll-item"><a href="tvsrequest.php"><img src="servicelogo/tvs.png" alt=""></a></div>
-        <div class="scroll-item"><a href="tyotarequest.php"><img src="servicelogo/toyota.png" alt=""></a></div>
-        <div class="scroll-item"><a href="herorequest.php"><img src="servicelogo/hero.png" alt=""></a></div>
-    </section>
-    <button class="feedback-button" onclick="location.href='feedback.html'">Feedback</button>
-    
-    <button class="chatbot" onclick="toggleChatbot()">💬</button>
-    <div class="chatbot-popup" id="chatbotPopup">
-        <div class="chatbot-header">Chat Support</div>
-        <div class="chatbot-messages" id="chatbotMessages"></div>
-        <div class="chatbot-input">
-            <input type="text" id="chatbotInput" placeholder="Type a message...">
-            <button onclick="sendMessage()">Send</button>
-        </div>
+        <?php
+        }
+        ?>
     </div>
-    <script>
-        const chatbotPopup = document.getElementById("chatbotPopup");
-        const chatbotMessages = document.getElementById("chatbotMessages");
-        const chatbotInput = document.getElementById("chatbotInput");
 
-        function toggleChatbot() {
-            chatbotPopup.style.display = chatbotPopup.style.display === "flex" ? "none" : "flex";
-        }
-
-        function sendMessage() {
-            const message = chatbotInput.value.trim();
-            if (message) {
-                const userMessage = document.createElement("div");
-                userMessage.textContent = message;
-                userMessage.style.marginBottom = "10px";
-                userMessage.style.textAlign = "right";
-                chatbotMessages.appendChild(userMessage);
-                chatbotInput.value = "";
-
-                setTimeout(() => {
-                    const botMessage = document.createElement("div");
-                    botMessage.textContent = "Hello ! Thank you for choosing for.";
-                    botMessage.style.marginBottom = "10px";
-                    botMessage.style.textAlign = "left";
-                    chatbotMessages.appendChild(botMessage);
-                    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-                }, 1000);
-            }
-        }
-    </script>
-    <script>
-        const scrollItems = document.querySelectorAll(".scroll-item");
-
-        const scrollObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("show");
-                } else {
-                    entry.target.classList.remove("show");
-                }
-            });
-        }, { threshold: 0.5 });
-
-        scrollItems.forEach(item => scrollObserver.observe(item));
-
-        const words = ["HERO","HONDA","MAHINDRA","SUZUKI","SKODA","HONDA","KIA","HYUNDAI","BMW","JAGUAR","MERCIDIES","LAMBORGINI","TOYOTA"];
-        let i = 0;
-        const typingElement = document.getElementById("typing");
-
-        function autoType() {
-            typingElement.textContent = words[i];
-            i = (i + 1) % words.length;
-        }
-
-        setInterval(autoType, 2000);
-
-        
-    </script>
-
-<section class="feedback-section">
-    <h2>User Feedback</h2>
-    <div class="feedback-container">
-        <div class="feedback-item">Fetching feedback...</div>
-    </div>
-</section>
-<script>
-    async function fetchFeedback() {
-        const feedbackContainer = document.querySelector('.feedback-container');
-        feedbackContainer.innerHTML = ''; // Clear placeholder
-
-        try {
-            const response = await fetch('fetch_feedback.php'); // Backend PHP file
-            const feedbackData = await response.json();
-
-            feedbackData.forEach(feedback => {
-                const feedbackItem = document.createElement('div');
-                feedbackItem.classList.add('feedback-item');
-                feedbackItem.textContent = feedback; // Display the message
-                feedbackContainer.appendChild(feedbackItem);
-            });
-
-            // Auto-scroll effect
-            let index = 0;
-            setInterval(() => {
-                const items = document.querySelectorAll('.feedback-item');
-                items.forEach((item, i) => {
-                    item.style.opacity = i === index ? '1' : '0';
-                    item.style.transform = i === index ? 'translateY(0)' : 'translateY(50px)';
-                });
-                index = (index + 1) % items.length;
-            }, 3000);
-
-        } catch (error) {
-            feedbackContainer.textContent = 'Failed to load feedback.';
-            console.error('Error fetching feedback:', error);
-        }
-    }
-
-    // Fetch feedback on page load
-    fetchFeedback();
-</script>
   <footer>
     <div class="footer-container">
         <div class="footer-section">
@@ -610,7 +724,6 @@ if (!isset($_SESSION['email'])) {
                 <li><a href="appointment.html">Car Maintenance</a></li>
                 <li><a href="appointment.html">Bike Servicing</a></li>
                 <li><a href="emergencyrepair.html">Emergency Repairs</a></li>
-                <li><a href="spareparts.html">Spare Parts</a></li>
             </ul>
         </div>
         <div class="footer-section">
