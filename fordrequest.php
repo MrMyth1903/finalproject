@@ -1,18 +1,41 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Request Page</title>
+    <title>Ford Service Request</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --ford-blue: #003478;
+            --ford-dark: #1d1d1b;
+            --ford-silver: #d1d1d1;
+            --ford-light: #f5f5f5;
+        }
+        
+        * {
             margin: 0;
             padding: 0;
-            background: linear-gradient(120deg,rgb(129, 24, 115),rgb(133, 253, 197));
-            color: #333;
+            box-sizing: border-box;
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,52,120,0.4) 100%);
+            z-index: -1;
+        }
+        
         .background-video {
             position: fixed;
             top: 0;
@@ -20,145 +43,339 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: -1;
+            z-index: -2;
         }
-        h1 {
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
             text-align: center;
-            padding: 20px;
-            margin-bottom: 20px;
-            font-size: 38px;
-            font-weight: bold;
-            background: linear-gradient(120deg,rgb(226, 65, 15),rgb(226, 65, 15));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            padding: 30px 0;
+            position: relative;
         }
-        section {
-            margin: 20px auto;
-            padding: 20px;
-            max-width: 800px;
-            background: rgba(255, 255, 255, 0.2);
+        
+        .logo {
+            width: 120px;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            color: var(--ford-silver);
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            margin: 20px 0;
         }
-        .container {
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: var(--ford-dark);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--ford-blue);
+            display: inline-block;
+        }
+        
+        .form-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            margin: 0 -15px;
         }
-        .container div {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        
+        .form-group {
+            flex: 1 0 250px;
+            padding: 0 15px;
+            margin-bottom: 20px;
         }
-        .inline-elements {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
+        
         label {
-            font-weight: bold;
-            color: #fff;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--ford-dark);
         }
-        select, input, textarea {
-            padding: 10px;
-            font-size: 14px;
-            border: none;
-            border-radius: 10px;
+        
+        input, select, textarea {
             width: 100%;
-            max-width: 300px;
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        textarea {
-            resize: none;
-        }
-        .submit-button {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .submit-button button {
-            background: linear-gradient(145deg, #ff9966, #ff5e62);
-            border: none;
-            border-radius: 25px;
-            padding: 12px 25px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #fff;
-            cursor: pointer;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            font-size: 15px;
             transition: all 0.3s ease;
         }
-        .submit-button button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--ford-blue);
+            box-shadow: 0 0 0 2px rgba(0, 52, 120, 0.2);
         }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .service-options {
+            margin-top: 20px;
+        }
+        
         .price-display {
-            font-weight: bold;
+            background-color: var(--ford-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: right;
             font-size: 18px;
-            color: #ff5e62;
-            margin-top: 10px;
+            font-weight: 600;
+            border-left: 4px solid var(--ford-blue);
+        }
+        
+        .price-display span {
+            color: var(--ford-blue);
+        }
+        
+        .submit-button {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        button {
+            background-color: var(--ford-blue);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 52, 120, 0.3);
+        }
+        
+        button:hover {
+            background-color: #002658;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 52, 120, 0.4);
+        }
+        
+        .icon-input {
+            position: relative;
+        }
+        
+        .icon-input i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .icon-input input, .icon-input select {
+            padding-left: 40px;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .quantity-btn {
+            background-color: #f1f1f1;
+            border: none;
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            cursor: pointer;
+            color: #555;
+            transition: all 0.2s ease;
+        }
+        
+        .quantity-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            border: none;
+            padding: 10px 0;
+            font-size: 16px;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            border-radius: 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-group {
+                flex: 0 0 100%;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-<video class="background-video" autoplay muted loop>
-    <source src="video/istockphoto-1680698591-640_adpp_is.mp4" type="video/mp4">
-    Your browser does not support HTML5 video.
-</video>
-
-<h1>Request Page</h1>
-
-<section>
-<form action="php/service/servicedb.php" method="post" >    
+    <div class="background-overlay"></div>
+    <video class="background-video" autoplay muted loop>
+        <source src="video/istockphoto-1680698591-640_adpp_is.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    
     <div class="container">
-        <div class="inline-elements">
-            <label for="select1">Vehicle Type:</label>
-            <select id="select1" name="type">
-                <option value="4 Wheelers FORD">4 Wheelers, CAR</option>
-            </select>
-
-            <label for="select2">Vehicle No:</label>
-            <input type="text" name="vehicle_no" placeholder="Enter your vehicle number" required>
-
-            <label for="select2">Email:</label>
-            <input type="text" name="email" placeholder="Enter your vehicle number" required>
-
-            <label for="select2">Phone No:</label>
-            <input type="mail" name="phone" placeholder="Enter your phone number" required>
-
-            <label for="want">Sphere Parts:</label>
-            <select id="want" name="want" required>
-                <option value="">--Select Service--</option>
-                <option value="Tire Change">Tire Change</option>
-                <option value="Mobil Change">Mobil Change</option>
-                <option value="Brake Shoe Change">Brake Shoe Change</option>
-                <option value="Coolent Change">Coolent Change</option>
-                <option value="Brake Issue">Brake Issue</option>
-                <option value="Diesel Tank">Diesel Tank</option>
-                <option value="Mobile Tank">Mobile Tank</option>
-                <option value="Head Light">Head Light</option>
-                <option value="Deeper">Deeper</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
-
-        <div class="inline-elements">
-            <label for="quantity">Quantity:</label>
-            <input type="number" name="quantity" id="quantity" value="1" min="1" required>
-
-            <label for="address">Address:</label>
-            <textarea id="address" name="address" rows="4" cols="30" placeholder="Enter your address here..."></textarea>
+        <header>
+            <img src="servicelogo/ford.png" alt="Ford Logo" class="logo">
+            <h1>Ford Service Request</h1>
+            <p class="subtitle">Quality Service for Your Ford Vehicle</p>
+        </header>
+        
+        <form action="php/service/servicedb.php" method="post" class="card">
+            <div class="form-section">
+                <h2>Vehicle Information</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="select1">Vehicle Type</label>
+                        <div class="icon-input">
+                            <i class="fas fa-car"></i>
+                            <select id="select1" name="type">
+                                <option value="4 Wheelers FORD">4 Wheelers, CAR</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vehicle_no">Vehicle Number</label>
+                        <div class="icon-input">
+                            <i class="fas fa-id-card"></i>
+                            <input type="text" id="vehicle_no" name="vehicle_no" placeholder="Enter your vehicle number" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>Contact Information</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="icon-input">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <div class="icon-input">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Service Address</label>
+                    <div class="icon-input">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <textarea id="address" name="address" placeholder="Enter your complete service address..." required></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>Service Requirements</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="want">Service Type</label>
+                        <div class="icon-input">
+                            <i class="fas fa-tools"></i>
+                            <select id="want" name="want" required>
+                                <option value="">--Select Service--</option>
+                                <option value="Tire Change">Tire Change</option>
+                                <option value="Mobil Change">Mobil Change</option>
+                                <option value="Brake Shoe Change">Brake Shoe Change</option>
+                                <option value="Coolent Change">Coolent Change</option>
+                                <option value="Brake Issue">Brake Issue</option>
+                                <option value="Diesel Tank">Diesel Tank</option>
+                                <option value="Mobile Tank">Mobile Tank</option>
+                                <option value="Head Light">Head Light</option>
+                                <option value="Deeper">Deeper</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <div class="quantity-control">
+                            <button type="button" class="quantity-btn minus-btn">-</button>
+                            <input type="number" name="quantity" id="quantity" class="quantity-input" value="1" min="1" required>
+                            <button type="button" class="quantity-btn plus-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="price-display" id="price-display">
+                    Select a service to see the price
+                </div>
+                
+                <!-- Hidden Price Input -->
+                <input type="hidden" id="price" name="price">
+            </div>
+            
+            <div class="submit-button">
+                <button type="submit" name="submit">
+                    <i class="fas fa-paper-plane"></i> Submit Service Request
+                </button>
+            </div>
+        </form>
+        
+        <div class="footer">
+            &copy; <?php echo date('Y'); ?> Ford Service Center. All Rights Reserved.
         </div>
     </div>
-
-    <!-- Price Display -->
-    <div id="price-display" class="price-display"></div>
-
-    <!-- Hidden Price Input -->
-    <input type="hidden" id="price" name="price">
 
     <script>
         // Price data for each service
@@ -179,6 +396,8 @@
         const quantityField = document.getElementById('quantity');
         const priceDisplay = document.getElementById('price-display');
         const priceField = document.getElementById('price');
+        const minusBtn = document.querySelector('.minus-btn');
+        const plusBtn = document.querySelector('.plus-btn');
 
         function updatePrice() {
             const selectedService = wantField.value;
@@ -189,7 +408,14 @@
                 const totalPrice = unitPrice * quantity;
 
                 // Display price
-                priceDisplay.textContent = `Price for ${selectedService}: ₹${unitPrice} (Total Price: ₹${totalPrice})`;
+                priceDisplay.innerHTML = `
+                    Service: <span>${selectedService}</span><br>
+                    Unit Price: <span>₹${unitPrice.toLocaleString()}</span><br>
+                    Quantity: <span>${quantity}</span><br>
+                    <div style="font-size: 22px; margin-top: 10px;">
+                        Total: <span>₹${totalPrice.toLocaleString()}</span>
+                    </div>
+                `;
 
                 // Update hidden price field
                 priceField.value = totalPrice;
@@ -199,6 +425,21 @@
             }
         }
 
+        // Quantity increment/decrement
+        minusBtn.addEventListener('click', function() {
+            const currentValue = parseInt(quantityField.value) || 1;
+            if (currentValue > 1) {
+                quantityField.value = currentValue - 1;
+                updatePrice();
+            }
+        });
+
+        plusBtn.addEventListener('click', function() {
+            const currentValue = parseInt(quantityField.value) || 1;
+            quantityField.value = currentValue + 1;
+            updatePrice();
+        });
+
         // Attach event listeners
         wantField.addEventListener('change', updatePrice);
         quantityField.addEventListener('input', updatePrice);
@@ -206,11 +447,5 @@
         // Initialize price calculation
         updatePrice();
     </script>
-
-    <div class="submit-button">
-        <button type="submit" name="submit">Submit</button>
-    </div>
-</form>
-</section>
 </body>
 </html>

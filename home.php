@@ -446,7 +446,6 @@ if (!isset($_SESSION['email'])) {
     <div class="user-menu">
         <a href="#" class="user-email"><?php echo htmlspecialchars($_SESSION['email']); ?></a>
         <div class="logout-menu">
-            <a href="php/orderdetails.php">Order Details</a>
             <a href="logout.php">Logout</a>
         </div>
     </div>

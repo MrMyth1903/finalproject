@@ -272,7 +272,7 @@ if (!isset($_SESSION['email'])) {
     
     <div class="container">
         <header>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Audi-Logo_2016.svg/2048px-Audi-Logo_2016.svg.png" alt="Audi Logo" class="logo">
+            <img src="servicelogo/audi.png" alt="Audi Logo" class="logo">
             <h1>Audi Service Request</h1>
             <p class="subtitle">Premium Service for Your Premium Vehicle</p>
         </header>
