@@ -1,4 +1,11 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/PHPMailer-master/src/Exception.php';
+require 'PHPMailer/PHPMailer-master/src/PHPMailer.php';
+require 'PHPMailer/PHPMailer-master/src/SMTP.php';
+
 // Database Connection
 $servername = "localhost";
 $username = "root";
@@ -6,19 +13,17 @@ $password = "";
 $dbname = "final";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check Connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch user data if ID is provided
-$user_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+// Initialize $row
 $row = null;
 
-if ($user_id > 0) {
-    $sql = "SELECT * FROM members WHERE id = ?";
-    $stmt = $conn->prepare($sql);
+// Fetch user data if ID is passed via GET (for initial form display)
+if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['id'])) {
+    $user_id = intval($_GET['id']);
+    $stmt = $conn->prepare("SELECT * FROM members WHERE id = ?");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -26,27 +31,58 @@ if ($user_id > 0) {
     $stmt->close();
 }
 
-// Assign vehicle if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
+// Handle form submission
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['update'])) {
     $user_id = $_POST['id'];
     $vehicle = $_POST['vehicle'];
 
+    // Update vehicle in database
     $sql = "UPDATE members SET vehicle = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("si", $vehicle, $user_id);
 
     if ($stmt->execute()) {
-        $success_message = "Vehicle assigned successfully!";
-        header("Location: adminIndex.php");
+        // Re-fetch updated user data to get email
+        $stmt = $conn->prepare("SELECT * FROM members WHERE id = ?");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        $stmt->close();
+
+        $emailTo = $user['email'];
+        $subject = "Vehicle Assignment Confirmation";
+        $body = "Dear {$user['firstname']} {$user['lastname']},\n\nYour vehicle has been assigned: {$vehicle}.\n\nThank you,\nMeri Gaddi";
+
+        // Send email
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'merigaddi0008@gmail.com';
+            $mail->Password = 'yqvqgtuselknvezr'; // Use env file or secure method in production
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port = 465;
+
+            $mail->setFrom('merigaddi0008@gmail.com', 'Meri Gaddi');
+            $mail->addAddress($emailTo);
+            $mail->Subject = $subject;
+            $mail->Body = $body;
+
+            $mail->send();
+            echo "<script>alert('Vehicle assigned and email sent successfully!'); window.location.href='adminIndex.php';</script>";
+        } catch (Exception $e) {
+            echo "<script>alert('Email could not be sent. Mailer Error: {$mail->ErrorInfo}');</script>";
+        }
     } else {
         $error_message = "Error assigning vehicle.";
     }
 
     $stmt->close();
 }
-
-$conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -70,39 +106,39 @@ $conn->close();
 </head>
 <body>
 
-    <div class="form-container">
-        <h2>Assign Vehicle</h2>
-        <?php if (isset($error_message)) echo "<div class='error-message'>$error_message</div>"; ?>
-        <?php if (isset($success_message)) echo "<div class='success-message'>$success_message</div>"; ?>
+<div class="form-container">
+    <h2>Assign Vehicle</h2>
+    <?php if (isset($error_message)) echo "<div class='error-message'>$error_message</div>"; ?>
+    <?php if (isset($success_message)) echo "<div class='success-message'>$success_message</div>"; ?>
 
-        <?php if ($row): ?>
-        <form method="POST" action="">
-            <input type="hidden" name="id" value="<?= htmlspecialchars($row['id']) ?>">
+    <?php if ($row): ?>
+    <form method="POST" action="">
+        <input type="hidden" name="id" value="<?= htmlspecialchars($row['id']) ?>">
 
-            <label for="firstname">First Name:</label>
-            <input type="text" name="firstname" value="<?= htmlspecialchars($row['firstname']) ?>" readonly>
+        <label for="firstname">First Name:</label>
+        <input type="text" name="firstname" value="<?= htmlspecialchars($row['firstname']) ?>" readonly>
 
-            <label for="middlename">Middle Name:</label>
-            <input type="text" name="middlename" value="<?= htmlspecialchars($row['middlename']) ?>" readonly>
+        <label for="middlename">Last Name:</label>
+        <input type="text" name="lastname" value="<?= htmlspecialchars($row['lastname']) ?>" readonly>
 
-            <label for="lastname">Last Name:</label>
-            <input type="text" name="lastname" value="<?= htmlspecialchars($row['lastname']) ?>" readonly>
+        <label for="lastname">Email:</label>
+        <input type="text" name="email" value="<?= htmlspecialchars($row['email']) ?>" readonly>
 
-            <label for="phoneNumber">Phone Number:</label>
-            <input type="text" name="phoneNumber" value="<?= htmlspecialchars($row['phoneNumber']) ?>" readonly>
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" name="phoneNumber" value="<?= htmlspecialchars($row['phoneNumber']) ?>" readonly>
 
-            <label for="aadharNo">Aadhar No:</label>
-            <input type="text" name="aadharNo" value="<?= htmlspecialchars($row['aadharNo']) ?>" readonly>
+        <label for="aadharNo">Aadhar No:</label>
+        <input type="text" name="aadharNo" value="<?= htmlspecialchars($row['aadharNo']) ?>" readonly>
 
-            <label for="vehicle">Assign Vehicle:</label>
-            <input type="text" name="vehicle" value="<?= htmlspecialchars($row['vehicle']) ?>" required>
+        <label for="vehicle">Assign Vehicle:</label>
+        <input type="text" name="vehicle" value="<?= htmlspecialchars($row['vehicle']) ?>" required>
 
-            <button type="submit" name="update">Assign Vehicle</button>
-        </form>
-        <?php else: ?>
-        <p>User not found.</p>
-        <?php endif; ?>
-    </div>
+        <button type="submit" name="update">Assign Vehicle</button>
+    </form>
+    <?php else: ?>
+    <p>User not found.</p>
+    <?php endif; ?>
+</div>
 
 </body>
 </html>
