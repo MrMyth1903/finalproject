@@ -62,12 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payment_method'])) {
     $subject = 'Your Order Details';
     $itemList = "";
     foreach ($services as $service) {
-        $itemList .= "- ID: " 
-        . $service['ID'] . " | Vehicle No: " 
-        . $service['V_NUMBER'] . " | Part:'\n " 
-        . $service['WANT'] . " | Quantity:'\n " 
-        . $service['QUANTITY'] . " | Price:'\n " 
-        . $service['PRICE'] . "\n";
+        $itemList .= "- ID: " . $service['ID'] . " | Vehicle No: " . $service['V_NUMBER'] . " | Part: " . $service['WANT'] . " | Quantity: " . $service['QUANTITY'] . " | Price: " . $service['PRICE'] . "\n";
     }
     
     $body = "Thank you for your purchase! Here are your order details:\n\n Your item will delivered in 3 Days" . $itemList . "\nPayment Method: " . strtoupper($payment_method);

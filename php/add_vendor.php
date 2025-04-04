@@ -43,7 +43,7 @@
 <body>
     <div class="registration-container">
         <h2 class="text-center mb-4">Vendor Registration</h2>
-        <form  action="addvendor.php" method="POST">
+        <form method="POST" action="">
             <div class="mb-3">
                 <label for="vendor_name" class="form-label">Vendor Name</label>
                 <input type="text" class="form-control" id="vendor_name" name="vendor_name" required>
@@ -70,7 +70,7 @@
             </div>
             
             <div class="text-center">
-                <button type="submit" name="submit" class="btn btn-primary btn-submit px-4 py-2">Submit Registration</button>
+                <button type="submit" class="btn btn-primary btn-submit px-4 py-2">Submit Registration</button>
             </div>
         </form>
     </div>

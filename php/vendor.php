@@ -15,6 +15,7 @@ if ($conn->connect_error) {
 // Fetch Members
 $result = $conn->query("SELECT * FROM vendor");
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,51 +25,61 @@ $result = $conn->query("SELECT * FROM vendor");
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3f37c9;
-            --success-color: #0bb783;
-            --danger-color: #f64e60;
-            --warning-color: #ffa800;
-            --info-color: #3699ff;
-            --light-color: #f8f9fa;
-            --dark-color: #212121;
-            --border-color: #e4e6ef;
-            --shadow-color: rgba(0, 0, 0, 0.05);
-            --body-bg: #f5f8fa;
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+        .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
         body {
-            background-color: var(--body-bg);
-            color: var(--dark-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: var(--text-color);
             line-height: 1.6;
         }
         
         .container {
-            width: 100%;
+            padding: 20px;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
         }
         
-        /* Page Header Styles */
+        /* Page header styling */
         .page-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
             padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid #e1e8ed;
         }
         
         .page-title {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 600;
             color: var(--dark-color);
         }
@@ -79,114 +90,57 @@ $result = $conn->query("SELECT * FROM vendor");
         }
         
         .stat-card {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 5px 15px var(--shadow-color);
-            transition: transform 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
+            background-color: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            min-width: 120px;
+            text-align: center;
         }
         
         .stat-card i {
+            display: block;
             font-size: 24px;
-            margin-right: 15px;
+            margin-bottom: 5px;
+            color: var(--primary-color);
         }
         
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            margin-right: 8px;
+        .stat-card .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 2px;
         }
         
-        .stat-label {
-            font-size: 14px;
-            opacity: 0.9;
+        .stat-card .stat-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            text-transform: uppercase;
         }
         
-        /* Search Bar Styles */
-        .search-bar {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-        }
-        
-        .search-input {
-            flex-grow: 1;
-            padding: 12px 20px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 15px;
-            box-shadow: 0 2px 10px var(--shadow-color);
-            transition: all 0.3s ease;
-            max-width: 500px;
-        }
-        
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        
-        .btn i {
-            margin-right: 8px;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
-        }
-        
-        /* Card Styles */
+        /* Card styling */
         .card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px var(--shadow-color);
-            margin-bottom: 30px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 25px;
             overflow: hidden;
         }
         
         .card-header {
-            padding: 20px 25px;
-            background-color: white;
-            border-bottom: 1px solid var(--border-color);
+            padding: 15px 20px;
+            background: var(--light-color);
+            border-bottom: 1px solid #ddd;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
         .card-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
+            color: var(--dark-color);
             display: flex;
             align-items: center;
-            color: var(--dark-color);
         }
         
         .card-title i {
@@ -195,10 +149,66 @@ $result = $conn->query("SELECT * FROM vendor");
         }
         
         .card-body {
-            padding: 0;
+            padding: 20px;
         }
         
-        /* Table Styles */
+        /* Form styling */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #5a5a5a;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        /* Table styling */
         .table-responsive {
             overflow-x: auto;
         }
@@ -206,75 +216,77 @@ $result = $conn->query("SELECT * FROM vendor");
         .data-table {
             width: 100%;
             border-collapse: collapse;
+            border-spacing: 0;
+            background-color: white;
         }
         
-        .data-table thead tr {
-            background-color: #f8f9fa;
+        .data-table th, 
+        .data-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e8ed;
         }
         
         .data-table th {
-            padding: 15px 20px;
-            text-align: left;
+            background-color: var(--light-color);
             font-weight: 600;
-            color: #6c757d;
-            text-transform: uppercase;
-            font-size: 13px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .data-table td {
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--border-color);
             color: var(--dark-color);
         }
         
-        .data-table tbody tr {
-            transition: background-color 0.3s ease;
-        }
-        
         .data-table tbody tr:hover {
-            background-color: rgba(67, 97, 238, 0.05);
+            background-color: rgba(236, 240, 241, 0.5);
         }
         
-        /* Action Buttons */
+        .data-table td:last-child {
+            text-align: center;
+        }
+        
+        /* Badge styling */
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-primary { background-color: #e1f0ff; color: var(--primary-color); }
+        .badge-success { background-color: #d4f8e8; color: var(--success-color); }
+        .badge-warning { background-color: #fff4de; color: var(--warning-color); }
+        .badge-danger { background-color: #ffe9e9; color: var(--danger-color); }
+        
+        /* Action buttons */
         .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            justify-content: center;
         }
         
         .btn-icon {
+            width: 36px;
+            height: 36px;
             display: inline-flex;
             align-items: center;
-            padding: 8px 12px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            justify-content: center;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
         }
         
         .btn-edit {
-            background-color: rgba(54, 153, 255, 0.1);
-            color: var(--info-color);
+            background-color: #fff4de;
+            color: var(--warning-color);
         }
         
         .btn-edit:hover {
-            background-color: var(--info-color);
+            background-color: var(--warning-color);
             color: white;
         }
         
         .btn-delete {
-            background-color: rgba(246, 78, 96, 0.1);
+            background-color: #ffe9e9;
             color: var(--danger-color);
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
         }
         
         .btn-delete:hover {
@@ -282,94 +294,105 @@ $result = $conn->query("SELECT * FROM vendor");
             color: white;
         }
         
-        .btn-icon i {
-            margin-right: 5px;
+        .btn-view {
+            background-color: #e1f0ff;
+            color: var(--primary-color);
         }
         
-        /* Responsive Adjustments */
-        @media (max-width: 992px) {
+        .btn-view:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Modal styling */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e1e8ed;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .modal-close {
+            font-size: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #95a5a6;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #e1e8ed;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex-grow: 1;
+        }
+        
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
             .page-header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
             }
             
-            .search-bar {
-                flex-direction: column;
-                gap: 15px;
+            .page-stats {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 10px;
             }
             
-            .search-input {
-                max-width: 100%;
+            .form-grid {
+                grid-template-columns: 1fr;
             }
-        }
-        
-        @media (max-width: 768px) {
+            
             .action-buttons {
-                flex-direction: column;
-                gap: 5px;
+                flex-wrap: wrap;
             }
-            
-            .stat-card {
-                padding: 10px 15px;
-            }
-            
-            .stat-value {
-                font-size: 20px;
-            }
-        }
-        
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            display: none;
-        }
-        
-        .modal-content {
-            background-color: white;
-            border-radius: 10px;
-            padding: 30px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
-        }
-        
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 25px;
-        }
-        
-        /* Animation for page load */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .container {
-            animation: fadeIn 0.5s ease-out;
         }
     </style>
 </head>
@@ -384,19 +407,34 @@ $result = $conn->query("SELECT * FROM vendor");
                     <div class="stat-value"><?php echo $result->num_rows; ?></div>
                     <div class="stat-label">Total Vendors</div>
                 </div>
+                <div class="stat-card">
+                    <i class="fas fa-store"></i>
+                    <div class="stat-value"><?php echo $result->num_rows; ?></div>
+                    <div class="stat-label">Active</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <div class="stat-value"><?php echo $result->num_rows; ?></div>
+                    <div class="stat-label">New This Month</div>
+                </div>
             </div>
         </div>
-
+        
         <!-- Search Bar -->
         <div class="search-bar">
-            <input type="text" id="searchInput" class="search-input" placeholder="Search vendors...">
-            <a href="add_vendor.php" class="btn btn-primary"><i class="fas fa-plus"></i> Add Vendor</a>
-        </div>
+            <input type="text" id="searchInput" class="form-control search-input" placeholder="Search vendors...">
+            <a href="add_vendor.php" class="btn btn-primary"><i class="fas fa-plus"></i>Add Vendor</a>
 
+
+        </div>
+        
         <!-- Vendor Table -->
         <div class="card">
             <div class="card-header">
-                <h2 class="card-title"><i class="fas fa-store"></i> Vendor List</h2>
+                <h2 class="card-title">
+                    <i class="fas fa-store"></i> 
+                    Vendor List
+                </h2>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -423,12 +461,15 @@ $result = $conn->query("SELECT * FROM vendor");
                                 <td><?= $row["PHONE"] ?></td>
                                 <td>
                                     <div class="action-buttons">
-                                        <a href="edit_vendor.php?id=<?= $row['ID'] ?>" class="btn-icon btn-edit">
-                                            <i class="fas fa-edit"></i> Edit
-                                        </a>
-                                        <a href="delete_vendor.php?id=<?= $row['ID'] ?>" onclick="return confirm('Are you sure you want to delete this vendor?');">
-                                            <button class="btn-delete"><i class="fas fa-trash"></i> Delete</button>
-                                        </a>
+                                        <button class="btn-icon btn-view" onclick="viewVendor(<?= $row['ID'] ?>)" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn-icon btn-edit" onclick="editVendor(<?= $row['ID'] ?>)" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn-icon btn-delete" onclick="deleteVendor(<?= $row['ID'] ?>)" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -439,27 +480,75 @@ $result = $conn->query("SELECT * FROM vendor");
             </div>
         </div>
     </div>
-
+ 
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteVendorModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Deletion</h3>
+                <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this vendor? This action cannot be undone.</p>
+                <form id="deleteVendorForm" action="delete_vendor.php" method="get">
+                    <input type="hidden" id="delete_id" name="id">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" onclick="closeDeleteModal()">Cancel</button>
+                <button type="submit" form="deleteVendorForm" class="btn btn-primary" style="background-color: var(--danger-color);">Yes, Delete</button>
+            </div>
+        </div>
+    </div>
+    
     <script>
+        // Modal Function
+        
+        function deleteVendor(id) {
+            document.getElementById('delete_id').value = id;
+            document.getElementById('deleteVendorModal').style.display = 'flex';
+        }
+        
+        function closeDeleteModal() {
+            document.getElementById('deleteVendorModal').style.display = 'none';
+        }
+        
+        function editVendor(id) {
+            window.location.href = 'edit_vendor.php?id=' + id;
+        }
+        
+        function viewVendor(id) {
+            // You can implement a view details modal or redirect to a details page
+            alert('Viewing vendor details for ID: ' + id);
+        }
+        
+        // Search functionality
         document.getElementById('searchInput').addEventListener('keyup', function() {
             let input = this.value.toLowerCase();
             let table = document.getElementById('vendorTable');
             let rows = table.getElementsByTagName('tr');
-
+            
             for (let i = 1; i < rows.length; i++) {
                 let showRow = false;
                 let cells = rows[i].getElementsByTagName('td');
-
+                
                 for (let j = 0; j < cells.length - 1; j++) {
-                    if (cells[j].textContent.toLowerCase().includes(input)) {
+                    if (cells[j].textContent.toLowerCase().indexOf(input) > -1) {
                         showRow = true;
                         break;
                     }
                 }
-
+                
                 rows[i].style.display = showRow ? '' : 'none';
             }
         });
+        
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.style.display = 'none';
+            }
+        };
     </script>
 </body>
 </html>
