@@ -499,12 +499,12 @@ $unassignedVehicles = $totalMembers - $assignedVehicles;
                         <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Enter first name" required>
                     </div>
                     <div class="form-group">
-                        <label for="middlename">Middle Name</label>
-                        <input type="text" id="middlename" name="middlename" class="form-control" placeholder="Enter middle name (optional)">
+                        <label for="middlename">Last Name</label>
+                        <input type="text" id="middlename" name="lastname" class="form-control" placeholder="Enter last name (optional)">
                     </div>
                     <div class="form-group">
-                        <label for="lastname">Last Name</label>
-                        <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Enter last name" required>
+                        <label for="lastname">Email</label>
+                        <input type="text" id="lastname" name="email" class="form-control" placeholder="Enter you mail" required>
                     </div>
                     <div class="form-group">
                         <label for="phoneNumber">Phone Number</label>
@@ -532,6 +532,7 @@ $unassignedVehicles = $totalMembers - $assignedVehicles;
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Email</th>
                             <th>Phone Number</th>
                             <th>Aadhar No</th>
                             <th>Vehicle</th>
@@ -544,9 +545,9 @@ $unassignedVehicles = $totalMembers - $assignedVehicles;
                             <td><?= $row["id"] ?></td>
                             <td>
                                 <?= $row["firstname"] ?> 
-                                <?= $row["middlename"] ? $row["middlename"] : "" ?> 
                                 <?= $row["lastname"] ?>
                             </td>
+                            <td><?= $row["email"] ?></td>
                             <td><?= $row["phoneNumber"] ?></td>
                             <td><?= $row["aadharNo"] ?></td>
                             <td>
