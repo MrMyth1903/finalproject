@@ -1,55 +1,75 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/PHPMailer-master/src/Exception.php';
+require 'PHPMailer/PHPMailer-master/src/PHPMailer.php';
+require 'PHPMailer/PHPMailer-master/src/SMTP.php';
+
 // Database connection
 $conn = mysqli_connect('localhost', 'root', '', 'final');
 
-// Check if connection was successful
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Check if form is submitted
 if (isset($_POST['submit'])) {
-    // Retrieve and sanitize form inputs
-    $name = trim(mysqli_real_escape_string($conn, $_POST['vendor_name']));
-    $aadhar = trim(mysqli_real_escape_string($conn, $_POST['aadhaar']));
-    $email = trim(mysqli_real_escape_string($conn, $_POST['email']));
-    $phone = trim(mysqli_real_escape_string($conn, $_POST['phone']));
-    $address = trim(mysqli_real_escape_string($conn, $_POST['address']));
+    $name = mysqli_real_escape_string($conn, $_POST['vendor_name']);
+    $aadhar = mysqli_real_escape_string($conn, $_POST['aadhaar']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $address = mysqli_real_escape_string($conn, $_POST['address']);
 
-    // Validate required fields
-    if (empty($name) || empty($aadhar) || empty($email) || empty($phone) || empty($address)) {
-        echo "<script>alert('All fields are required!'); window.history.back();</script>";
-        exit;
-    }
+    $check_query = "SELECT * FROM vendor WHERE AADHAR_NO = '$aadhar' OR EMAIL = '$email'";
+    $check_result = mysqli_query($conn, $check_query);
 
-    // Check for duplicate Aadhar or Email
-    $checkQuery = "SELECT * FROM vendor WHERE AADHAR_NO = ? OR EMAIL = ?";
-    $stmt = $conn->prepare($checkQuery);
-    $stmt->bind_param("ss", $aadhar, $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        echo "<script>alert('Error: Aadhar number or Email already exists!'); window.history.back();</script>";
-        exit;
+    if (mysqli_num_rows($check_result) > 0) {
+        echo "
+        <script>
+            alert('Vendor already exists with this Aadhaar or Email.');
+            window.location.href = 'adminindex.php';
+        </script>";
     } else {
-        // Insert query using prepared statement
-        $insertQuery = "INSERT INTO vendor (VEN_NAME, AADHAR_NO, EMAIL, ADDRESS, PHONE) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($insertQuery);
-        $stmt->bind_param("sssss", $name, $aadhar, $email, $address, $phone);
+        $insert = "INSERT INTO vendor (VEN_NAME, AADHAR_NO, EMAIL, ADDRESS, PHONE) 
+                   VALUES ('$name', '$aadhar', '$email', '$address', '$phone')";
 
-        // Execute the query
-        if ($stmt->execute()) {
-            echo "<script>alert('Vendor added successfully!'); window.location.href='adminindex.php';</script>";
-            exit;
+        if (mysqli_query($conn, $insert)) {
+            // Send confirmation email
+            $mail = new PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'merigaddi0008@gmail.com';
+                $mail->Password = 'yqvqgtuselknvezr'; // Store securely in real projects
+                $mail->SMTPSecure = 'ssl';
+                $mail->Port = 465;
+
+                $mail->setFrom('merigaddi0008@gmail.com', 'Meri Gaddi');
+                $mail->addAddress($email); // Use the vendor's email
+
+                $mail->Subject = 'Welcome to Meri Gaddi';
+                $mail->Body    = "Dear $name,\n\nThank you for registering as a vendor with Meri Gaddi.\n\nRegards,\nMeri Gaddi Team";
+
+                $mail->send();
+
+                echo "
+                <script>
+                    alert('Vendor added successfully. Confirmation email sent.');
+                    window.location.href = 'adminindex.php';
+                </script>";
+            } catch (Exception $e) {
+                echo "
+                <script>
+                    alert('Vendor added, but email could not be sent. Mailer Error: {$mail->ErrorInfo}');
+                    window.location.href = 'adminindex.php';
+                </script>";
+            }
         } else {
-            echo "<script>alert('Error inserting vendor: " . $stmt->error . "'); window.history.back();</script>";
-            exit;
+            echo "Error: " . mysqli_error($conn);
         }
     }
-
-    // Close the statement and connection
-    $stmt->close();
 }
 
 mysqli_close($conn);

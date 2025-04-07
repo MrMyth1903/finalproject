@@ -86,7 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payment_method'])) {
         
         // yqvq gtus elkn vezr   PASSWORD
         $mail->send();
-        echo "<script>alert('Order placed successfully! Email sent. $payment_message');</script>";
+        echo "<script>alert('Order placed successfully! Email sent. $payment_message');
+        window.location.href = '../home.php';</script>";
     } catch (Exception $e) {
         echo "<script>alert('Email could not be sent. Error: " . $mail->ErrorInfo . "');</script>";
     }

@@ -461,14 +461,16 @@ $result = $conn->query("SELECT * FROM vendor");
                                 <td><?= $row["PHONE"] ?></td>
                                 <td>
                                     <div class="action-buttons">
-                                        <button class="btn-icon btn-view" onclick="viewVendor(<?= $row['ID'] ?>)" title="View Details">
-                                            <i class="fas fa-eye"></i>
+                                        <button class="btn-icon btn-edit" >
+                                        <a href="edit_vendor.php?id=<?= $row['ID'] ?>" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
                                         </button>
-                                        <button class="btn-icon btn-edit" onclick="editVendor(<?= $row['ID'] ?>)" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn-icon btn-delete" onclick="deleteVendor(<?= $row['ID'] ?>)" title="Delete">
-                                            <i class="fas fa-trash"></i>
+                                        
+                                        <button class="btn-icon btn-delete" >
+                                        <a href="delete_vendor.php?id=<?= $row['ID'] ?>" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-trash"></i> Edit
+                                </a>
                                         </button>
                                     </div>
                                 </td>
