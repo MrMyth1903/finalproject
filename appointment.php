@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 if (!isset($_SESSION['email'])) {
@@ -13,12 +12,10 @@ if (!isset($_SESSION['email'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appointment Booking</title>
     <link rel="icon" href="photo/Untitled-removebg-preview.png">
-    <link rel="icon" href="photo/Untitled-removebg-preview.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-
-:root {
+        :root {
             --primary: #4361ee;
             --primary-light: #4895ef;
             --secondary: #3f37c9;
@@ -385,6 +382,132 @@ if (!isset($_SESSION['email'])) {
             display: none;
             margin-top: 1rem;
         }
+        
+        /* Service Level Selection Styles */
+        .service-level-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            gap: 15px;
+        }
+        
+        .service-level-btn {
+            flex: 1;
+            padding: 1.2rem 1rem;
+            text-align: center;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-level-btn i {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .service-level-btn span {
+            display: block;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            font-weight: normal;
+            opacity: 0.8;
+        }
+        
+        .level-1-btn {
+            background: linear-gradient(135deg, #4361ee, #4895ef);
+        }
+        
+        .level-2-btn {
+            background: linear-gradient(135deg, #3a0ca3, #4361ee);
+        }
+        
+        .level-3-btn {
+            background: linear-gradient(135deg, #240046, #3a0ca3);
+        }
+        
+        .service-level-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .service-level-btn:active {
+            transform: translateY(-2px);
+        }
+        
+        /* Forms display control */
+        .service-form {
+            display: none;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 0.6rem 1.2rem;
+            background: none;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #333;
+        }
+        
+        .back-btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .back-btn:hover {
+            background-color: #f3f4f6;
+            border-color: #a0a0a0;
+        }
+        
+        /* Service level details at top of each form */
+        .service-details {
+            background-color: #f9fafb;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #4361ee;
+        }
+        
+        .service-details h3 {
+            margin-top: 0;
+            color: #333;
+            margin-bottom: 0.8rem;
+        }
+        
+        .service-details ul {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+        
+        .service-details li {
+            margin-bottom: 0.3rem;
+        }
+        
+        /* Active service level button */
+        .selection-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .selection-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -422,91 +545,282 @@ if (!isset($_SESSION['email'])) {
     </header>
 
     <div class="container">
-        <h2>Service Appointment Form</h2>
-        <form action="php/appoiintment.php" method="post" id="appointmentForm">
-            <div class="form-group">
-                <label for="service">Select Service Type</label>
-                <select id="service" name="service" required>
-                    <option value="">--Select Service--</option>
-                    <option value="Car Maintenance">Car Maintenance</option>
-                    <option value="Bike Servicing">Bike Servicing</option>
-                </select>
+        <div class="selection-container" id="service-selection">
+            <h2 class="selection-title">Select Vehicle Service Level</h2>
+            <div class="service-level-container">
+                <button class="service-level-btn level-1-btn" id="level1Btn">
+                    <i class="fas fa-check-circle"></i>
+                    Level 1 Service
+                    <span>Basic Maintenance</span>
+                </button>
+                <button class="service-level-btn level-2-btn" id="level2Btn">
+                    <i class="fas fa-tools"></i>
+                    Level 2 Service
+                    <span>Intermediate Service</span>
+                </button>
+                <button class="service-level-btn level-3-btn" id="level3Btn">
+                    <i class="fas fa-cogs"></i>
+                    Level 3 Service
+                    <span>Comprehensive Service</span>
+                </button>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="date">Preferred Date</label>
-                <input type="date" id="date" name="date" required>
+        <!-- Level 1 Service Form -->
+        <div class="service-form" id="level1Form">
+            <button class="back-btn" id="backBtn1">
+                <i class="fas fa-arrow-left"></i> Back to selection
+            </button>
+            <h2>Level 1 Service - Basic Maintenance</h2>
+            <div class="service-details">
+                <h3>Services Included:</h3>
+                <ul>
+                    <li>Oil & Filter Change</li>
+                    <li>Tire Rotation</li>
+                    <li>Fluid Level Check & Top-up</li>
+                    <li>Multi-Point Inspection (Lights, Battery, Brakes)</li>
+                    <li>Air Filter Check</li>
+                    <li>Cabin Filter Check</li>
+                </ul>
             </div>
+            <form action="php/appoiintment.php" method="post" id="level1AppointmentForm">
+                <input type="hidden" name="service_level" value="Level 1">
+                <div class="form-group">
+                    <label for="service1">Select Vehicle Type</label>
+                    <select id="service1" name="service" required>
+                        <option value="">--Select Vehicle Type--</option>
+                        <option value="Car Maintenance">Car Maintenance</option>
+                        <option value="Bike Servicing">Bike Servicing</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="time">Preferred Time</label>
-                <input type="time" id="time" name="time" required>
-            </div>
+                <div class="form-group">
+                    <label for="date1">Preferred Date</label>
+                    <input type="date" id="date1" name="date" required>
+                </div>
 
-            <div class="form-group">
-                <label for="name">Your Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter your name" required>
-            </div>
+                <div class="form-group">
+                    <label for="time1">Preferred Time</label>
+                    <input type="time" id="time1" name="time" required>
+                </div>
 
-            <div class="form-group">
-                <label for="vehicle">Vehicle number</label>
-                <input type="text" id="vehicle" name="vehicle" placeholder="Enter your vehicle number" required>
-            </div>
+                <div class="form-group">
+                    <label for="name1">Your Name</label>
+                    <input type="text" id="name1" name="name" placeholder="Enter your name" required>
+                </div>
 
-            <div class="form-group">
-                <label for="want">What you want</label>
-                <select id="want" name="want" required>
-                    <option value="">--Select Service--</option>
-                    <option value="Tire Change">Tire Change</option>
-                    <option value="Mobil Change">Mobil Change</option>
-                    <option value="Brake Shoe Change">Brake Shoe Change</option>
-                    <option value="Coolent Change">Coolent Change</option>
-                    <option value="Brake Issue">Brake Issue</option>
-                    <option value="Diesel Tank">Diesel Tank</option>
-                    <option value="Mobile Tank">Mobile Tank</option>
-                    <option value="Head Light">Head Light</option>
-                    <option value="Deeper">Deeper</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label for="vehicle1">Vehicle Number</label>
+                    <input type="text" id="vehicle1" name="vehicle" placeholder="Enter your vehicle number" required>
+                </div>
 
-            <!-- Text input box for "Other" service -->
-            <div class="form-group" id="other-service">
-                <label for="other">Please specify:</label>
-                <input type="text" id="other" name="other" placeholder="Enter your service request">
-            </div>
+                <div class="form-group">
+                    <label for="phone_number1">Phone Number</label>
+                    <input type="text" id="phone_number1" name="phone_number" placeholder="Enter your phone number" required>
+                </div>
 
-            <div class="form-group">
-                <label for="phone_number">Phone Number</label>
-                <input type="text" id="phone_number" name="phone_number" placeholder="Enter your phone number" required>
-            </div>
+                <div class="form-group">
+                    <label for="comments1">Additional Comments</label>
+                    <textarea id="comments1" name="comments" rows="3" placeholder="Any specific requests or concerns?" class="form-control"></textarea>
+                </div>
 
-            <div class="button-container">
-                <button type="submit" class="submit-btn" name="submit">Submit Appointment</button>
+                <div class="button-container">
+                    <button type="submit" class="submit-btn" name="submit">Schedule Level 1 Service</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Level 2 Service Form -->
+        <div class="service-form" id="level2Form">
+            <button class="back-btn" id="backBtn2">
+                <i class="fas fa-arrow-left"></i> Back to selection
+            </button>
+            <h2>Level 2 Service - Intermediate Maintenance</h2>
+            <div class="service-details">
+                <h3>Services Included:</h3>
+                <ul>
+                    <li>All Level 1 Services</li>
+                    <li>Brake Inspection & Adjustment</li>
+                    <li>Engine Tune-up</li>
+                    <li>Air & Cabin Filter Replacement</li>
+                    <li>Battery Service & Test</li>
+                    <li>Suspension Check</li>
+                    <li>Cooling System Inspection</li>
+                </ul>
             </div>
-            <p id="error-message" class="error"></p>
-            <p id="success-message" class="success"></p>
-        </form>
+            <form action="php/appoiintment.php" method="post" id="level2AppointmentForm">
+                <input type="hidden" name="service_level" value="Level 2">
+                <div class="form-group">
+                    <label for="service2">Select Vehicle Type</label>
+                    <select id="service2" name="service" required>
+                        <option value="">--Select Vehicle Type--</option>
+                        <option value="Car Maintenance">Car Maintenance</option>
+                        <option value="Bike Servicing">Bike Servicing</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date2">Preferred Date</label>
+                    <input type="date" id="date2" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="time2">Preferred Time</label>
+                    <input type="time" id="time2" name="time" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="name2">Your Name</label>
+                    <input type="text" id="name2" name="name" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="vehicle2">Vehicle Number</label>
+                    <input type="text" id="vehicle2" name="vehicle" placeholder="Enter your vehicle number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone_number2">Phone Number</label>
+                    <input type="text" id="phone_number2" name="phone_number" placeholder="Enter your phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments2">Additional Comments</label>
+                    <textarea id="comments2" name="comments" rows="3" placeholder="Any specific requests or concerns?" class="form-control"></textarea>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" class="submit-btn" name="submit">Schedule Level 2 Service</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Level 3 Service Form -->
+        <div class="service-form" id="level3Form">
+            <button class="back-btn" id="backBtn3">
+                <i class="fas fa-arrow-left"></i> Back to selection
+            </button>
+            <h2>Level 3 Service - Comprehensive Maintenance</h2>
+            <div class="service-details">
+                <h3>Services Included:</h3>
+                <ul>
+                    <li>Transmission Fluid Change</li>
+                    <li>Engine Diagnostics</li>
+                    <li>Fuel Injection Cleaning</li>
+                    <li>Power Steering Fluid Change</li>
+                    <li>Differential Fluid Change (if applicable)</li>
+                    <li>Wheel Alignment Check</li>
+                    <li>Spark Plug Replacement</li>
+                    <li>Complete Electrical System Check</li>
+                </ul>
+            </div>
+            <form action="php/appoiintment.php" method="post" id="level3AppointmentForm">
+                <input type="hidden" name="service_level" value="Level 3">
+                <div class="form-group">
+                    <label for="service3">Select Vehicle Type</label>
+                    <select id="service3" name="service" required>
+                        <option value="">--Select Vehicle Type--</option>
+                        <option value="Car Maintenance">Car Maintenance</option>
+                        <option value="Bike Servicing">Bike Servicing</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date3">Preferred Date</label>
+                    <input type="date" id="date3" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="time3">Preferred Time</label>
+                    <input type="time" id="time3" name="time" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="name3">Your Name</label>
+                    <input type="text" id="name3" name="name" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="vehicle3">Vehicle Number</label>
+                    <input type="text" id="vehicle3" name="vehicle" placeholder="Enter your vehicle number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone_number3">Phone Number</label>
+                    <input type="text" id="phone_number3" name="phone_number" placeholder="Enter your phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments3">Additional Comments</label>
+                    <textarea id="comments3" name="comments" rows="3" placeholder="Any specific requests or concerns?" class="form-control"></textarea>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" class="submit-btn" name="submit">Schedule Level 3 Service</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
-        // Show or hide the "Other" text box when the "Other" option is selected
-        const wantField = document.getElementById('want');
-        const otherServiceField = document.getElementById('other-service');
-
-        wantField.addEventListener('change', function() {
-            if (wantField.value === 'Other') {
-                otherServiceField.style.display = 'block';  // Show the input box
-            } else {
-                otherServiceField.style.display = 'none';   // Hide the input box
-            }
+        // Service level selection functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Buttons to select service level
+            const level1Btn = document.getElementById('level1Btn');
+            const level2Btn = document.getElementById('level2Btn');
+            const level3Btn = document.getElementById('level3Btn');
+            
+            // Back buttons
+            const backBtn1 = document.getElementById('backBtn1');
+            const backBtn2 = document.getElementById('backBtn2');
+            const backBtn3 = document.getElementById('backBtn3');
+            
+            // Forms
+            const serviceSelection = document.getElementById('service-selection');
+            const level1Form = document.getElementById('level1Form');
+            const level2Form = document.getElementById('level2Form');
+            const level3Form = document.getElementById('level3Form');
+            
+            // Show Level 1 form
+            level1Btn.addEventListener('click', function() {
+                serviceSelection.style.display = 'none';
+                level1Form.style.display = 'block';
+            });
+            
+            // Show Level 2 form
+            level2Btn.addEventListener('click', function() {
+                serviceSelection.style.display = 'none';
+                level2Form.style.display = 'block';
+            });
+            
+            // Show Level 3 form
+            level3Btn.addEventListener('click', function() {
+                serviceSelection.style.display = 'none';
+                level3Form.style.display = 'block';
+            });
+            
+            // Back button functionality
+            backBtn1.addEventListener('click', function() {
+                level1Form.style.display = 'none';
+                serviceSelection.style.display = 'block';
+            });
+            
+            backBtn2.addEventListener('click', function() {
+                level2Form.style.display = 'none';
+                serviceSelection.style.display = 'block';
+            });
+            
+            backBtn3.addEventListener('click', function() {
+                level3Form.style.display = 'none';
+                serviceSelection.style.display = 'block';
+            });
+            
+            // Set minimum date to today for all date fields
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date1').min = today;
+            document.getElementById('date2').min = today;
+            document.getElementById('date3').min = today;
         });
-
-        // Initialize form with the "Other" service hidden
-        if (wantField.value !== 'Other') {
-            otherServiceField.style.display = 'none';
-        }
     </script>
-
 </body>
 </html>

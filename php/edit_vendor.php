@@ -1,4 +1,12 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/PHPMailer-master/src/Exception.php';
+require 'PHPMailer/PHPMailer-master/src/PHPMailer.php';
+require 'PHPMailer/PHPMailer-master/src/SMTP.php';
+
 // Establish database connection
 $con = mysqli_connect('localhost', 'root', '', 'final');
 
@@ -26,28 +34,59 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = intval($_POST['ID']);
     $firstname = trim($_POST['VEN_NAME']);
     $middlename = trim($_POST['AADHAR_NO']);
-    $lastname = trim($_POST['EMAIL']);
+    $lastname = trim($_POST['EMAIL']);     // Email here
     $phone_no = trim($_POST['ADDRESS']);
     $aadhar_no = trim($_POST['PHONE']);
-    
 
-    
     if (!ctype_digit($aadhar_no) || strlen($aadhar_no) !== 12) {
         die("Aadhar number must be 12 digits.");
     }
 
-    // Use prepared statement to prevent SQL injection
     $updateQuery = "UPDATE vendor SET VEN_NAME=?, AADHAR_NO=?, EMAIL=?, ADDRESS=?, PHONE=? WHERE ID=?";
     $stmt = $con->prepare($updateQuery);
     $stmt->bind_param("sssssi", $firstname, $middlename, $lastname, $phone_no, $aadhar_no, $id);
 
     if ($stmt->execute()) {
-        header("Location: adminindex.php?message=" . urlencode("User updated successfully"));
-        exit();
+        // Email sending logic
+        $email = $lastname;
+        $name = $firstname;
+
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'merigaddi0008@gmail.com';
+            $mail->Password = 'yqvqgtuselknvezr'; // Store securely in real projects
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port = 465;
+
+            $mail->setFrom('merigaddi0008@gmail.com', 'Meri Gaddi');
+            $mail->addAddress($email);
+
+            $mail->Subject = 'Welcome to Meri Gaddi';
+            $mail->Body = "Dear $name,\n\nYour data has been successfully edited in Meri Gaddi.\n\nRegards,\nMeri Gaddi Team";
+
+            $mail->send();
+
+            echo "
+            <script>
+                alert('Vendor data edited successfully. Confirmation email sent.');
+                window.location.href = 'adminindex.php';
+            </script>";
+        } catch (Exception $e) {
+            echo "
+            <script>
+                alert('Vendor updated, but email could not be sent. Mailer Error: {$mail->ErrorInfo}');
+                window.location.href = 'adminindex.php';
+            </script>";
+        }
     } else {
         echo "Error updating record: " . mysqli_error($con);
     }
 }
+
+
 ?>
 
 <!DOCTYPE html>
