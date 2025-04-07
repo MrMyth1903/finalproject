@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if (!isset($_SESSION['admin_email'])) {
     header("Location: ../adminlogin.html"); // Redirect to login if session is not set
     exit();
@@ -276,7 +277,7 @@ if (!isset($_SESSION['admin_email'])) {
         </div>
         
         <ul class="sidebar-menu">
-            <li><a href="#" class="active" onclick="loadGraphData()"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+            <li><a href="graph.php" onclick="loadPage('graph')"><i class="fas fa-home"></i> <span>Graph</span></a></li>
             <li><a href="#" onclick="loadPage('vendor')"><i class="fas fa-store"></i> <span>Vendors</span></a></li>
             <li><a href="#" onclick="loadPage('vehicles')"><i class="fas fa-car"></i> <span>Vehicles</span></a></li>
             <li><a href="#" onclick="loadPage('workers')"><i class="fas fa-users"></i> <span>Workers</span></a></li>
@@ -328,9 +329,9 @@ if (!isset($_SESSION['admin_email'])) {
             let pageURL = '';
 
             switch (page) {
-                case 'home':
-                    pageURL = 'graph.php';
-                    break;
+                // case 'home':
+                //     pageURL = 'intro.php';
+                //     break;
                 case 'vendor':
                     pageURL = 'vendor.php';
                     break;    
@@ -353,7 +354,7 @@ if (!isset($_SESSION['admin_email'])) {
                 //     pageURL = 'post.php';
                 //     break;
                 default:
-                    pageURL = 'graph.php';
+                    pageURL = 'intro.php';
             }
 
             // Fetch the selected page content using the URL
