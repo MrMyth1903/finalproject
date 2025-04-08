@@ -264,7 +264,6 @@ $conn->close();
         <a href="#" class="btn" onclick="window.print()">Print Report</a>
     </div>
 </div>
-
 <script>
     // Chart configuration with consistent styling
     const chartConfig = {
