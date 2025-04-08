@@ -4,114 +4,367 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --border-radius: 8px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            --gradient-primary: linear-gradient(135deg, #3498db, #9b59b6);
+            --gradient-secondary: linear-gradient(135deg, #e74c3c, #f39c12);
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
         }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            /* Removed overflow: hidden to allow scrolling */
+        }
+        
         .background-video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: -1;
-    }
-    .video-container {
-        display: none;
-    }
-        .container {
-            width: 50%;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.8; /* Increased opacity for clearer video */
         }
+
+        .back-to-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 100; /* Ensure it stays above other content */
+        }
+        
+        .back-to-home:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 80px auto 40px; /* Added bottom margin for scrolling space */
+            padding: 30px;
+            background-color: rgba(156, 148, 148, 0.5); /* Transparent white */
+            backdrop-filter: blur(10px); /* Adding blur effect */
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-secondary);
+        }
+        
         h2 {
             text-align: center;
-            color: #333;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 28px;
+            position: relative;
+            padding-bottom: 10px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-secondary);
+        }
+        
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
+        
         .form-group label {
             display: block;
-            font-size: 14px;
-            margin-bottom: 5px;
+            font-size: 16px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
         }
+        
         .form-group input, .form-group textarea {
             width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 14px;
+            padding: 12px 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(221, 221, 221, 0.8);
+            font-size: 15px;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.8);
         }
+        
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        
         .form-group textarea {
             resize: vertical;
-            height: 100px;
+            min-height: 120px;
         }
+        
         .btn {
             display: block;
             width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
+            padding: 14px;
+            background: var(--gradient-primary);
             color: white;
             border: none;
             font-size: 16px;
-            border-radius: 5px;
+            font-weight: 600;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover {
+            background-position: right center;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        span.required {
+            color: var(--accent-color);
+            margin-left: 4px;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #000000;
+        }
+        
+        .file-input-container {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 15px;
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+            color: #555;
+            border: 1px dashed #ccc;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 5px;
+        }
+        
+        .file-input-label:hover {
+            background: linear-gradient(135deg, #e6e6e6, #d4d4d4);
+            border-color: #aaa;
+        }
+        
+        .file-input-label i {
+            margin-right: 8px;
+        }
+        
+        .file-input-container input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
             cursor: pointer;
         }
-        .btn:hover {
-            background-color: #45a049;
+        
+        #file-name {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #555;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 4px 8px;
+            border-radius: 4px;
         }
-        span{
-            color:red;
+        
+        /* Custom scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(240, 240, 240, 0.5);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+                margin: 60px auto 30px; /* Adjusted for mobile */
+            }
+            
+            .back-to-home {
+                top: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            
+            h2 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body>
-<video class="background-video" id="bgVideo" autoplay muted loop>
+    <video class="background-video" id="bgVideo" autoplay muted loop>
         <source src="video/clean.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>
+    
+    <a href="home.php" class="back-to-home">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+    
     <div class="container">
-        <h2>Feedback Form</h2>
-        <form action="php/feedbackdb.php" method="POST">
+        <h2>Share Your Feedback</h2>
+        <form action="php/feedbackdb.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
             <div class="form-group">
-                <label for="name">Your Name<span>*</span></label>
-                <input type="text" id="name" name="name" required>
+                <label for="name">Your Name<span class="required">*</span></label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
             </div>
+            
             <div class="form-group">
-                <label for="email">Your Email<span>*</span></label>
-                <input type="email" id="email" name="email" required>
+                <label for="email">Your Email<span class="required">*</span></label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
             </div>
+            
             <div class="form-group">
-                <label for="Image">Your Image<span>*</span></label>
-                <input type="file" id="email" name="image" required>
+                <label for="image">Your Image<span class="required">*</span></label>
+                <div class="file-input-container">
+                    <label for="image" class="file-input-label">
+                        <i class="fas fa-cloud-upload-alt"></i> Choose File
+                    </label>
+                    <input type="file" id="image" name="image" accept="image/*" required onchange="updateFileName(this)">
+                    <div id="file-name">No file chosen</div>
+                </div>
             </div>
+            
             <div class="form-group">
-                <label for="feedback">Your Feedback<span>*</span></label>
-                <textarea id="feedback" name="feedback" required></textarea>
+                <label for="feedback">Your Feedback<span class="required">*</span></label>
+                <textarea id="feedback" name="feedback" placeholder="Please share your thoughts, suggestions, or experiences..." required></textarea>
             </div>
+            
             <button type="submit" name="submit" class="btn">Submit Feedback</button>
+            
+            <div class="form-footer">
+                Thank you for taking the time to share your feedback with us!
+            </div>
         </form>
-        <script>
-    function validateEmail() {
-        var email = document.getElementById('email').value;
-        var regex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;  // Regular expression for Gmail addresses
-        var regex = /^[a-zA-Z0-9._%+-]+@yahoo\.com$/;  // Regular expression for Gmail addresses
-        var regex = /^[a-zA-Z0-9._%+-]+@nttf\.co\.in$/;// Regular expression for Gmail addresses 
-        if (!regex.test(email)) {
-            alert("Please enter a valid Gmail address (e.g., example@gmail.com/example@yahoo.com/example@nttf.co.in).");
-            return false;
-        }
-        return true;
-    }
-</script>
     </div>
+
+    <script>
+        function updateFileName(input) {
+            const fileName = input.files[0]?.name;
+            document.getElementById('file-name').textContent = fileName || 'No file chosen';
+        }
+        
+        function validateForm() {
+            // Email validation
+            const email = document.getElementById('email').value;
+            const validDomains = ['gmail.com', 'yahoo.com', 'nttf.co.in'];
+            
+            // Check if the email ends with any of the valid domains
+            let isValid = false;
+            for (const domain of validDomains) {
+                if (email.endsWith('@' + domain)) {
+                    isValid = true;
+                    break;
+                }
+            }
+            
+            if (!isValid) {
+                alert("Please enter a valid email address (example@gmail.com, example@yahoo.com, or example@nttf.co.in)");
+                return false;
+            }
+            
+            // Image validation
+            const fileInput = document.getElementById('image');
+            const filePath = fileInput.value;
+            
+            if (filePath === '') {
+                alert("Please select an image file");
+                return false;
+            }
+            
+            // Validate file extension
+            const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Please upload an image file with extension .jpeg, .jpg, .png, or .gif');
+                fileInput.value = '';
+                return false;
+            }
+            
+            return true;
+        }
+    </script>
 </body>
 </html>
