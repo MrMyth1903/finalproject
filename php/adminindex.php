@@ -282,6 +282,7 @@ if (!isset($_SESSION['admin_email'])) {
             <li><a href="#" onclick="loadPage('vehicles')"><i class="fas fa-car"></i> <span>Vehicles</span></a></li>
             <li><a href="#" onclick="loadPage('workers')"><i class="fas fa-users"></i> <span>Workers</span></a></li>
             <li><a href="worker_payment.php" onclick="loadPage('worker_payment')"><i class="fas fa-money-bill-wave"></i> <span>Payment</span></a></li>
+            <li><a href="#" onclick="loadPage('history')"><i class="fas fa-money-bill-wave"></i> <span>Payment History</span></a></li>
             <li><a href="#" onclick="loadPage('service_record')"><i class="fas fa-clipboard-list"></i> <span>Service Records</span></a></li>
             <li><a href="#" onclick="loadPage('feedback')"><i class="fas fa-comment-alt"></i> <span>Feedback</span></a></li>
             <li><a href="#" onclick="loadPage('users')" ><i class="fas fa-user"></i> <span>Users</span></a></li>
@@ -351,9 +352,9 @@ if (!isset($_SESSION['admin_email'])) {
                 case 'vehicles':
                     pageURL = 'vehicle.php';
                     break;
-                // case 'worker_payment':
-                //     pageURL = 'worker_payment.php';
-                //     break;
+                case 'history':
+                    pageURL = 'payment_history.php';
+                    break;
                 // case 'post':
                 //     pageURL = 'post.php';
                 //     break;
