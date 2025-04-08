@@ -84,11 +84,23 @@ if (!isset($_SESSION['email'])) {
             background: linear-gradient(135deg, rgba(24, 24, 27, 0.9), rgba(39, 39, 42, 0.8));
             color: white;
             padding: 1rem;
-            position: sticky;
+            position: fixed; /* Changed from sticky to fixed */
             top: 0;
+            width: 100%; /* Ensure full width */
             z-index: 1000;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
+            transition: transform 0.3s ease; /* Added transition for smooth hide/show */
+        }
+        
+        /* Class to hide header when scrolling up */
+        header.hide {
+            transform: translateY(-100%);
+        }
+        
+        /* Add top padding to body to compensate for fixed header */
+        body {
+            padding-top: 90px; /* Adjust this value based on your header height */
         }
         
         .header-container {
@@ -650,7 +662,7 @@ if (!isset($_SESSION['email'])) {
         <source src="video/istockphoto-1680698591-640_adpp_is.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>
-    <header>
+    <header id="site-header">
         <div class="header-container">
             <div class="logo">
                 <img src="photo/Blue_Gold_Minimalist_Car_Showroom_Logo-removebg-preview.png" alt="Vehicle Logo">
@@ -747,6 +759,30 @@ if (!isset($_SESSION['email'])) {
                 }, 1000);
             }
         }
+        
+        // Add scroll direction detection
+        let lastScrollTop = 0;
+        const header = document.getElementById('site-header');
+        
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Make sure we've scrolled at least a certain amount to avoid flickering
+            if (Math.abs(lastScrollTop - scrollTop) <= 5)
+                return;
+                
+            // If scrolling down, hide header
+            // If scrolling up or at the top of the page, show header
+            if (scrollTop > lastScrollTop && scrollTop > header.offsetHeight) {
+                // Scrolling down
+                header.classList.add('hide');
+            } else {
+                // Scrolling up or at top
+                header.classList.remove('hide');
+            }
+            
+            lastScrollTop = scrollTop;
+        }, false);
     </script>
     <script>
         const scrollItems = document.querySelectorAll(".scroll-item");
@@ -773,8 +809,6 @@ if (!isset($_SESSION['email'])) {
         }
 
         setInterval(autoType, 2000);
-
-        
     </script>
 
 <section class="feedback-section">
@@ -819,8 +853,13 @@ if (!isset($_SESSION['email'])) {
     // Fetch feedback on page load
     fetchFeedback();
 </script>
+  <!-- footer section -->
   <footer>
     <div class="footer-container">
+        <div class="footer-section">
+            <h3>About Us</h3>
+            <p>Providing top-notch vehicle servicing solutions with a focus on customer satisfaction and quality.</p>
+        </div>
         <div class="footer-section">
             <h3>Helping</h3>
             <ul>
@@ -829,16 +868,8 @@ if (!isset($_SESSION['email'])) {
             </ul>
         </div>
         <div class="footer-section">
-            <h3>Services</h3>
-            <ul>
-                <li><a href="appointment.html">Car Maintenance</a></li>
-                <li><a href="appointment.html">Bike Servicing</a></li>
-                <li><a href="emergencyrepair.html">Emergency Repairs</a></li>
-                <li><a href="spareparts.html">Spare Parts</a></li>
-            </ul>
-        </div>
-        <div class="footer-section">
             <h3>Contact Us</h3>
+            <p>Electronic City Phase 1<br>Banglore, India 560100</p>
             <p>Email: merigaddi0008@gmail.com</p>
             <p>Phone: +91 8340300338</p>
         </div>
@@ -851,12 +882,12 @@ if (!isset($_SESSION['email'])) {
                 <a href="https://www.instagram.com/merigaddi0008?igsh=MXg0OWhjc3ExMThzbw=="><img src="instagram-icon.png" alt="Instagram"></a>
             </div>
         </div>
+        
     </div>
     <div class="footer-bottom">
         <p>&copy; 2025 Vehicle Servicing System. All rights reserved.</p>
     </div>
 </footer>
-
-
+</div>
 </body>
 </html>
