@@ -20,6 +20,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+
 // Handle Form Submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstname = $_POST["firstname"];
