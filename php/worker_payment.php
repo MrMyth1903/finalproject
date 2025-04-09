@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['payments'])) {
         if ($working_days > 0 && $rate > 0) {
             $amount_paid = $working_days * $rate;
 
-            // Get email and name
+            // Get email
             $stmt = $conn->prepare("SELECT email FROM members WHERE id = ?");
             $stmt->bind_param("i", $worker_id);
             $stmt->execute();
@@ -44,14 +44,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['payments'])) {
                 $insert->execute();
                 $insert->close();
 
-                // Prepare & send email
+                // Send email
                 $mail = new PHPMailer(true);
                 try {
                     $mail->isSMTP();
                     $mail->Host = 'smtp.gmail.com';
                     $mail->SMTPAuth = true;
-                    $mail->Username = 'merigaddi0008@gmail.com'; // Sender email
-                    $mail->Password = 'yqvqgtuselknvezr';        // App password
+                    $mail->Username = 'merigaddi0008@gmail.com';
+                    $mail->Password = 'yqvqgtuselknvezr';
                     $mail->SMTPSecure = 'ssl';
                     $mail->Port = 465;
                     $mail->isHTML(true);
@@ -59,43 +59,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['payments'])) {
                     $mail->setFrom('merigaddi0008@gmail.com', 'Meri Gaddi');
                     $mail->addAddress($email);
 
-                    // Current date
                     $current_date = date("F j, Y");
-                    
-                    $mail->Subject = 'Payment Confirmation - Meri Gaddi';
-                    
-                    // Enhanced HTML email template
-                    $mail->Body = "
-                    <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;'>
-                        <div style='text-align: center; padding: 10px; background-color: #4CAF50; color: white; border-radius: 5px 5px 0 0;'>
-                            <h2>Payment Confirmation</h2>
-                        </div>
-                        
-                        <div style='padding: 20px; background-color: #f9f9f9;'>
-                            <p>Dear " . ($email? htmlspecialchars($email) : "Worker") . ",</p>
-                            
-                            <p>We're pleased to inform you that your payment has been processed successfully.</p>
-                            
-                            <div style='background-color: white; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #4CAF50;'>
-                                <h3 style='margin-top: 0; color: #4CAF50;'>Payment Details</h3>
-                                <p><strong>Date:</strong> $current_date</p>
-                                <p><strong>Working Days:</strong> $working_days</p>
-                                <p><strong>Rate per Day:</strong> ₹$rate</p>
-                                <p><strong>Total Amount:</strong> <span style='font-size: 18px; color: #4CAF50;'>₹$amount_paid</span></p>
-                            </div>
-                            
-                            <p>Thank you for your dedication and hard work. We appreciate your valuable contribution to our team.</p>
-                            
-                            <p>If you have any questions regarding this payment, please don't hesitate to contact us.</p>
-                        </div>
-                        
-                        <div style='text-align: center; padding: 15px; background-color: #f1f1f1; border-radius: 0 0 5px 5px;'>
-                            <p style='margin: 0; color: #555;'>Warm Regards,<br>Meri Gaddi Team</p>
-                        </div>
-                    </div>
-                    ";
 
-                    $mail->AltBody = "Dear " . ($email ? $email : "Worker") . ",\n\nYour salary has been credited.\nDate: $current_date\nWorking Days: $working_days\nRate per Day: ₹$rate\nTotal Paid: ₹$amount_paid\n\nThank you for your dedication and hard work.\n\nRegards,\nMeri Gaddi Team";
+                    $mail->Subject = 'Payment Confirmation - Meri Gaddi';
+                    $mail->Body = "<div style='font-family: Arial; max-width: 600px; padding: 20px; border: 1px solid #ddd;'>
+                        <h2 style='background: #4CAF50; color: white; padding: 10px;'>Payment Confirmation</h2>
+                        <p>Dear $email,</p>
+                        <p>Your payment has been processed successfully.</p>
+                        <p><strong>Date:</strong> $current_date</p>
+                        <p><strong>Working Days:</strong> $working_days</p>
+                        <p><strong>Rate per Day:</strong> ₹$rate</p>
+                        <p><strong>Total Amount:</strong> ₹$amount_paid</p>
+                        <p>Thank you for your dedication and hard work.</p>
+                        <p>Regards,<br>Meri Gaddi Team</p>
+                    </div>";
+
+                    $mail->AltBody = "Your salary has been credited.\nDate: $current_date\nWorking Days: $working_days\nRate per Day: ₹$rate\nTotal Paid: ₹$amount_paid";
 
                     $mail->send();
                     $success_count++;
@@ -122,166 +101,210 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['payments'])) {
     <title>Worker Payment System</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #45a049;
-            --accent-color: #f8f9fa;
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #f39c12;
+            --dark-color: #34495e;
+            --light-color: #ecf0f1;
+            --danger-color: #e74c3c;
             --text-color: #333;
-            --border-color: #ddd;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa, #e8ecf1);
             color: var(--text-color);
+            min-height: 100vh;
+            padding: 20px;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
         
         h2 {
             text-align: center;
-            color: var(--primary-color);
             margin-bottom: 30px;
-            font-size: 28px;
+            color: var(--dark-color);
+            font-size: 2.5rem;
             position: relative;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
         }
         
         h2:after {
-            content: '';
+            content: "";
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background-color: var(--primary-color);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+        
+        h2 i {
+            margin-right: 10px;
+            color: var(--primary-color);
         }
         
         .payment-form {
-            padding: 15px;
+            background: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
         
         table {
-            border-collapse: collapse;
             width: 100%;
-            margin-bottom: 20px;
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        thead {
+            background: var(--primary-color);
+            color: white;
         }
         
         th, td {
-            padding: 12px 15px;
+            padding: 15px;
             text-align: left;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid #ddd;
         }
         
-        th {
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: 500;
-            text-transform: uppercase;
-            font-size: 14px;
+        tbody tr {
+            transition: all 0.3s ease;
         }
         
-        tr:hover {
-            background-color: #f8f9fa;
+        tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.1);
         }
         
         input[type="number"] {
             width: 100%;
-            padding: 8px 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            background: #f9f9f9;
+            transition: all 0.3s ease;
         }
         
         input[type="number"]:focus {
             border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
             outline: none;
-            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
         }
         
         .submit-btn {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 4px;
-            cursor: pointer;
+            padding: 15px 30px;
             font-size: 16px;
-            font-weight: 500;
-            margin-top: 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
             display: block;
-            margin-left: auto;
-            margin-right: auto;
-            transition: background-color 0.3s;
+            width: auto;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
         }
         
         .submit-btn:hover {
-            background-color: var(--secondary-color);
+            background: linear-gradient(135deg, #2980b9, #27ae60);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
         }
         
-        .pay-btn {
-            background-color: #2196F3;
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s;
-        }
-        
-        .pay-btn:hover {
-            background-color: #0b7dda;
+        .submit-btn i {
+            margin-right: 8px;
         }
         
         .success-message {
-            display: none;
             position: fixed;
             top: 20px;
             right: 20px;
-            background-color: var(--primary-color);
+            background: var(--secondary-color);
             color: white;
-            padding: 15px 20px;
-            border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            animation: slideIn 0.5s ease-out;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            display: none;
             z-index: 1000;
-        }
-        
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
         }
         
         .status-icon {
             margin-right: 10px;
+            font-size: 18px;
         }
         
+        .amount-display {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Loading effect */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(52, 152, 219, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Row highlighting */
+        .highlight-row {
+            animation: highlightFade 1.5s ease;
+        }
+        
+        @keyframes highlightFade {
+            0% { background-color: rgba(46, 204, 113, 0.3); }
+            100% { background-color: transparent; }
+        }
+        
+        /* Responsive design */
         @media (max-width: 768px) {
             table {
-                width: 100%;
                 display: block;
                 overflow-x: auto;
             }
@@ -289,15 +312,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['payments'])) {
             .container {
                 padding: 10px;
             }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .submit-btn {
+                width: 100%;
+            }
+        }
+        
+        /* Payment indicator */
+        .payment-indicator {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .low {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #c0392b;
+        }
+        
+        .medium {
+            background-color: rgba(243, 156, 18, 0.2);
+            color: #d35400;
+        }
+        
+        .high {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2><i class="fas fa-money-check-alt"></i> Worker Payment System</h2>
+    <!-- Loading spinner -->
+    <div class="loading" id="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="container animate__animated animate__fadeIn">
+        <h2 class="animate__animated animate__fadeInDown"><i class="fas fa-money-check-alt"></i> Worker Payment System</h2>
         
-        <div class="payment-form">
-            <form method="post">
+        <div class="payment-form animate__animated animate__fadeInUp">
+            <form method="post" id="payment-form">
                 <table>
                     <thead>
                         <tr>
@@ -305,7 +365,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['payments'])) {
                             <th><i class="fas fa-calendar-alt"></i> Working Days</th>
                             <th><i class="fas fa-rupee-sign"></i> Daily Rate</th>
                             <th><i class="fas fa-money-bill-wave"></i> Amount</th>
-                            <th><i class="fas fa-rupee-sign"></i> Pay</th>
+                            <th><i class="fas fa-chart-line"></i> Pay</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -313,47 +373,126 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['payments'])) {
                         $result = $conn->query("SELECT id, email FROM members");
                         while ($row = $result->fetch_assoc()) {
                             $id = $row['id'];
-                            echo "<tr>";
-                            echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                            echo "<td><input type='number' name='payments[$id][days]' min='0' oninput='calculateAmount($id)'></td>";
-                            echo "<td><input type='number' step='0.01' name='payments[$id][rate]' min='0' oninput='calculateAmount($id)'></td>";
-                            echo "<td><span id='amount_$id'>₹0.00</span></td>";
+                            $email = $row['email'];
+                            $attQuery = $conn->query("SELECT COUNT(*) AS present_days FROM attendance WHERE email = '$email' AND status = 'Present'");
+                            $attData = $attQuery->fetch_assoc();
+                            $present_days = $attData['present_days'];
+
+                            echo "<tr id='row_$id' class='worker-row'>";
+                            echo "<td><span class='worker-email'>" . htmlspecialchars($email) . "</span></td>";
+                            echo "<td><input type='number' name='payments[$id][days]' value='$present_days' min='0' oninput='calculateAmount($id)'/></td>";
+                            echo "<td><input type='number' step='0.01' name='payments[$id][rate]' value='500' min='0' oninput='calculateAmount($id)'/></td>";
+                            echo "<td><span id='amount_$id' class='amount-display'>₹0.00</span></td>";
                             echo"<td><button type='submit' class='submit-btn'><i class='fas fa-paper-plane'></i> Process Payments</button></td>";
                             echo "</tr>";
                         }
                         ?>
                     </tbody>
                 </table>
-                <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Process Payments</button>
+                <button type="submit" class="submit-btn" id="submit-button">
+                    <i class="fas fa-paper-plane"></i> Process Payments
+                </button>
             </form>
         </div>
     </div>
 
-    <div class="success-message" id="success-message">
+    <div class="success-message animate__animated animate__fadeInRight" id="success-message">
         <i class="fas fa-check-circle status-icon"></i> <span id="message-text"></span>
     </div>
 
     <script>
+        // Hide loading spinner when page is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loading-spinner');
+                loader.style.opacity = '0';
+                setTimeout(function() {
+                    loader.style.display = 'none';
+                }, 500);
+            }, 800);
+            
+            // Calculate initial amounts
+            const workerRows = document.querySelectorAll('.worker-row');
+            workerRows.forEach(row => {
+                const id = row.id.split('_')[1];
+                calculateAmount(id);
+            });
+        });
+        
         function calculateAmount(workerId) {
             const days = document.querySelector(`input[name="payments[${workerId}][days]"]`).value || 0;
             const rate = document.querySelector(`input[name="payments[${workerId}][rate]"]`).value || 0;
             const amount = days * rate;
-            document.getElementById(`amount_${workerId}`).textContent = `₹${amount.toFixed(2)}`;
+            
+            // Format with commas for thousands
+            const formattedAmount = new Intl.NumberFormat('en-IN', { 
+                style: 'currency', 
+                currency: 'INR',
+                maximumFractionDigits: 2,
+                minimumFractionDigits: 2
+            }).format(amount).replace('INR', '₹');
+            
+            document.getElementById(`amount_${workerId}`).textContent = formattedAmount;
+            
+            // Update status indicator
+            updatePaymentStatus(workerId, amount);
+            
+            // Apply highlight effect
+            const row = document.getElementById(`row_${workerId}`);
+            row.classList.remove('highlight-row');
+            void row.offsetWidth; // Trigger reflow
+            row.classList.add('highlight-row');
+        }
+        
+        function updatePaymentStatus(workerId, amount) {
+            const statusElement = document.getElementById(`status_${workerId}`);
+            statusElement.classList.remove('low', 'medium', 'high');
+            
+            if (amount <= 0) {
+                statusElement.textContent = 'Pending';
+                statusElement.classList.add('low');
+            } else if (amount < 5000) {
+                statusElement.textContent = 'Processing';
+                statusElement.classList.add('medium');
+            } else {
+                statusElement.textContent = 'Ready';
+                statusElement.classList.add('high');
+            }
         }
         
         function showSuccessMessage(count) {
             const messageText = document.getElementById('message-text');
             const noun = count == 1 ? 'payment' : 'payments';
             messageText.textContent = `Successfully processed ${count} ${noun}!`;
-            
+
             const messageElement = document.getElementById('success-message');
             messageElement.style.display = 'block';
-            
+            messageElement.classList.add('animate__fadeInRight');
+
             setTimeout(() => {
-                messageElement.style.display = 'none';
-                window.location.href = 'adminindex.php';
+                messageElement.classList.remove('animate__fadeInRight');
+                messageElement.classList.add('animate__fadeOutRight');
+                
+                setTimeout(() => {
+                    messageElement.style.display = 'none';
+                    window.location.href = 'adminindex.php';
+                }, 500);
             }, 3000);
         }
+        
+        // Form submission effect
+        document.getElementById('payment-form').addEventListener('submit', function(e) {
+            const submitButton = document.getElementById('submit-button');
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitButton.disabled = true;
+            
+            // Show loading effect
+            document.getElementById('loading-spinner').style.display = 'flex';
+            document.getElementById('loading-spinner').style.opacity = '1';
+            
+            // Allow the form to continue submission
+            // The page will be redirected after processing
+        });
     </script>
 </body>
 </html>

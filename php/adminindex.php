@@ -281,9 +281,10 @@ if (!isset($_SESSION['admin_email'])) {
             <li><a href="#" onclick="loadPage('vendor')"><i class="fas fa-store"></i> <span>Vendors</span></a></li>
             <li><a href="#" onclick="loadPage('vehicles')"><i class="fas fa-car"></i> <span>Vehicles</span></a></li>
             <li><a href="#" onclick="loadPage('workers')"><i class="fas fa-users"></i> <span>Workers</span></a></li>
+            <li><a href="#" onclick="loadPage('days')"><i class="fas fa-users"></i> <span>Attendence</span></a></li>
             <li><a href="worker_payment.php" onclick="loadPage('worker_payment')"><i class="fas fa-money-bill-wave"></i> <span>Payment</span></a></li>
             <li><a href="#" onclick="loadPage('history')"><i class="fas fa-money-bill-wave"></i> <span>Payment History</span></a></li>
-            <li><a href="#" onclick="loadPage('service_record')"><i class="fas fa-clipboard-list"></i> <span>Service Records</span></a></li>
+            <li><a href="#" onclick="loadPage('service_record')"><i class="fas fa-clipboard-list"></i> <span>Sphare Parts Records</span></a></li>
             <li><a href="#" onclick="loadPage('feedback')"><i class="fas fa-comment-alt"></i> <span>Feedback</span></a></li>
             <li><a href="#" onclick="loadPage('users')" ><i class="fas fa-user"></i> <span>Users</span></a></li>
             <li><a href="post.php" onclick="loadPage('post')"><i class="fas fa-newspaper"></i> <span>Posts</span></a></li>
@@ -355,9 +356,9 @@ if (!isset($_SESSION['admin_email'])) {
                 case 'history':
                     pageURL = 'payment_history.php';
                     break;
-                // case 'post':
-                //     pageURL = 'post.php';
-                //     break;
+                case 'days':
+                    pageURL = 'attendence.php';
+                    break;
                 default:
                     pageURL = 'intro.php';
             }

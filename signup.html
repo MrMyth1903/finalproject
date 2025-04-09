@@ -158,7 +158,7 @@
             }
             return true;
         }
-
+    
         function myform() {
             var inputs = document.querySelectorAll('.input input');
             for (var i = 0; i < inputs.length; i++) {
@@ -167,8 +167,18 @@
                     return false;
                 }
             }
+    
+            // Password validation
+            var password = document.querySelector('input[name="pass"]').value;
+            var passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passRegex.test(password)) {
+                alert("Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.");
+                return false;
+            }
+    
             return true;
         }
     </script>
+    
 </body>
 </html>
