@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['email'])) {
-    header("Location: login.html");
+    header("Location: login.php");
     exit();
 }
 ?>
@@ -435,6 +435,9 @@ if (!isset($_SESSION['email'])) {
         .level-3-btn {
             background: linear-gradient(135deg, #240046, #3a0ca3);
         }
+        .level-4-btn {
+            background: linear-gradient(135deg, #240046, #3a0ca3);
+        }
         
         .service-level-btn:hover {
             transform: translateY(-5px);
@@ -508,6 +511,54 @@ if (!isset($_SESSION['email'])) {
             margin-bottom: 1rem;
             color: #333;
         }
+        /* Add these styles to your existing CSS in the <style> tag */
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.checkbox-item:hover {
+    background-color: rgba(67, 97, 238, 0.05);
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    accent-color: #4361ee;
+    cursor: pointer;
+}
+
+.checkbox-item label {
+    margin-bottom: 0;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: normal;
+    display: inline-block;
+}
+
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+    .checkbox-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 576px) {
+    .checkbox-grid {
+        grid-template-columns: 1fr;
+    }
+}
     </style>
 </head>
 <body>
@@ -563,6 +614,11 @@ if (!isset($_SESSION['email'])) {
                     Level 3 Service
                     <span>Comprehensive Service</span>
                 </button>
+                <button class="service-level-btn level-4-btn" id="level4Btn">
+                    <i class="fas fa-cogs"></i>
+                    Level 4 Service
+                    <span>Customize Service</span>
+                </button>
             </div>
         </div>
 
@@ -605,7 +661,7 @@ if (!isset($_SESSION['email'])) {
                 </div>
 
                 <div class="form-group">
-                    <label for="name1">Your Name</label>
+                    <label for="name1">Owner Name</label>
                     <input type="text" id="name1" name="name" placeholder="Enter your name" required>
                 </div>
 
@@ -613,7 +669,16 @@ if (!isset($_SESSION['email'])) {
                     <label for="vehicle1">Vehicle Number</label>
                     <input type="text" id="vehicle1" name="vehicle" placeholder="Enter your vehicle number" required>
                 </div>
+                <div class="form-group">
+                    <label for="engine1">Engine Number</label>
+                    <input type="text" id="engine1" name="engine" placeholder="Enter your engine number" required>
+                </div>
 
+                <div class="form-group">
+                    <label for="chassis1">Chassis Number</label>
+                    <input type="text" id="chassis1" name="chassis" placeholder="Enter your chassis number" required>
+                </div>
+                <input type="hidden" name="price" value="9999">
                 <div class="form-group">
                     <label for="phone_number1">Phone Number</label>
                     <input type="text" id="phone_number1" name="phone_number" placeholder="Enter your phone number" required>
@@ -648,11 +713,11 @@ if (!isset($_SESSION['email'])) {
                     <li>Cooling System Inspection</li>
                 </ul>
             </div>
-            <form action="php/appoiintment.php" method="post" id="level2AppointmentForm">
+            <form action="php/appoiintment.php" method="post" id="level1AppointmentForm">
                 <input type="hidden" name="service_level" value="Level 2">
                 <div class="form-group">
-                    <label for="service2">Select Vehicle Type</label>
-                    <select id="service2" name="service" required>
+                    <label for="service1">Select Vehicle Type</label>
+                    <select id="service1" name="service" required>
                         <option value="">--Select Vehicle Type--</option>
                         <option value="Car Maintenance">Car Maintenance</option>
                         <option value="Bike Servicing">Bike Servicing</option>
@@ -660,37 +725,46 @@ if (!isset($_SESSION['email'])) {
                 </div>
 
                 <div class="form-group">
-                    <label for="date2">Preferred Date</label>
-                    <input type="date" id="date2" name="date" required>
+                    <label for="date1">Preferred Date</label>
+                    <input type="date" id="date1" name="date" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="time2">Preferred Time</label>
-                    <input type="time" id="time2" name="time" required>
+                    <label for="time1">Preferred Time</label>
+                    <input type="time" id="time1" name="time" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="name2">Your Name</label>
-                    <input type="text" id="name2" name="name" placeholder="Enter your name" required>
+                    <label for="name1">Owner Name</label>
+                    <input type="text" id="name1" name="name" placeholder="Enter your name" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="vehicle2">Vehicle Number</label>
-                    <input type="text" id="vehicle2" name="vehicle" placeholder="Enter your vehicle number" required>
+                    <label for="vehicle1">Vehicle Number</label>
+                    <input type="text" id="vehicle1" name="vehicle" placeholder="Enter your vehicle number" required>
+                </div>
+                <div class="form-group">
+                    <label for="engine1">Engine Number</label>
+                    <input type="text" id="engine1" name="engine" placeholder="Enter your engine number" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="phone_number2">Phone Number</label>
-                    <input type="text" id="phone_number2" name="phone_number" placeholder="Enter your phone number" required>
+                    <label for="chassis1">Chassis Number</label>
+                    <input type="text" id="chassis1" name="chassis" placeholder="Enter your chassis number" required>
+                </div>
+                <input type="hidden" name="price" value="15000">
+                <div class="form-group">
+                    <label for="phone_number1">Phone Number</label>
+                    <input type="text" id="phone_number1" name="phone_number" placeholder="Enter your phone number" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="comments2">Additional Comments</label>
-                    <textarea id="comments2" name="comments" rows="3" placeholder="Any specific requests or concerns?" class="form-control"></textarea>
+                    <label for="comments1">Additional Comments</label>
+                    <textarea id="comments1" name="comments" rows="3" placeholder="Any specific requests or concerns?" class="form-control"></textarea>
                 </div>
 
                 <div class="button-container">
-                    <button type="submit" class="submit-btn" name="submit">Schedule Level 2 Service</button>
+                    <button type="submit" class="submit-btn" name="submit">Schedule Level 1 Service</button>
                 </div>
             </form>
         </div>
@@ -714,11 +788,11 @@ if (!isset($_SESSION['email'])) {
                     <li>Complete Electrical System Check</li>
                 </ul>
             </div>
-            <form action="php/appoiintment.php" method="post" id="level3AppointmentForm">
+            <form action="php/appoiintment.php" method="post" id="level1AppointmentForm">
                 <input type="hidden" name="service_level" value="Level 3">
                 <div class="form-group">
-                    <label for="service3">Select Vehicle Type</label>
-                    <select id="service3" name="service" required>
+                    <label for="service1">Select Vehicle Type</label>
+                    <select id="service1" name="service" required>
                         <option value="">--Select Vehicle Type--</option>
                         <option value="Car Maintenance">Car Maintenance</option>
                         <option value="Bike Servicing">Bike Servicing</option>
@@ -726,40 +800,270 @@ if (!isset($_SESSION['email'])) {
                 </div>
 
                 <div class="form-group">
-                    <label for="date3">Preferred Date</label>
-                    <input type="date" id="date3" name="date" required>
+                    <label for="date1">Preferred Date</label>
+                    <input type="date" id="date1" name="date" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="time3">Preferred Time</label>
-                    <input type="time" id="time3" name="time" required>
+                    <label for="time1">Preferred Time</label>
+                    <input type="time" id="time1" name="time" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="name3">Your Name</label>
-                    <input type="text" id="name3" name="name" placeholder="Enter your name" required>
+                    <label for="name1">Owner Name</label>
+                    <input type="text" id="name1" name="name" placeholder="Enter your name" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="vehicle3">Vehicle Number</label>
-                    <input type="text" id="vehicle3" name="vehicle" placeholder="Enter your vehicle number" required>
+                    <label for="vehicle1">Vehicle Number</label>
+                    <input type="text" id="vehicle1" name="vehicle" placeholder="Enter your vehicle number" required>
+                </div>
+                <div class="form-group">
+                    <label for="engine1">Engine Number</label>
+                    <input type="text" id="engine1" name="engine" placeholder="Enter your engine number" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="phone_number3">Phone Number</label>
-                    <input type="text" id="phone_number3" name="phone_number" placeholder="Enter your phone number" required>
+                    <label for="chassis1">Chassis Number</label>
+                    <input type="text" id="chassis1" name="chassis" placeholder="Enter your chassis number" required>
+                </div>
+                <input type="hidden" name="price" value="35000">
+                <div class="form-group">
+                    <label for="phone_number1">Phone Number</label>
+                    <input type="text" id="phone_number1" name="phone_number" placeholder="Enter your phone number" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="comments3">Additional Comments</label>
-                    <textarea id="comments3" name="comments" rows="3" placeholder="Any specific requests or concerns?" class="form-control"></textarea>
+                    <label for="comments1">Additional Comments</label>
+                    <textarea id="comments1" name="comments" rows="3" placeholder="Any specific requests or concerns?" class="form-control"></textarea>
                 </div>
 
                 <div class="button-container">
-                    <button type="submit" class="submit-btn" name="submit">Schedule Level 3 Service</button>
+                    <button type="submit" class="submit-btn" name="submit">Schedule Level 1 Service</button>
                 </div>
             </form>
         </div>
+
+        <!-- Level 4 Service Form -->
+<d class="service-form" id="level4Form">
+    <button class="back-btn" id="backBtn4">
+        <i class="fas fa-arrow-left"></i> Back to selection
+    </button>
+    <h2>Level 4 Service - Customize service</h2>
+    <br>
+    <form action="php/apppoiintment.php" method="post" id="level4AppointmentForm">
+        <input type="hidden" name="service_level" value="Level 4">
+        <!-- Rest of the form remains the same -->
+        <div class="form-group">
+            <label for="service4">Select Vehicle Type</label>
+            <select id="service4" name="service" required>
+                <option value="">--Select Vehicle Type--</option>
+                <option value="Car Maintenance">Car Maintenance</option>
+                <option value="Bike Servicing">Bike Servicing</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="date4">Preferred Date</label>
+            <input type="date" id="date4" name="date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="time4">Preferred Time</label>
+            <input type="time" id="time4" name="time" required>
+        </div>
+
+        <div class="form-group">
+            <label for="name4">Owner Name</label>
+            <input type="text" id="name4" name="name" placeholder="Enter your name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="vehicle4">Vehicle Number</label>
+            <input type="text" id="vehicle4" name="vehicle" placeholder="Enter your vehicle number" required>
+        </div>
+        <div class="form-group">
+            <label for="engine4">Engine Number</label>
+            <input type="text" id="engine4" name="engine" placeholder="Enter your engine number" required>
+        </div>
+
+        <div class="form-group">
+            <label for="chassis4">Chassis Number</label>
+            <input type="text" id="chassis4" name="chassis" placeholder="Enter your chassis number" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone_number4">Phone Number</label>
+            <input type="text" id="phone_number4" name="phone_number" placeholder="Enter your phone number" required>
+        </div>
+
+        <!-- Replace the existing service-details div in the Level 4 form with this updated version -->
+
+<div class="service-details">
+    <h3>Select Services:</h3>
+    
+    <!-- Car Services -->
+    <h4 style="margin-top: 15px; margin-bottom: 10px; color: #4361ee;">Car Services</h4>
+    <ul style="list-style-type: none; padding-left: 0;">
+        <li>
+            <input type="checkbox" id="service_oil_change" name="custom_services[]" value="Oil & Filter Change">
+            <label for="service_oil_change">Oil & Filter Change</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_tire_rotation" name="custom_services[]" value="Tire Rotation">
+            <label for="service_tire_rotation">Tire Rotation</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_brake_inspection" name="custom_services[]" value="Brake Inspection & Service">
+            <label for="service_brake_inspection">Brake Inspection & Service</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_wheel_alignment" name="custom_services[]" value="Wheel Alignment">
+            <label for="service_wheel_alignment">Wheel Alignment</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_battery_service" name="custom_services[]" value="Battery Service & Replacement">
+            <label for="service_battery_service">Battery Service & Replacement</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_ac_service" name="custom_services[]" value="AC Service & Repair">
+            <label for="service_ac_service">AC Service & Repair</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_trans_fluid" name="custom_services[]" value="Transmission Fluid Change">
+            <label for="service_trans_fluid">Transmission Fluid Change</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_engine_diag" name="custom_services[]" value="Engine Diagnostics">
+            <label for="service_engine_diag">Engine Diagnostics</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_fuel_inj" name="custom_services[]" value="Fuel Injection Cleaning">
+            <label for="service_fuel_inj">Fuel Injection Cleaning</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_power_steering" name="custom_services[]" value="Power Steering Fluid Change">
+            <label for="service_power_steering">Power Steering Fluid Change</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_diff_fluid" name="custom_services[]" value="Differential Fluid Change">
+            <label for="service_diff_fluid">Differential Fluid Change</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_spark_plug" name="custom_services[]" value="Spark Plug Replacement">
+            <label for="service_spark_plug">Spark Plug Replacement</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_electrical" name="custom_services[]" value="Electrical System Check">
+            <label for="service_electrical">Electrical System Check</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_cooling_system" name="custom_services[]" value="Cooling System Service">
+            <label for="service_cooling_system">Cooling System Service</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_suspension" name="custom_services[]" value="Suspension Inspection & Repair">
+            <label for="service_suspension">Suspension Inspection & Repair</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_exhaust" name="custom_services[]" value="Exhaust System Check">
+            <label for="service_exhaust">Exhaust System Check</label>
+        </li>
+    </ul>
+    
+    <!-- Bike Services -->
+    <h4 style="margin-top: 20px; margin-bottom: 10px; color: #4361ee;">Bike Services</h4>
+    <ul style="list-style-type: none; padding-left: 0;">
+        <li>
+            <input type="checkbox" id="service_bike_oil" name="custom_services[]" value="Bike Engine Oil Change">
+            <label for="service_bike_oil">Engine Oil Change</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_bike_chain" name="custom_services[]" value="Chain Cleaning & Lubrication">
+            <label for="service_bike_chain">Chain Cleaning & Lubrication</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_bike_brake" name="custom_services[]" value="Brake Pad Replacement">
+            <label for="service_bike_brake">Brake Pad Replacement</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_bike_tune" name="custom_services[]" value="Bike Engine Tune-up">
+            <label for="service_bike_tune">Engine Tune-up</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_bike_tire" name="custom_services[]" value="Tire Replacement">
+            <label for="service_bike_tire">Tire Replacement</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_bike_clutch" name="custom_services[]" value="Clutch Adjustment">
+            <label for="service_bike_clutch">Clutch Adjustment</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_bike_carb" name="custom_services[]" value="Carburetor Cleaning">
+            <label for="service_bike_carb">Carburetor Cleaning</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_bike_battery" name="custom_services[]" value="Bike Battery Replacement">
+            <label for="service_bike_battery">Battery Replacement</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_bike_wheel" name="custom_services[]" value="Wheel Alignment & Balancing">
+            <label for="service_bike_wheel">Wheel Alignment & Balancing</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_bike_electrical" name="custom_services[]" value="Electrical System Check">
+            <label for="service_bike_electrical">Electrical System Check</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_bike_full" name="custom_services[]" value="Full Bike Service">
+            <label for="service_bike_full">Full Bike Service</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_bike_suspension" name="custom_services[]" value="Suspension Tuning">
+            <label for="service_bike_suspension">Suspension Tuning</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_bike_filters" name="custom_services[]" value="Air Filter Replacement">
+            <label for="service_bike_filters">Air Filter Replacement</label>
+        </li>
+    </ul>
+    
+    <!-- Other Services -->
+    <h4 style="margin-top: 20px; margin-bottom: 10px; color: #4361ee;">Other Services</h4>
+    <ul style="list-style-type: none; padding-left: 0;">
+        <li>
+            <input type="checkbox" id="service_detailing" name="custom_services[]" value="Vehicle Detailing">
+            <label for="service_detailing">Vehicle Detailing</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_paint" name="custom_services[]" value="Paint Touch-up">
+            <label for="service_paint">Paint Touch-up</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_polish" name="custom_services[]" value="Polish & Wax">
+            <label for="service_polish">Polish & Wax</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_inspection" name="custom_services[]" value="Pre-purchase Inspection">
+            <label for="service_inspection">Pre-purchase Inspection</label>
+        </li>
+        <li>
+            <input type="checkbox" id="service_custom" name="custom_services[]" value="Custom Service">
+            <label for="service_custom">Custom Service (Please specify in comments)</label>
+        </li>
+    </ul>
+</div>
+
+        <div class="form-group">
+            <label for="comments4">Additional Comments</label>
+            <textarea id="comments4" name="comments" rows="3" placeholder="Any specific requests or concerns?" class="form-control"></textarea>
+        </div>
+
+        <div class="button-container">
+            <button type="submit" class="submit-btn" name="submit">Schedule Level 4 Service</button>
+        </div>
+    </form>
+</div>
     </div>
 
     <script>
@@ -769,18 +1073,21 @@ if (!isset($_SESSION['email'])) {
             const level1Btn = document.getElementById('level1Btn');
             const level2Btn = document.getElementById('level2Btn');
             const level3Btn = document.getElementById('level3Btn');
+            const level4Btn = document.getElementById('level4Btn');
             
             // Back buttons
             const backBtn1 = document.getElementById('backBtn1');
             const backBtn2 = document.getElementById('backBtn2');
             const backBtn3 = document.getElementById('backBtn3');
-            
+            const backBtn4 = document.getElementById('backBtn4');
+
             // Forms
             const serviceSelection = document.getElementById('service-selection');
             const level1Form = document.getElementById('level1Form');
             const level2Form = document.getElementById('level2Form');
             const level3Form = document.getElementById('level3Form');
-            
+            const level4Form = document.getElementById('level4Form');
+
             // Show Level 1 form
             level1Btn.addEventListener('click', function() {
                 serviceSelection.style.display = 'none';
@@ -798,6 +1105,12 @@ if (!isset($_SESSION['email'])) {
                 serviceSelection.style.display = 'none';
                 level3Form.style.display = 'block';
             });
+
+            // Show Level 4 form
+            level4Btn.addEventListener('click', function() {
+                serviceSelection.style.display = 'none';
+                level4Form.style.display = 'block';
+            });
             
             // Back button functionality
             backBtn1.addEventListener('click', function() {
@@ -814,12 +1127,18 @@ if (!isset($_SESSION['email'])) {
                 level3Form.style.display = 'none';
                 serviceSelection.style.display = 'block';
             });
+
+            backBtn4.addEventListener('click', function() {
+                level4Form.style.display = 'none';
+                serviceSelection.style.display = 'block';
+            });
             
             // Set minimum date to today for all date fields
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('date1').min = today;
             document.getElementById('date2').min = today;
             document.getElementById('date3').min = today;
+            document.getElementById('date4').min = today;
         });
     </script>
 </body>

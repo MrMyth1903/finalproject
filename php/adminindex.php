@@ -301,6 +301,7 @@ if (!isset($_SESSION['admin_email'])) {
         <!-- Content Area -->
         <div class="content-area" id="column2">
             <!-- Content will be loaded here -->
+             <?php include 'graph.php'?>
         </div>
     </div>
     

@@ -14,7 +14,7 @@ $submit=mysqli_query($con,$stmt);
 echo"<script>
 alert('Thankyou for your feedback !');
 </script>";
-header('refresh:1; url=http://localhost/final year/index.php');
+header('refresh:1; url=http://localhost/final year/home.php');
  }
 
 ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2025 at 11:10 AM
+-- Generation Time: Apr 10, 2025 at 12:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,15 +29,28 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `appointment` (
   `ID` int(100) NOT NULL,
+  `LEVEL` varchar(20) NOT NULL,
   `SERVICE` varchar(100) NOT NULL,
   `TIME` time NOT NULL,
   `DATE` date NOT NULL,
   `NAME` varchar(30) NOT NULL,
   `VEHICLE_NO` varchar(14) NOT NULL,
-  `WANT` varchar(100) NOT NULL,
-  `SPHERE_PART` varchar(100) NOT NULL,
-  `PHONE_NUMBER` bigint(10) NOT NULL
+  `ENGINEE` int(20) NOT NULL,
+  `CHASIS` int(20) NOT NULL,
+  `PRICE` varchar(100) NOT NULL,
+  `PHONE_NUMBER` bigint(10) NOT NULL,
+  `SPHERE_PART` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `appointment`
+--
+
+INSERT INTO `appointment` (`ID`, `LEVEL`, `SERVICE`, `TIME`, `DATE`, `NAME`, `VEHICLE_NO`, `ENGINEE`, `CHASIS`, `PRICE`, `PHONE_NUMBER`, `SPHERE_PART`) VALUES
+(10, 'Level 1', 'Bike Servicing', '12:15:00', '2025-04-23', 'CHANDAN SINGH', 'JH/05/CH/1688', 3456, 2343, '9999', 8340300338, ''),
+(11, 'Level 1', 'Car Maintenance', '12:54:00', '2025-04-14', 'SNEHA SINGH', 'JH/05/CH/1688', 3456, 2343, '9999', 8340300338, ''),
+(12, 'Level 2', 'Bike Servicing', '14:14:00', '2025-04-21', 'SNEHA SINGH', 'JH/05/CH/1688', 3456, 2343, '15000', 8340300338, ''),
+(13, 'Level 3', 'Car Maintenance', '14:14:00', '2025-04-12', 'SNEHA SINGH', 'JH/05/EF/2345', 3456, 2343, '35000', 8340300338, '');
 
 -- --------------------------------------------------------
 
@@ -69,7 +82,11 @@ INSERT INTO `attendance` (`id`, `email`, `date`, `status`) VALUES
 (10, 'mrinmoykumarmahato@gmail.com', '2025-04-09', 'Absent'),
 (11, 'mrinmoykumarmahato@gmail.com', '2025-04-09', 'Absent'),
 (12, 'chaandaan42@gmail.com', '2025-04-09', 'Present'),
-(13, 'amansharma22299@gmail.com', '2025-04-09', 'Present');
+(13, 'amansharma22299@gmail.com', '2025-04-09', 'Present'),
+(14, 'sohamchakroborty232005@gmail.com', '2025-04-09', 'Leave'),
+(15, 'mrinmoykumarmahato@gmail.com', '2025-04-10', 'Absent'),
+(16, 'amansharma22299@gmail.com', '2025-04-10', 'Present'),
+(17, 'sohamchakroborty232005@gmail.com', '2025-04-10', 'Present');
 
 -- --------------------------------------------------------
 
@@ -122,7 +139,8 @@ CREATE TABLE `feedback` (
 
 INSERT INTO `feedback` (`ID`, `NAME`, `EMAIL`, `IMAGE`, `FEEDBACK`) VALUES
 (18, 'Sumit Gope', 'sumitgope00006@gmail.com', 'python-essentials-1.1.png', 'xzccsdc'),
-(19, 'Sumit Gope', 'sumitgope00006@gmail.com', '200.webp', 'fgh gfhbj jjgh');
+(19, 'Sumit Gope', 'sumitgope00006@gmail.com', '200.webp', 'fgh gfhbj jjgh'),
+(20, 'Sumit Gope', 'sumitgope00006@gmail.com', '', 'service is very good and the workers are very talented');
 
 -- --------------------------------------------------------
 
@@ -146,7 +164,8 @@ CREATE TABLE `members` (
 
 INSERT INTO `members` (`id`, `firstname`, `lastname`, `email`, `phoneNumber`, `aadharNo`, `vehicle`) VALUES
 (34, 'MRINMOY KUMAR', 'MAHATO', 'mrinmoykumarmahato@gmail.com', '8340300338', '234554322345', 'JH/05/EF/2343'),
-(37, 'aman', 'sharma', 'amansharma22299@gmail.com', '1234567890', '234554322346', NULL);
+(37, 'aman', 'sharma', 'amansharma22299@gmail.com', '1234567890', '234554322346', NULL),
+(38, 'MANGU RAM', 'HEMBRAM', 'sohamchakroborty232005@gmail.com', '7050601433', '409843437786', NULL);
 
 -- --------------------------------------------------------
 
@@ -167,9 +186,9 @@ CREATE TABLE `payments` (
 --
 
 INSERT INTO `payments` (`id`, `email`, `working_days`, `amount_paid`, `payment_date`) VALUES
-(23, 'mrinmoykumarmahato@gmail.com', 20, 8000.00, '2025-04-09 10:25:26'),
-(24, 'tiwarysurya861@gmail.com', 10, 3500.00, '2025-04-09 10:27:55'),
-(25, 'mrinmoykumarmahato@gmail.com', 4, 2000.16, '2025-04-09 14:22:38');
+(31, 'amansharma22299@gmail.com', 2, 1000.00, '2025-04-10 15:38:55'),
+(32, 'mrinmoykumarmahato@gmail.com', 3, 1470.00, '2025-04-10 15:39:00'),
+(33, 'sohamchakroborty232005@gmail.com', 1, 510.00, '2025-04-10 15:39:05');
 
 -- --------------------------------------------------------
 
@@ -220,7 +239,15 @@ INSERT INTO `service` (`ID`, `V_TYPE`, `V_NUMBER`, `EMAIL`, `PHONE`, `WANT`, `DA
 (50, '2 Wheelers AUDI', 'JH/05/CH/1688', 'snehasingh@gmail.com', '7050603314', 'Mobile Tank', '2025-04-03', 350, 1, 'Gmaharia'),
 (51, '4 Wheelers MERCIDISE', 'JH/05/CH/1688', 'snehasingh@gmail.com', '7050603314', 'Mobile Tank', '2025-04-03', 350, 1, 'ELECTRONIC CITY, NTTF BOYS HOSTEL'),
 (56, '4 Wheelers SUZUKI', 'JH/05/DL/9013', 'rntc0822031@nttf.co.in', '8884949597', 'Tire Change', '2025-04-09', 1000, 2, 'Bistupur'),
-(57, '4 Wheelers SUZUKI', 'JH/05/DL/9013', 'rntc0822031@nttf.co.in', '8884949597', 'Mobil Change', '2025-04-09', 300, 1, 'Bistupur');
+(57, '4 Wheelers SUZUKI', 'JH/05/DL/9013', 'rntc0822031@nttf.co.in', '8884949597', 'Mobil Change', '2025-04-09', 300, 1, 'Bistupur'),
+(58, '2 Wheelers BMW', 'JH/05/DL/9013', 'chaandaan42@gmail.com', '8340300338', 'Shock Absorbers', '2025-04-10', 5000, 2, 'Gamharia ,Jagannathpur'),
+(59, '4 Wheelers HONDA', 'JH/05/DL/9013', 'chaandaan42@gmail.com', '8340300338', 'Diesel Filter', '2025-04-10', 1200, 2, 'ELECTRONIC CITY, NTTF BOYS HOSTEL'),
+(60, '2 Wheelers BMW', 'JH/05/DL/9013', 'sohamchakroborty2005@gmail.com', '8340300338', 'Wiper Blade Replacem', '2025-04-10', 4000, 10, 'Gamharia ,Jagannathpur'),
+(61, 'Audi SUV', 'JH/05/DL/9013', 'chaandaan42@gmail.com', '8340300338', 'Crankshaft Sensor', '2025-04-10', 4000, 2, 'ELECTRONIC CITY, NTTF BOYS HOSTEL'),
+(62, '4 Wheelers HONDA', 'JH/05/DL/9013', 'chaandaan42@gmail.com', '8340300338', 'Timing Belt', '2025-04-10', 6000, 3, 'Bistupur'),
+(63, '4 Wheelers FORD', 'JH/05/DL/9013', 'chaandaan42@gmail.com', '8340300338', 'Engine Mounts', '2025-04-10', 7000, 2, 'ELECTRONIC CITY, NTTF BOYS HOSTEL'),
+(64, '2 Wheelers BMW', 'JH/05/DL/9013', 'chaandaan42@gmail.com', '8340300338', 'Camshaft', '2025-04-10', 48000, 4, 'ELECTRONIC CITY, NTTF BOYS HOSTEL'),
+(65, '2 Wheelers SUZUKI', 'JH/05/DL/9013', 'chaandaan42@gmail.com', '8340300338', 'Engine Mounts', '2025-04-10', 21000, 6, 'ELECTRONIC CITY BANGALORE');
 
 -- --------------------------------------------------------
 
@@ -244,7 +271,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`ID`, `FirstName`, `LastName`, `Phone`, `Mail`, `Password`, `DOB`, `City`) VALUES
-(26, 'Nikita', 'Kumari', 8884949597, 'rntc0822031@nttf.co.in', 'Nikitakumari@190', '2004-11-06', 'JAMSHEDPUR');
+(26, 'Nikita', 'Kumari', 8884949597, 'rntc0822031@nttf.co.in', 'Nikitakumari@190', '2004-11-06', 'JAMSHEDPUR'),
+(27, 'CHANDAN ', 'SINGH', 8340300338, 'chaandaan42@gmail.com', 'P@ssw0rd', '2004-05-29', 'JAMSHEDPUR'),
+(28, 'MANGU', 'HEMBRAM', 7050601433, 'sohamchakroborty2005@gmail.com', 'P@ssw0rd', '2016-06-15', 'KARNATAKA');
 
 -- --------------------------------------------------------
 
@@ -344,13 +373,13 @@ ALTER TABLE `vendor`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `emergency_appointment`
@@ -362,19 +391,19 @@ ALTER TABLE `emergency_appointment`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `posts`
@@ -386,13 +415,13 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `ID` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `vendor`

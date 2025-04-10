@@ -2,7 +2,7 @@
 // Fetch posts from the database (assuming you have a database connection here)
 session_start();
 if (!isset($_SESSION['email'])) {
-    header("Location: login.html");
+    header("Location: login.php");
     exit();
 }
 // Sample connection (make sure to update with your actual credentials)
@@ -213,6 +213,11 @@ $result = $conn->query($sql);
             animation: slideDown 0.3s ease forwards;
         }
         
+        /* Show menu when active class is added */
+        .logout-menu.active {
+            display: block;
+        }
+        
         @keyframes slideDown {
             from {
                 opacity: 0;
@@ -229,7 +234,7 @@ $result = $conn->query($sql);
             align-items: center;
             gap: 10px;
             padding: 12px 16px;
-            color: var(--dark);
+            color: black;
             text-decoration: none;
             font-size: 14px;
             transition: all 0.2s ease;
@@ -238,14 +243,14 @@ $result = $conn->query($sql);
         
         .logout-menu-item:last-child {
             border-bottom: none;
-            color:#18181b;
+            color:black;
         }
         
         .logout-menu-item i {
             font-size: 16px;
             width: 20px;
             text-align: center;
-            color:#18181b;
+            color:black;
         }
         
         .logout-menu-item:hover {
@@ -254,16 +259,11 @@ $result = $conn->query($sql);
         }
         
         .logout-menu-item.danger {
-            color: var(--danger);
+            color: black;
         }
         
         .logout-menu-item.danger:hover {
             background-color: rgba(247, 37, 133, 0.05);
-        }
-        
-        /* Show logout when hovering over email */
-        .user-menu:hover .logout-menu {
-            display: block;
         }
         
         /* Page Title Styles */
@@ -616,10 +616,59 @@ $result = $conn->query($sql);
                 gap: var(--spacing-sm);
             }
         }
+        .logout-menu {
+            display: none;
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            width: 180px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            overflow: hidden;
+            animation: slideDown 0.3s ease forwards;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* For the regular menu item (My Orders) */
+.logout-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    color: black; /* Text color set to black */
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid var(--border);
+    background-color:rgb(247, 7, 7); /* Added background color */
+}
+
+/* For the danger menu item (Logout) */
+.logout-menu-item.danger {
+    color: black; /* Text color set to black */
+    background-color:rgb(247, 9, 9); /* Added reddish background color */
+}
+
+.logout-menu-item.danger:hover {
+    background-color: #ffcccc; /* Slightly darker on hover */
+}
+        
     </style>
 </head>
 <body>
-<header>
+<header id="site-header">
         <div class="header-container">
             <div class="logo">
                 <img src="photo/Blue_Gold_Minimalist_Car_Showroom_Logo-removebg-preview.png" alt="Vehicle Logo">
@@ -629,12 +678,12 @@ $result = $conn->query($sql);
                 <a href="blog.php" class="nav-link"><i class="fas fa-blog"></i> Blog</a>
                 <a href="../appointment.php" class="accent-link"><i class="fas fa-calendar-check"></i> Book Appointment</a>
                 <div class="user-menu">
-                    <div class="user-email">
+                    <div class="user-email" id="userEmailDropdown">
                         <i class="fas fa-user-circle user-icon"></i>
                         <?php echo htmlspecialchars($_SESSION['email']); ?>
                         <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
                     </div>
-                    <div class="logout-menu">
+                    <div class="logout-menu" id="logoutMenu">
                         <a href="orderdetails.php" class="logout-menu-item">
                             <i class="fas fa-clipboard-list"></i> My Orders
                         </a>
@@ -645,9 +694,7 @@ $result = $conn->query($sql);
                 </div>
             </div>
         </div>
-    </header>
-
-        <div class="blog-title">
+    </header>        <div class="blog-title">
             <h2>Blog Posts</h2>
             <p>Discover my latest thoughts, projects, and adventures</p>
         </div>
@@ -736,6 +783,30 @@ $result = $conn->query($sql);
     </div>
 </footer>
 
+<script>
+    // Get DOM elements
+    const userEmailDropdown = document.getElementById('userEmailDropdown');
+    const logoutMenu = document.getElementById('logoutMenu');
+    
+    // Toggle menu when clicking on the email dropdown
+    userEmailDropdown.addEventListener('click', function(e) {
+        e.stopPropagation(); // Prevent this click from being detected by the document event listener
+        logoutMenu.classList.toggle('active');
+    });
+    
+    // Close the menu when clicking anywhere else on the page
+    document.addEventListener('click', function(e) {
+        // If the click is outside the menu and the dropdown
+        if (!logoutMenu.contains(e.target) && !userEmailDropdown.contains(e.target)) {
+            logoutMenu.classList.remove('active');
+        }
+    });
+    
+    // Prevent closing when clicking inside the menu itself
+    logoutMenu.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+</script>
 
 </body>
 </html>
