@@ -1,17 +1,22 @@
+<?php
+session_start();
+if (!isset($_SESSION['email'])) {
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suzuki Service Request</title>
+    <title>Audi Service Request</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --suzuki-blue: #003da5;
-            --suzuki-red: #e62020;
-            --suzuki-dark: #1d1d1b;
-            --suzuki-silver: #d1d1d1;
-            --suzuki-light: #f5f5f5;
+            --audi-red: #e20000;
+            --audi-dark: #1d1d1b;
+            --audi-silver: #d1d1d1;
+            --audi-light: #f5f5f5;
         }
         
         * {
@@ -33,7 +38,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(230,32,32,0.4) 100%);
+            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(226,0,0,0.4) 100%);
             z-index: -1;
         }
         
@@ -73,7 +78,7 @@
         }
         
         .subtitle {
-            color: var(--suzuki-silver);
+            color: var(--audi-silver);
             font-size: 16px;
             margin-top: 10px;
         }
@@ -95,9 +100,9 @@
         .form-section h2 {
             font-size: 22px;
             margin-bottom: 20px;
-            color: var(--suzuki-dark);
+            color: var(--audi-dark);
             padding-bottom: 10px;
-            border-bottom: 2px solid var(--suzuki-blue);
+            border-bottom: 2px solid var(--audi-red);
             display: inline-block;
         }
         
@@ -117,7 +122,7 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: var(--suzuki-dark);
+            color: var(--audi-dark);
         }
         
         input, select, textarea {
@@ -132,8 +137,8 @@
         
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: var(--suzuki-blue);
-            box-shadow: 0 0 0 2px rgba(0, 61, 165, 0.2);
+            border-color: var(--audi-red);
+            box-shadow: 0 0 0 2px rgba(226, 0, 0, 0.2);
         }
         
         textarea {
@@ -146,18 +151,18 @@
         }
         
         .price-display {
-            background-color: var(--suzuki-light);
+            background-color: var(--audi-light);
             padding: 15px;
             border-radius: 8px;
             margin-top: 20px;
             text-align: right;
             font-size: 18px;
             font-weight: 600;
-            border-left: 4px solid var(--suzuki-blue);
+            border-left: 4px solid var(--audi-red);
         }
         
         .price-display span {
-            color: var(--suzuki-blue);
+            color: var(--audi-red);
         }
         
         .submit-button {
@@ -166,7 +171,7 @@
         }
         
         button {
-            background-color: var(--suzuki-blue);
+            background-color: var(--audi-red);
             color: white;
             border: none;
             padding: 14px 30px;
@@ -177,13 +182,13 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 61, 165, 0.3);
+            box-shadow: 0 5px 15px rgba(226, 0, 0, 0.3);
         }
         
         button:hover {
-            background-color: #002d7a;
+            background-color: #c00000;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 61, 165, 0.4);
+            box-shadow: 0 8px 20px rgba(226, 0, 0, 0.4);
         }
         
         .icon-input {
@@ -242,6 +247,13 @@
             color: #fff;
             font-size: 14px;
         }
+
+        /* Add styling for optgroup */
+        optgroup {
+            font-weight: bold;
+            color: var(--audi-dark);
+            background-color: var(--audi-silver);
+        }
         
         @media (max-width: 768px) {
             .form-group {
@@ -267,9 +279,9 @@
     
     <div class="container">
         <header>
-            <img src="servicelogo/suzuki.png" alt="Suzuki Logo" class="logo">
+            <img src="servicelogo/suzuki.png" alt="Audi Logo" class="logo">
             <h1>Suzuki Service Request</h1>
-            <p class="subtitle">Quality Service for Your Suzuki Vehicle</p>
+            <p class="subtitle">Premium Service for Your Premium Vehicle</p>
         </header>
         
         <form action="php/service/servicedb.php" method="post" class="card">
@@ -279,11 +291,10 @@
                     <div class="form-group">
                         <label for="select1">Vehicle Type</label>
                         <div class="icon-input">
-                            <i class="fas fa-motorcycle"></i>
+                            <i class="fas fa-car"></i>
                             <select id="select1" name="type">
-                                <option value="">Select...</option>
-                                <option value="2 Wheelers SUZUKI">2 Wheelers, BIKE</option>
-                                <option value="4 Wheelers SUZUKI">4 Wheelers, CAR</option>
+                                <option value="2 Wheelers SUZUKI">SUZUKI Bike (4 Wheelers)</option>
+                                <option value="4 Wheelers SUZUKI">SUZUKI Car (4 Wheelers)</option>
                             </select>
                         </div>
                     </div>
@@ -331,20 +342,140 @@
                 <h2>Service Requirements</h2>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="want">Service Type</label>
+                        <label for="want">Service Type / Spare Parts</label>
                         <div class="icon-input">
                             <i class="fas fa-tools"></i>
                             <select id="want" name="want" required>
-                                <option value="">--Select Service--</option>
-                                <option value="Tire Change">Tire Change</option>
-                                <option value="Mobil Change">Mobil Change</option>
-                                <option value="Brake Shoe Change">Brake Shoe Change</option>
-                                <option value="Coolent Change">Coolent Change</option>
-                                <option value="Brake Issue">Brake Issue</option>
-                                <option value="Diesel Tank">Diesel Tank</option>
-                                <option value="Mobile Tank">Mobile Tank</option>
-                                <option value="Head Light">Head Light</option>
-                                <option value="Deeper">Deeper</option>
+                                <option value="">--Select Service or Part--</option>
+                                
+                                <optgroup label="Service Types">
+                                    <option value="Tire Change">Tire Change</option>
+                                    <option value="Mobil Change">Oil Change</option>
+                                    <option value="Brake Shoe Change">Brake Shoe Change</option>
+                                    <option value="Coolent Change">Coolant Change</option>
+                                    <option value="Brake Issue">Brake Issue</option>
+                                    <option value="Diesel Tank">Diesel Tank</option>
+                                    <option value="Mobile Tank">Mobile Tank</option>
+                                    <option value="Head Light">Head Light</option>
+                                    <option value="Deeper">Deeper</option>
+                                </optgroup>
+                                
+                                <optgroup label="Engine Parts">
+                                    <option value="Engine Control Module">Engine Control Module (ECM)</option>
+                                    <option value="Timing Belt Kit">Timing Belt Kit</option>
+                                    <option value="Engine Mounts">Engine Mounts</option>
+                                    <option value="Crankshaft Sensor">Crankshaft Position Sensor</option>
+                                    <option value="Camshaft">Camshaft</option>
+                                    <option value="Pistons">Pistons</option>
+                                    <option value="Connecting Rods">Connecting Rods</option>
+                                    <option value="Oil Pump">Oil Pump</option>
+                                    <option value="Turbocharger">Turbocharger</option>
+                                    <option value="Intercooler">Intercooler</option>
+                                </optgroup>
+                                
+                                <optgroup label="Transmission">
+                                    <option value="Transmission Assembly">Transmission Assembly</option>
+                                    <option value="Clutch Kit">Clutch Kit</option>
+                                    <option value="Flywheel">Flywheel</option>
+                                    <option value="Transmission Fluid">Transmission Fluid</option>
+                                    <option value="Gear Selector">Gear Selector</option>
+                                    <option value="DSG Mechatronic Unit">DSG Mechatronic Unit</option>
+                                </optgroup>
+                                
+                                <optgroup label="Brake System">
+                                    <option value="Brake Pads">Brake Pads</option>
+                                    <option value="Brake Rotors">Brake Rotors</option>
+                                    <option value="Brake Calipers">Brake Calipers</option>
+                                    <option value="ABS Control Module">ABS Control Module</option>
+                                    <option value="Brake Lines">Brake Lines</option>
+                                    <option value="Brake Master Cylinder">Brake Master Cylinder</option>
+                                </optgroup>
+                                
+                                <optgroup label="Suspension & Steering">
+                                    <option value="Shock Absorbers">Shock Absorbers</option>
+                                    <option value="Struts">Struts</option>
+                                    <option value="Control Arms">Control Arms</option>
+                                    <option value="Tie Rods">Tie Rods</option>
+                                    <option value="Sway Bar Links">Sway Bar Links</option>
+                                    <option value="Ball Joints">Ball Joints</option>
+                                    <option value="Steering Rack">Steering Rack</option>
+                                    <option value="Power Steering Pump">Power Steering Pump</option>
+                                    <option value="Wheel Bearings">Wheel Bearings</option>
+                                </optgroup>
+                                
+                                <optgroup label="Electrical System">
+                                    <option value="Battery">Battery</option>
+                                    <option value="Alternator">Alternator</option>
+                                    <option value="Starter Motor">Starter Motor</option>
+                                    <option value="Ignition Coils">Ignition Coils</option>
+                                    <option value="Spark Plugs">Spark Plugs</option>
+                                    <option value="Fuse Box">Fuse Box</option>
+                                    <option value="Headlight Assembly">Headlight Assembly</option>
+                                    <option value="Tail Light Assembly">Tail Light Assembly</option>
+                                    <option value="Turn Signal Switch">Turn Signal Switch</option>
+                                    <option value="Window Regulator">Window Regulator</option>
+                                    <option value="MMI Control Unit">MMI Control Unit</option>
+                                </optgroup>
+                                
+                                <optgroup label="Cooling System">
+                                    <option value="Radiator">Radiator</option>
+                                    <option value="Water Pump">Water Pump</option>
+                                    <option value="Thermostat">Thermostat</option>
+                                    <option value="Cooling Fan">Cooling Fan</option>
+                                    <option value="Coolant Reservoir">Coolant Reservoir</option>
+                                    <option value="Radiator Hoses">Radiator Hoses</option>
+                                </optgroup>
+                                
+                                <optgroup label="Fuel System">
+                                    <option value="Fuel Pump">Fuel Pump</option>
+                                    <option value="Fuel Injectors">Fuel Injectors</option>
+                                    <option value="Fuel Filter">Fuel Filter</option>
+                                    <option value="Fuel Pressure Regulator">Fuel Pressure Regulator</option>
+                                    <option value="Fuel Tank">Fuel Tank</option>
+                                    <option value="Fuel Lines">Fuel Lines</option>
+                                </optgroup>
+                                
+                                <optgroup label="Exhaust System">
+                                    <option value="Catalytic Converter">Catalytic Converter</option>
+                                    <option value="Exhaust Manifold">Exhaust Manifold</option>
+                                    <option value="Muffler">Muffler</option>
+                                    <option value="Oxygen Sensor">Oxygen Sensor</option>
+                                    <option value="Exhaust Pipes">Exhaust Pipes</option>
+                                    <option value="DPF Filter">DPF Filter</option>
+                                </optgroup>
+                                
+                                <optgroup label="Body Parts">
+                                    <option value="Front Bumper">Front Bumper</option>
+                                    <option value="Rear Bumper">Rear Bumper</option>
+                                    <option value="Hood">Hood</option>
+                                    <option value="Trunk Lid">Trunk Lid</option>
+                                    <option value="Doors">Doors</option>
+                                    <option value="Fenders">Fenders</option>
+                                    <option value="Grille">Grille</option>
+                                    <option value="Side Mirrors">Side Mirrors</option>
+                                    <option value="Windshield">Windshield</option>
+                                </optgroup>
+                                
+                                <optgroup label="Interior">
+                                    <option value="Dashboard">Dashboard</option>
+                                    <option value="Seats">Seats</option>
+                                    <option value="Steering Wheel">Steering Wheel</option>
+                                    <option value="Airbag Module">Airbag Module</option>
+                                    <option value="Climate Control Unit">Climate Control Unit</option>
+                                    <option value="Door Panels">Door Panels</option>
+                                    <option value="Center Console">Center Console</option>
+                                    <option value="Floor Mats">Floor Mats</option>
+                                </optgroup>
+                                
+                                <optgroup label="HVAC System">
+                                    <option value="A/C Compressor">A/C Compressor</option>
+                                    <option value="A/C Condenser">A/C Condenser</option>
+                                    <option value="Heater Core">Heater Core</option>
+                                    <option value="Blower Motor">Blower Motor</option>
+                                    <option value="Evaporator">Evaporator</option>
+                                    <option value="Expansion Valve">Expansion Valve</option>
+                                </optgroup>
+                                
                                 <option value="Other">Other</option>
                             </select>
                         </div>
@@ -361,7 +492,7 @@
                 </div>
                 
                 <div class="price-display" id="price-display">
-                    Select a service to see the price
+                    Select a service or part to see the price
                 </div>
                 
                 <!-- Hidden Price Input -->
@@ -376,13 +507,14 @@
         </form>
         
         <div class="footer">
-            &copy; <?php echo date('Y'); ?> Suzuki Service Center. All Rights Reserved.
+            &copy; <?php echo date('Y'); ?> Audi Service Center. All Rights Reserved.
         </div>
     </div>
 
     <script>
-        // Price data for each service
+        // Price data for each service and part
         const servicePrices = {
+            // Original Services
             "Tire Change": 500,
             "Mobil Change": 300,
             "Brake Shoe Change": 400,
@@ -391,7 +523,112 @@
             "Diesel Tank": 450,
             "Mobile Tank": 350,
             "Head Light": 150,
-            "Deeper": 1000
+            "Deeper": 1000,
+            
+            // Engine Parts
+            "Engine Control Module": 15000,
+            "Timing Belt Kit": 8000,
+            "Engine Mounts": 3500,
+            "Crankshaft Sensor": 2000,
+            "Camshaft": 12000,
+            "Pistons": 8000,
+            "Connecting Rods": 6000,
+            "Oil Pump": 4500,
+            "Turbocharger": 25000,
+            "Intercooler": 9000,
+            
+            // Transmission
+            "Transmission Assembly": 45000,
+            "Clutch Kit": 15000,
+            "Flywheel": 12000,
+            "Transmission Fluid": 2500,
+            "Gear Selector": 5000,
+            "DSG Mechatronic Unit": 30000,
+            
+            // Brake System
+            "Brake Pads": 5000,
+            "Brake Rotors": 8000,
+            "Brake Calipers": 12000,
+            "ABS Control Module": 18000,
+            "Brake Lines": 3000,
+            "Brake Master Cylinder": 7500,
+            
+            // Suspension & Steering
+            "Shock Absorbers": 6000,
+            "Struts": 8000,
+            "Control Arms": 5000,
+            "Tie Rods": 3000,
+            "Sway Bar Links": 2000,
+            "Ball Joints": 3500,
+            "Steering Rack": 16000,
+            "Power Steering Pump": 8000,
+            "Wheel Bearings": 4000,
+            
+            // Electrical System
+            "Battery": 12000,
+            "Alternator": 8000,
+            "Starter Motor": 7000,
+            "Ignition Coils": 3000,
+            "Spark Plugs": 2000,
+            "Fuse Box": 5000,
+            "Headlight Assembly": 18000,
+            "Tail Light Assembly": 12000,
+            "Turn Signal Switch": 3500,
+            "Window Regulator": 6000,
+            "MMI Control Unit": 25000,
+            
+            // Cooling System
+            "Radiator": 11000,
+            "Water Pump": 6000,
+            "Thermostat": 2500,
+            "Cooling Fan": 5000,
+            "Coolant Reservoir": 2000,
+            "Radiator Hoses": 1500,
+            
+            // Fuel System
+            "Fuel Pump": 9000,
+            "Fuel Injectors": 8000,
+            "Fuel Filter": 1500,
+            "Fuel Pressure Regulator": 3500,
+            "Fuel Tank": 15000,
+            "Fuel Lines": 4000,
+            
+            // Exhaust System
+            "Catalytic Converter": 22000,
+            "Exhaust Manifold": 12000,
+            "Muffler": 8000,
+            "Oxygen Sensor": 3500,
+            "Exhaust Pipes": 6000,
+            "DPF Filter": 18000,
+            
+            // Body Parts
+            "Front Bumper": 25000,
+            "Rear Bumper": 22000,
+            "Hood": 30000,
+            "Trunk Lid": 25000,
+            "Doors": 35000,
+            "Fenders": 18000,
+            "Grille": 12000,
+            "Side Mirrors": 8000,
+            "Windshield": 15000,
+            
+            // Interior
+            "Dashboard": 45000,
+            "Seats": 55000,
+            "Steering Wheel": 15000,
+            "Airbag Module": 20000,
+            "Climate Control Unit": 12000,
+            "Door Panels": 8000,
+            "Center Console": 10000,
+            "Floor Mats": 3000,
+            
+            // HVAC System
+            "A/C Compressor": 18000,
+            "A/C Condenser": 12000,
+            "Heater Core": 15000,
+            "Blower Motor": 6000,
+            "Evaporator": 14000,
+            "Expansion Valve": 4000
         };
 
         // Reference elements
@@ -412,7 +649,7 @@
 
                 // Display price
                 priceDisplay.innerHTML = `
-                    Service: <span>${selectedService}</span><br>
+                    Item: <span>${selectedService}</span><br>
                     Unit Price: <span>₹${unitPrice.toLocaleString()}</span><br>
                     Quantity: <span>${quantity}</span><br>
                     <div style="font-size: 22px; margin-top: 10px;">
@@ -422,8 +659,11 @@
 
                 // Update hidden price field
                 priceField.value = totalPrice;
+            } else if (selectedService === "Other") {
+                priceDisplay.textContent = 'Please contact for custom pricing';
+                priceField.value = '0'; // For "Other" option, set price to 0 and update later
             } else {
-                priceDisplay.textContent = 'Please select a valid service';
+                priceDisplay.textContent = 'Please select a valid service or part';
                 priceField.value = ''; // Clear price if no service is selected
             }
         }

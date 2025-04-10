@@ -16,6 +16,7 @@ if (isset($_POST['submit'])) {
     $Chasis_No = mysqli_real_escape_string($con, $_POST['chassis']);
     $Price = mysqli_real_escape_string($con, $_POST['price']);    
     $Phone = mysqli_real_escape_string($con, $_POST['phone_number']);
+    $Sphere = mysqli_real_escape_string($con, $_POST['sphere']);
 
     // Check for existing appointment with the same service, date, and time
     $checkQuery = "SELECT * FROM appointment WHERE SERVICE = ? AND DATE = ? AND TIME = ?";
@@ -29,8 +30,8 @@ if (isset($_POST['submit'])) {
         echo "<script>alert('Error: This service is already booked for the selected time slot. Please choose a different service or time.');</script>";
     } else {
         // Prepared statement to insert data if no duplication found
-        $stmt = $con->prepare("INSERT INTO appointment (LEVEL,SERVICE, DATE, TIME, NAME, VEHICLE_NO,ENGINEE,CHASIS,PRICE, PHONE_NUMBER) VALUES (?,?,?,?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssssssss", $Level,$Service_Name, $Date, $Time, $Name, $Vehicle, $Engien_No,$Chasis_No,$Price, $Phone); // Updated to "ssssssss" for 8 params
+        $stmt = $con->prepare("INSERT INTO appointment (LEVEL,SERVICE, DATE, TIME, NAME, VEHICLE_NO,ENGINEE,CHASIS,PRICE, PHONE_NUMBER,SPHERE_PART) VALUES (?,?,?,?,?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssssssss", $Level,$Service_Name, $Date, $Time, $Name, $Vehicle, $Engien_No,$Chasis_No,$Price, $Phone,$Sphere); // Updated to "ssssssss" for 8 params
 
         // Execute and check for errors
         if ($stmt->execute()) {

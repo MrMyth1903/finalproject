@@ -443,13 +443,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payment_method'])) {
                             <div>Delivery Fee:</div>
                             <div>₹50.00</div>
                         </div>
-                        <div class="total-row">
-                            <div>Tax (18%):</div>
-                            <div>₹<?php echo number_format($totalPrice * 0.18, 2); ?></div>
-                        </div>
                         <div class="total-row grand-total">
                             <div>Grand Total:</div>
-                            <div>₹<?php echo number_format($totalPrice + 50 + ($totalPrice * 0.18), 2); ?></div>
+                            <div>₹<?php echo number_format($totalPrice + 50, 2); ?></div>
                         </div>
                     </div>
                     

@@ -1,9 +1,25 @@
 <?php
 session_start();
 if (!isset($_SESSION['email'])) {
-    header("Location: login.html");
+    header("Location: login.php");
     exit();
 }
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "final"; // Replace with your actual database name
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// SQL query to fetch posts
+$sql = "SELECT NAME,EMAIL,IMAGE,FEEDBACK FROM feedback";
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +31,8 @@ if (!isset($_SESSION['email'])) {
     <link rel="icon" href="photo/Untitled-removebg-preview.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -97,7 +115,6 @@ if (!isset($_SESSION['email'])) {
         header.hide {
             transform: translateY(-100%);
         }
-        
         /* Add top padding to body to compensate for fixed header */
         body {
             padding-top: 90px; /* Adjust this value based on your header height */
@@ -264,7 +281,7 @@ if (!isset($_SESSION['email'])) {
         }
         
         .logout-menu-item.danger {
-            color: var(--danger);
+            color: white;
         }
         
         .logout-menu-item.danger:hover {
@@ -402,35 +419,132 @@ if (!isset($_SESSION['email'])) {
             transform: translateY(0);
         }
 
+        /* IMPROVED FEEDBACK SECTION STYLING */
         .feedback-section {
-        margin: 2rem auto;
-        max-width: 800px;
-        padding: 1rem;
-        text-align: center;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .feedback-container {
-        position: relative;
-        height: 150px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .feedback-item {
-        font-size: 1.2rem;
-        color: #333;
-        padding: 10px;
-        opacity: 0;
-        transform: translateY(50px);
-        animation: scrollFeedback 5s linear infinite;
-    }
-    @keyframes scrollFeedback {
-        0% { opacity: 1; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY(-50px); }
-    }        
+            margin: 2rem auto;
+            max-width: 800px;
+            padding: 1.5rem;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .feedback-section h2 {
+            color: #0073e6;
+            margin-bottom: 1.5rem;
+            font-size: 28px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .feedback-section h2:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, #0073e6, transparent);
+            left: 25%;
+            bottom: -10px;
+        }
+
+        .feedback-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: #0073e6 #f0f0f0;
+        }
+
+        .feedback-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .feedback-container::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .feedback-container::-webkit-scrollbar-thumb {
+            background-color: #0073e6;
+            border-radius: 10px;
+        }
+
+        .feedback-item {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            text-align: left;
+            transition: all 0.3s ease;
+            border-left: 4px solid #0073e6;
+            animation: fadeIn 0.5s ease-in;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feedback-item:before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 60px;
+            color: rgba(0, 115, 230, 0.1);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .feedback-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 115, 230, 0.15);
+        }
+
+        .feedback-item.highlight {
+            background-color: #e6f3ff;
+            border-left: 4px solid #0073e6;
+            transform: scale(1.02);
+        }
+
+        .feedback-author {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-left: 15px;
+        }
+
+        .feedback-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 3px solid #0073e6;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .feedback-author span {
+            font-weight: bold;
+            color: #0073e6;
+            font-size: 1.1rem;
+        }
+
+        .feedback-item p {
+            margin: 0;
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            padding-left: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }        
     footer {
     background-color: #333;
     color: #fff;
@@ -657,7 +771,7 @@ if (!isset($_SESSION['email'])) {
 
     </style>
 </head>
-<body>
+<c>
   <video class="background-video" id="bgVideo" autoplay muted loop>
         <source src="video/istockphoto-1680698591-640_adpp_is.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
@@ -702,6 +816,7 @@ if (!isset($_SESSION['email'])) {
             <img src="photo/pngtree-auto-repair-vector-png-image_6888531.png" alt="Vehicle Servicing System">
         </div>
     </section>
+    <center><h2>Order Sphere here</h2></center>
     <section class="scroll-section">
         <div class="scroll-item"><a href="audirequest.php"><img src="servicelogo/audi.png" alt=""></a></div>
         <div class="scroll-item"><a href="hondarequest.php"><img src="servicelogo/Honda.png" alt=""></a></div>
@@ -719,9 +834,9 @@ if (!isset($_SESSION['email'])) {
         <div class="scroll-item"><a href="tyotarequest.php"><img src="servicelogo/toyota.png" alt=""></a></div>
         <div class="scroll-item"><a href="herorequest.php"><img src="servicelogo/hero.png" alt=""></a></div>
     </section>
-    <button class="feedback-button" onclick="location.href='feedback.html'">Feedback</button>
+    <button class="feedback-button" onclick="location.href='feedbackhome.html'">Feedback</button>
     
-    <button class="chatbot" onclick="toggleChatbot()">💬</button>
+    <!-- <button class="chatbot" onclick="toggleChatbot()">💬</button>
     <div class="chatbot-popup" id="chatbotPopup">
         <div class="chatbot-header">Chat Support</div>
         <div class="chatbot-messages" id="chatbotMessages"></div>
@@ -729,7 +844,7 @@ if (!isset($_SESSION['email'])) {
             <input type="text" id="chatbotInput" placeholder="Type a message...">
             <button onclick="sendMessage()">Send</button>
         </div>
-    </div>
+    </div> -->
     <script>
         const chatbotPopup = document.getElementById("chatbotPopup");
         const chatbotMessages = document.getElementById("chatbotMessages");
@@ -812,46 +927,62 @@ if (!isset($_SESSION['email'])) {
     </script>
 
 <section class="feedback-section">
-    <h2>User Feedback</h2>
+    <!-- <h2>What Our Customers Say</h2> -->
     <div class="feedback-container">
-        <div class="feedback-item">Fetching feedback...</div>
+        <!-- Feedback items will be displayed here -->
+        <?php
+        // Reset the result pointer if needed
+        if ($result) {
+            mysqli_data_seek($result, 0);
+            
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="feedback-item">';
+                    echo '<div class="feedback-author">';
+                    
+                    // Display user image if available, otherwise use default
+                    if (!empty($row['IMAGE'])) {
+                        echo '<img src="' . htmlspecialchars($row['IMAGE']) . '" alt="User">';
+                    } else {
+                        echo '<img src="photo/user-default.png" alt="User">';
+                    }
+                    
+                    echo '<span>' . htmlspecialchars($row['NAME']) . '</span>';
+                    echo '</div>';
+                    echo '<p>' . htmlspecialchars($row['FEEDBACK']) . '</p>';
+                    echo '</div>';
+                }
+            } else {
+                echo '<p>No feedback available yet. Be the first to share your experience!</p>';
+            }
+        }
+        ?>
     </div>
 </section>
 <script>
-    async function fetchFeedback() {
-        const feedbackContainer = document.querySelector('.feedback-container');
-        feedbackContainer.innerHTML = ''; // Clear placeholder
-
-        try {
-            const response = await fetch('fetch_feedback.php'); // Backend PHP file
-            const feedbackData = await response.json();
-
-            feedbackData.forEach(feedback => {
-                const feedbackItem = document.createElement('div');
-                feedbackItem.classList.add('feedback-item');
-                feedbackItem.textContent = feedback; // Display the message
-                feedbackContainer.appendChild(feedbackItem);
-            });
-
-            // Auto-scroll effect
-            let index = 0;
-            setInterval(() => {
-                const items = document.querySelectorAll('.feedback-item');
-                items.forEach((item, i) => {
-                    item.style.opacity = i === index ? '1' : '0';
-                    item.style.transform = i === index ? 'translateY(0)' : 'translateY(50px)';
-                });
-                index = (index + 1) % items.length;
-            }, 3000);
-
-        } catch (error) {
-            feedbackContainer.textContent = 'Failed to load feedback.';
-            console.error('Error fetching feedback:', error);
-        }
+    // This script handles the animation of feedback items
+document.addEventListener("DOMContentLoaded", function() {
+    const feedbackItems = document.querySelectorAll('.feedback-item');
+    
+    // Add animation delay to each feedback item for a staggered effect
+    feedbackItems.forEach((item, index) => {
+        item.style.animationDelay = `${index * 0.2}s`;
+    });
+    
+    // Optional: Add automatic cycling of feedback items if there are many
+    if (feedbackItems.length > 3) {
+        let currentIndex = 0;
+        setInterval(() => {
+            feedbackItems.forEach(item => item.classList.remove('highlight'));
+            feedbackItems[currentIndex].classList.add('highlight');
+            
+            // Auto-scroll to the highlighted item
+            feedbackItems[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            currentIndex = (currentIndex + 1) % feedbackItems.length;
+        }, 5000);
     }
-
-    // Fetch feedback on page load
-    fetchFeedback();
+});
 </script>
   <!-- footer section -->
   <footer>
@@ -874,14 +1005,14 @@ if (!isset($_SESSION['email'])) {
             <p>Phone: +91 8340300338</p>
         </div>
         <div class="footer-section">
-            <h3>Follow Us</h3>
-            <div class="social-icons">
-                <a href="https://www.facebook.com/profile.php?id=61573648584570"><img src="facebook-icon.png" alt="Facebook"></a>
-                <a href="https://x.com/merigaddi0008"><img src="twitter-icon.png" alt="Twitter"></a>
-                <a href="https://www.threads.net/@merigaddi0008"><img src="twitter-icon.png" alt="Thread"></a>
-                <a href="https://www.instagram.com/merigaddi0008?igsh=MXg0OWhjc3ExMThzbw=="><img src="instagram-icon.png" alt="Instagram"></a>
-            </div>
-        </div>
+    <h3>Follow Us</h3>
+    <div class="social-icons">
+        <a href="https://www.facebook.com/profile.php?id=61573648584570" class="facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://x.com/merigaddi0008" class="twitter"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.threads.net/@merigaddi0008" class="threads"><i class="fab fa-threads"></i></a>
+        <a href="https://www.instagram.com/merigaddi0008?igsh=MXg0OWhjc3ExMThzbw==" class="instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+</div>
         
     </div>
     <div class="footer-bottom">

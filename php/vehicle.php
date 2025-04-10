@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch Vehicle Appointment Data
-$sql = "SELECT ID, SERVICE, DATE, TIME, NAME, VEHICLE_NO, WANT, SPHERE_PART, PHONE_NUMBER FROM appointment";
+$sql = "SELECT ID,LEVEL, SERVICE, DATE, TIME, NAME, VEHICLE_NO,SPHERE_PART,PRICE, PHONE_NUMBER FROM appointment";
 $result = $conn->query($sql);
 ?>
 
@@ -395,6 +395,7 @@ $result = $conn->query($sql);
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>LEVEL</th>
                     <th>Service</th>
                     <th>Date</th>
                     <th>Time</th>
@@ -410,14 +411,15 @@ $result = $conn->query($sql);
                 <?php while ($row = $result->fetch_assoc()) { ?>
                     <tr>
                         <td><?php echo $row['ID']; ?></td>
+                        <td><?php echo htmlspecialchars($row['LEVEL']); ?></td>
                         <td><?php echo htmlspecialchars($row['SERVICE']); ?></td>
                         <td><?php echo htmlspecialchars($row['DATE']); ?></td>
                         <td><?php echo htmlspecialchars($row['TIME']); ?></td>
                         <td><?php echo htmlspecialchars($row['NAME']); ?></td>
                         <td><?php echo htmlspecialchars($row['VEHICLE_NO']); ?></td>
                         <td>
-                            <span class="status-badge <?php echo strtolower($row['WANT']) == 'urgent' ? 'status-pending' : 'status-completed'; ?>">
-                                <?php echo htmlspecialchars($row['WANT']); ?>
+                            <span class="status-badge <?php echo strtolower($row['PRICE']) == 'urgent' ? 'status-pending' : 'status-completed'; ?>">
+                                <?php echo htmlspecialchars($row['PRICE']); ?>
                             </span>
                         </td>
                         <td><?php echo htmlspecialchars($row['SPHERE_PART']); ?></td>
