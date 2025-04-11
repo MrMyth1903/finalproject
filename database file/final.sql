@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2025 at 12:17 PM
+-- Generation Time: Apr 11, 2025 at 12:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,6 +34,7 @@ CREATE TABLE `appointment` (
   `TIME` time NOT NULL,
   `DATE` date NOT NULL,
   `NAME` varchar(30) NOT NULL,
+  `EMAIL` varchar(50) NOT NULL,
   `VEHICLE_NO` varchar(14) NOT NULL,
   `ENGINEE` int(20) NOT NULL,
   `CHASIS` int(20) NOT NULL,
@@ -46,11 +47,10 @@ CREATE TABLE `appointment` (
 -- Dumping data for table `appointment`
 --
 
-INSERT INTO `appointment` (`ID`, `LEVEL`, `SERVICE`, `TIME`, `DATE`, `NAME`, `VEHICLE_NO`, `ENGINEE`, `CHASIS`, `PRICE`, `PHONE_NUMBER`, `SPHERE_PART`) VALUES
-(10, 'Level 1', 'Bike Servicing', '12:15:00', '2025-04-23', 'CHANDAN SINGH', 'JH/05/CH/1688', 3456, 2343, '9999', 8340300338, ''),
-(11, 'Level 1', 'Car Maintenance', '12:54:00', '2025-04-14', 'SNEHA SINGH', 'JH/05/CH/1688', 3456, 2343, '9999', 8340300338, ''),
-(12, 'Level 2', 'Bike Servicing', '14:14:00', '2025-04-21', 'SNEHA SINGH', 'JH/05/CH/1688', 3456, 2343, '15000', 8340300338, ''),
-(13, 'Level 3', 'Car Maintenance', '14:14:00', '2025-04-12', 'SNEHA SINGH', 'JH/05/EF/2345', 3456, 2343, '35000', 8340300338, '');
+INSERT INTO `appointment` (`ID`, `LEVEL`, `SERVICE`, `TIME`, `DATE`, `NAME`, `EMAIL`, `VEHICLE_NO`, `ENGINEE`, `CHASIS`, `PRICE`, `PHONE_NUMBER`, `SPHERE_PART`) VALUES
+(35, 'Level 3', 'Bike Servicing', '11:48:00', '2025-04-17', 'SNEHA SINGH', 'chaandaan42@gmail.com', 'JH/05/EF/2345', 3456, 2343, '35000', 8340300338, ''),
+(36, 'Customized Service', 'Bike Servicing', '11:45:00', '2025-05-02', 'SNEHA SINGH', '', 'JH/05/CH/2345', 3456, 2345, '1000', 7050601433, 'Tire Change'),
+(37, 'Customized Service', 'Car Maintenance', '13:16:00', '2025-04-18', 'SNEHA SINGH', 'chaandaan42@gmail.com', 'JH/05/CH/2345', 3456, 2345, '7000', 7050601433, 'Engine Mounts');
 
 -- --------------------------------------------------------
 
@@ -86,7 +86,10 @@ INSERT INTO `attendance` (`id`, `email`, `date`, `status`) VALUES
 (14, 'sohamchakroborty232005@gmail.com', '2025-04-09', 'Leave'),
 (15, 'mrinmoykumarmahato@gmail.com', '2025-04-10', 'Absent'),
 (16, 'amansharma22299@gmail.com', '2025-04-10', 'Present'),
-(17, 'sohamchakroborty232005@gmail.com', '2025-04-10', 'Present');
+(17, 'sohamchakroborty232005@gmail.com', '2025-04-10', 'Present'),
+(18, 'mrinmoykumarmahato@gmail.com', '2025-04-11', 'Present'),
+(19, 'amansharma22299@gmail.com', '2025-04-11', 'Present'),
+(20, 'sohamchakroborty232005@gmail.com', '2025-04-11', 'Present');
 
 -- --------------------------------------------------------
 
@@ -163,9 +166,9 @@ CREATE TABLE `members` (
 --
 
 INSERT INTO `members` (`id`, `firstname`, `lastname`, `email`, `phoneNumber`, `aadharNo`, `vehicle`) VALUES
-(34, 'MRINMOY KUMAR', 'MAHATO', 'mrinmoykumarmahato@gmail.com', '8340300338', '234554322345', 'JH/05/EF/2343'),
-(37, 'aman', 'sharma', 'amansharma22299@gmail.com', '1234567890', '234554322346', NULL),
-(38, 'MANGU RAM', 'HEMBRAM', 'sohamchakroborty232005@gmail.com', '7050601433', '409843437786', NULL);
+(34, 'MRINMOY KUMAR', 'MAHATO', 'mrinmoykumarmahato@gmail.com', '8340300338', '234554322345', 'JH/05/CH/2345'),
+(37, 'aman', 'sharma', 'amansharma22299@gmail.com', '1234567890', '234554322346', 'JH/05/EF/2345'),
+(38, 'MANGU RAM', 'HEMBRAM', 'sohamchakroborty232005@gmail.com', '7050601433', '409843437786', 'JH/05/CH/2345');
 
 -- --------------------------------------------------------
 
@@ -188,7 +191,10 @@ CREATE TABLE `payments` (
 INSERT INTO `payments` (`id`, `email`, `working_days`, `amount_paid`, `payment_date`) VALUES
 (31, 'amansharma22299@gmail.com', 2, 1000.00, '2025-04-10 15:38:55'),
 (32, 'mrinmoykumarmahato@gmail.com', 3, 1470.00, '2025-04-10 15:39:00'),
-(33, 'sohamchakroborty232005@gmail.com', 1, 510.00, '2025-04-10 15:39:05');
+(33, 'sohamchakroborty232005@gmail.com', 1, 510.00, '2025-04-10 15:39:05'),
+(34, 'amansharma22299@gmail.com', 3, 1500.00, '2025-04-11 11:46:58'),
+(35, 'mrinmoykumarmahato@gmail.com', 4, 2000.00, '2025-04-11 11:47:03'),
+(36, 'sohamchakroborty232005@gmail.com', 2, 1000.00, '2025-04-11 11:47:08');
 
 -- --------------------------------------------------------
 
@@ -373,13 +379,13 @@ ALTER TABLE `vendor`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `emergency_appointment`
@@ -403,7 +409,7 @@ ALTER TABLE `members`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `posts`

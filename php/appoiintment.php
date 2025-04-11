@@ -1,4 +1,21 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Include PHPMailer classes
+require 'PHPMailer/PHPMailer-master/src/Exception.php';
+require 'PHPMailer/PHPMailer-master/src/PHPMailer.php';
+require 'PHPMailer/PHPMailer-master/src/SMTP.php';
+
+session_start();
+if (!isset($_SESSION['email'])) {
+    exit("User not logged in.");
+}
+
+$emailTo = $_SESSION['email']; // Retrieve the logged-in user's email
+
+// Database connection
 $con = mysqli_connect('localhost', 'root', '', 'final');
 if (!$con) {
     die("Connection failed: " . mysqli_connect_error());
@@ -11,11 +28,15 @@ if (isset($_POST['submit'])) {
     $Date = mysqli_real_escape_string($con, $_POST['date']);
     $Time = mysqli_real_escape_string($con, $_POST['time']);
     $Name = mysqli_real_escape_string($con, $_POST['name']);
+    $Email = mysqli_real_escape_string($con, $_POST['email']);
     $Vehicle = mysqli_real_escape_string($con, $_POST['vehicle']);
     $Engien_No = mysqli_real_escape_string($con, $_POST['engine']);
     $Chasis_No = mysqli_real_escape_string($con, $_POST['chassis']);
-    $Price = mysqli_real_escape_string($con, $_POST['price']);    
+    $Price = mysqli_real_escape_string($con, $_POST['price']);
     $Phone = mysqli_real_escape_string($con, $_POST['phone_number']);
+    // $Sphere = mysqli_real_escape_string($con, $_POST['custom_services']);
+    $payment_method = "Cash on Delivery";
+    $payment_message = "Waiting for Meri Gaddi to confirm your appointment!<br>Payment will be done at the time of delivery.";
 
     // Check for existing appointment with the same service, date, and time
     $checkQuery = "SELECT * FROM appointment WHERE SERVICE = ? AND DATE = ? AND TIME = ?";
@@ -25,16 +46,79 @@ if (isset($_POST['submit'])) {
     $result = $stmtCheck->get_result();
 
     if ($result->num_rows > 0) {
-        // If an appointment with the same service, date, and time already exists
         echo "<script>alert('Error: This service is already booked for the selected time slot. Please choose a different service or time.');</script>";
     } else {
-        // Prepared statement to insert data if no duplication found
-        $stmt = $con->prepare("INSERT INTO appointment (LEVEL,SERVICE, DATE, TIME, NAME, VEHICLE_NO,ENGINEE,CHASIS,PRICE, PHONE_NUMBER) VALUES (?,?,?,?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssssssss", $Level,$Service_Name, $Date, $Time, $Name, $Vehicle, $Engien_No,$Chasis_No,$Price, $Phone); // Updated to "ssssssss" for 8 params
+        // Insert appointment
+        $stmt = $con->prepare("INSERT INTO appointment (LEVEL, SERVICE, DATE, TIME, NAME, EMAIL,VEHICLE_NO, ENGINEE, CHASIS, PRICE, PHONE_NUMBER) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssssssS", $Level, $Service_Name, $Date, $Time, $Name, $Email,$Vehicle, $Engien_No, $Chasis_No, $Price, $Phone);
 
-        // Execute and check for errors
         if ($stmt->execute()) {
             echo "<script>alert('Appointment successfully created.');</script>";
+
+            // Build email content
+            $itemList = "
+                <tr>
+                    <td>$Level</td>
+                    <td>$Service_Name</td>
+                    <td>$Date</td>
+                    <td>$Time</td>
+                    <td>$Name</td>
+                    <td>$Vehicle</td>
+                    <td>$Engien_No</td>
+                    <td>$Chasis_No</td>
+                    <td>₹$Price</td>
+                    <td>$Phone</td>
+                </tr>";
+
+            $body = "
+            <div style='font-family: Arial, sans-serif;'>
+                <h2 style='color: #0b5394;'>Thank you for choosing <span style='color: #38761d;'>Meri Gaddi</span>!</h2>
+                <p>Your appointment has been successfully scheduled. Here are your service details:</p>
+                <table border='1' cellpadding='10' cellspacing='0' style='border-collapse: collapse; width: 100%;'>
+                    <thead style='background-color: #f2f2f2;'>
+                        <tr>
+                            <th>LEVEL</th>
+                            <th>SERVICE</th>
+                            <th>DATE</th>
+                            <th>TIME</th>
+                            <th>NAME</th>
+                            <th>VEHICLE NO</th>
+                            <th>ENGINE NO</th>
+                            <th>CHASSIS NO</th>
+                            <th>PRICE</th>
+                            <th>PHONE</th>
+                    </thead>
+                    <tbody>$itemList</tbody>
+                </table>
+                <p style='color: green;'>$payment_message</p>
+                <br>
+                <p>If you have any questions, feel free to contact our support team.</p>
+                <p>Best regards,<br><strong>Meri Gaddi Team</strong></p>
+            </div>";
+
+            // Send email
+            $mail = new PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'merigaddi0008@gmail.com';
+                $mail->Password = 'yqvqgtuselknvezr'; // Secure this in production
+                $mail->SMTPSecure = 'ssl';
+                $mail->Port = 465;
+
+                $mail->setFrom('merigaddi0008@gmail.com', 'Meri Gaddi');
+                $mail->addAddress($emailTo);
+
+                $mail->isHTML(true);
+                $mail->Subject = 'Your Meri Gaddi Appointment & Order Details';
+                $mail->Body = $body;
+
+                $mail->send();
+                echo "<script>alert('Confirmation email sent successfully!'); window.location.href = '../home.php';</script>";
+            } catch (Exception $e) {
+                echo "<script>alert('Email could not be sent. Error: " . $mail->ErrorInfo . "');</script>";
+            }
         } else {
             echo "<script>alert('Error: Unable to create appointment. Please try again.');</script>";
         }
@@ -43,10 +127,6 @@ if (isset($_POST['submit'])) {
     }
 
     $stmtCheck->close();
+    mysqli_close($con);
 }
-
-// Redirect after a short delay to allow alert to be displayed
-header('refresh:1; url=http://localhost/final%20year/home.php');
-
-mysqli_close($con);
 ?>

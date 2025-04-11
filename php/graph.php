@@ -27,7 +27,6 @@ while ($row = $result->fetch_assoc()) {
 // Fetch service data (vehicle types and their quantities)
 $sql2 = "SELECT V_TYPE, SUM(QUANTITY) AS total_quantity, SUM(PRICE) AS total_revenue FROM service GROUP BY V_TYPE";
 $result2 = $conn->query($sql2);
-
 $vehicleTypes = [];
 $quantities = [];
 $revenues = [];
@@ -39,6 +38,15 @@ if ($result2->num_rows > 0) {
         $revenues[] = $row['total_revenue'];
     }
 }
+
+// Calculate total revenue from all services
+$totalQuery = "SELECT SUM(PRICE) AS total FROM appointment";
+$totalResult = $conn->query($totalQuery);
+$totalRow = $totalResult->fetch_assoc();
+$totalRevenue = $totalRow['total'] ?? 0;
+
+// Calculate total service revenue
+$totalServiceRevenue = array_sum($revenues) + $totalRevenue;
 
 // Fetch payment data - Monthly payment analysis
 $sql3 = "SELECT 
@@ -90,9 +98,6 @@ if ($result3->num_rows == 0) {
         $paymentCounts[] = $row['payment_count'];
     }
 }
-
-// Calculate total revenue from all services
-$totalServiceRevenue = array_sum($revenues);
 
 // Get total from payments
 $sql4 = "SELECT SUM(amount_paid) AS total_payments FROM payments";
@@ -581,19 +586,17 @@ $conn->close();
             </div>
             <div class="stat-card accent">
                 <div class="stat-label"><i class="fas fa-car-mechanic"></i> Service Revenue</div>
-                <div class="stat-value"><?php echo number_format($totalServiceRevenue, 2); ?>₹</div>
+                <div class="stat-value">₹<?php echo number_format($totalServiceRevenue, 2); ?></div>
             </div>
             <div class="stat-card danger">
                 <div class="stat-label"><i class="fas fa-user-hard-hat"></i> Worker Payments</div>
-                <div class="stat-value"><?php echo number_format($totalPayments, 2); ?>₹</div>
+                <div class="stat-value">₹<?php echo number_format($totalPayments, 2); ?></div>
             </div>
             <div class="stat-card profit">
                 <div class="stat-label"><i class="fas fa-chart-line"></i> Net Profit</div>
-                <div class="stat-value"><?php echo number_format($netProfit, 2); ?>₹</div>
+                <div class="stat-value">₹<?php echo number_format($netProfit, 2); ?></div>
             </div>
         </div>
-        
-        
         
         <!-- First row of charts -->
         <div class="charts-row">
@@ -879,7 +882,8 @@ $conn->close();
                             text: 'Payment Count',
                             font: {
                                 family: "'Poppins', sans-serif",
-                                size:12                            }
+                                size: 12
+                            }
                         }
                     },
                     x: {
