@@ -795,6 +795,9 @@ $result = $conn->query($sql);
                         <a href="php/orderdetails.php" class="logout-menu-item">
                             <i class="fas fa-clipboard-list"></i> My Orders
                         </a>
+                        <a href="php/appointmentdetails.php" class="logout-menu-item">
+                            <i class="fas fa-clipboard-list"></i> Appointment Details
+                        </a>
                         <a href="logout.php" class="logout-menu-item danger">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </a>

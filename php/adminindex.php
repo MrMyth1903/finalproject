@@ -279,7 +279,7 @@ if (!isset($_SESSION['admin_email'])) {
         <ul class="sidebar-menu">
             <li><a href="graph.php" onclick="loadPage('graph')"><i class="fas fa-home"></i> <span>Graph</span></a></li>
             <li><a href="#" onclick="loadPage('vendor')"><i class="fas fa-store"></i> <span>Vendors</span></a></li>
-            <li><a href="#" onclick="loadPage('vehicles')"><i class="fas fa-car"></i> <span>Vehicles</span></a></li>
+            <li><a href="vehicle.php" onclick="loadPage('vehicles')"><i class="fas fa-car"></i> <span>Vehicles</span></a></li>
             <li><a href="#" onclick="loadPage('workers')"><i class="fas fa-users"></i> <span>Workers</span></a></li>
             <li><a href="#" onclick="loadPage('days')"><i class="fas fa-users"></i> <span>Attendence</span></a></li>
             <li><a href="worker_payment.php" onclick="loadPage('worker_payment')"><i class="fas fa-money-bill-wave"></i> <span>Payment</span></a></li>
@@ -351,9 +351,9 @@ if (!isset($_SESSION['admin_email'])) {
                 case 'users':
                     pageURL = 'users.php';
                     break;
-                case 'vehicles':
-                    pageURL = 'vehicle.php';
-                    break;
+                // case 'vehicles':
+                //     pageURL = 'vehicle.php';
+                //     break;
                 case 'history':
                     pageURL = 'payment_history.php';
                     break;
