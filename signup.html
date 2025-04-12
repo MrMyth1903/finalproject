@@ -170,9 +170,9 @@
     
             // Password validation
             var password = document.querySelector('input[name="pass"]').value;
-            var passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            var passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
             if (!passRegex.test(password)) {
-                alert("Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.");
+                alert("Password must be at least 8 characters long and less the 16 character \n\nand include uppercase, lowercase, number, and special character.");
                 return false;
             }
     

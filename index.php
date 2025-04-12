@@ -209,7 +209,51 @@ $result = $conn->query($sql);
             display: flex;
             align-items: center;
         }
-        
+      
+.carousel-container {
+    overflow: hidden;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 12px;
+}
+
+.carousel-track {
+    display: flex;
+    width: max-content;
+    animation: scroll 25s linear infinite;
+}
+
+.carousel-item {
+    flex: 0 0 auto;
+    width: 300px;
+    margin: 20px;
+    background: #f4f4f4;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.carousel-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+
         .logo img {
             width: 70px;
             height: 70px;
@@ -1111,39 +1155,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }, false);
 </script>
 
-<section class="feedback-section">
-    <!-- <h2>What Our Customers Say</h2> -->
+<<section class="feedback-section">
+<h2 style="text-align:center;">What Our Customers<br> <strong>Say!</strong></h2>
     <div class="feedback-container">
-        <!-- Feedback items will be displayed here -->
         <?php
-        // Reset the result pointer if needed
-        if ($result) {
-            mysqli_data_seek($result, 0);
-            
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo '<div class="feedback-item">';
-                    echo '<div class="feedback-author">';
-                    
-                    // Display user image if available, otherwise use default
-                    if (!empty($row['IMAGE'])) {
-                        echo '<img src="' . htmlspecialchars($row['IMAGE']) . '" alt="User">';
-                    } else {
-                        echo '<img src="photo/user-default.png" alt="User">';
-                    }
-                    
-                    echo '<span>' . htmlspecialchars($row['NAME']) . '</span>';
-                    echo '</div>';
-                    echo '<p>' . htmlspecialchars($row['FEEDBACK']) . '</p>';
-                    echo '</div>';
-                }
-            } else {
-                echo '<p>No feedback available yet. Be the first to share your experience!</p>';
+        $con = mysqli_connect('localhost', 'root', '', 'final');
+        $result = mysqli_query($con, "SELECT * FROM feedback ORDER BY id DESC");
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo '<div class="feedback-item">';
+                echo '<div class="feedback-author">';
+
+                $imagePath = !empty($row['IMAGE']) ? 'php/uploads/' . htmlspecialchars($row['IMAGE']) : 'photo/user-default.png';
+                echo '<img src="' . $imagePath . '" alt="User" width="100" height="100" style="object-fit: cover; border-radius: 50%;">';
+
+                echo '<span>' . htmlspecialchars($row['NAME']) . '</span>';
+                echo '</div>';
+                echo '<p>' . htmlspecialchars($row['FEEDBACK']) . '</p>';
+                echo '</div>';
             }
+        } else {
+            echo '<p>No feedback available yet. Be the first to share your experience!</p>';
         }
         ?>
     </div>
 </section>
+
 <script>
     // This script handles the animation of feedback items
 document.addEventListener("DOMContentLoaded", function() {
