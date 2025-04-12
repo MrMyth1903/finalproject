@@ -20,7 +20,8 @@ if (!$con) {
 
 // Fetch service data for the logged-in user
 $email = $_SESSION['email'];
-$query = "SELECT * FROM service WHERE EMAIL = '" . mysqli_real_escape_string($con, $email) . "'";
+$query = "SELECT * FROM service WHERE EMAIL = '" . mysqli_real_escape_string($con, $email) . "' ORDER BY ID DESC LIMIT 1";
+
 $result = mysqli_query($con, $query);
 $services = [];
 $totalPrice = 0;
@@ -57,40 +58,149 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payment_method'])) {
             break;
     }
     
-    // Prepare email content
-    $emailTo = $email; // Send email to logged-in user
-    $subject = 'Your Order Details';
-    $itemList = "";
-    foreach ($services as $service) {
-        $itemList .= "- ID: " . $service['ID'] . " | Vehicle No: " . $service['V_NUMBER'] . " | Part: " . $service['WANT'] . " | Quantity: " . $service['QUANTITY'] . " | Price: " . $service['PRICE'] . "\n";
-    }
+    // Prepare email content - HTML version
+$emailTo = $email; // Send email to logged-in user
+$subject = 'Your Order Confirmation - Meri Gaddi';
+
+// Build HTML item list
+$htmlItemList = "";
+foreach ($services as $service) {
+    $htmlItemList .= '<tr>
+        <td style="padding: 12px; border-bottom: 1px solid #eee;">#' . $service['ID'] . '</td>
+        <td style="padding: 12px; border-bottom: 1px solid #eee;">' . htmlspecialchars($service['V_NUMBER']) . '</td>
+        <td style="padding: 12px; border-bottom: 1px solid #eee;">' . htmlspecialchars($service['WANT']) . '</td>
+        <td style="padding: 12px; border-bottom: 1px solid #eee; text-align: center;">' . $service['QUANTITY'] . '</td>
+        <td style="padding: 12px; border-bottom: 1px solid #eee; text-align: right;">₹' . number_format($service['PRICE'], 2) . '</td>
+    </tr>';
+}
+
+// Format payment method to look nicer
+$paymentMethodFormatted = ucwords(str_replace('_', ' ', $payment_method));
+
+// Calculate totals
+$subtotal = number_format($totalPrice, 2);
+$deliveryFee = 50.00;
+$grandTotal = number_format($totalPrice + $deliveryFee, 2);
+
+// Create HTML email body
+$htmlBody = '
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: \'Montserrat\', Arial, sans-serif; background-color: #f6f9fc; color: #333333;">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
+        <!-- Header -->
+        <tr>
+            <td align="center" bgcolor="#3a36e0" style="padding: 30px;">
+                <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Order Confirmation</h1>
+            </td>
+        </tr>
+        
+        <!-- Content -->
+        <tr>
+            <td style="padding: 30px;">
+                <p style="margin-bottom: 20px; font-size: 16px;">Dear Customer,</p>
+                <p style="margin-bottom: 20px; font-size: 16px;">Thank you for your purchase! We\'re excited to confirm that your order has been received and is being processed.</p>
+                
+                <div style="background-color: #e8f4fe; border-radius: 8px; padding: 15px; margin-bottom: 25px;">
+                    <p style="margin: 0; font-size: 16px;"><strong>Estimated Delivery:</strong> Your item(s) will be delivered within 3 days</p>
+                </div>
+                
+                <h2 style="color: #3a36e0; margin-top: 30px; margin-bottom: 15px; font-size: 18px;">Order Details</h2>
+                
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
+                    <thead>
+                        <tr bgcolor="#f5f5f5">
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">ID</th>
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Vehicle No</th>
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Part</th>
+                            <th style="padding: 12px; text-align: center; border-bottom: 2px solid #ddd;">Qty</th>
+                            <th style="padding: 12px; text-align: right; border-bottom: 2px solid #ddd;">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ' . $htmlItemList . '
+                    </tbody>
+                </table>
+                
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 20px;">
+                    <tr>
+                        <td style="padding: 5px 0; text-align: right;">Subtotal:</td>
+                        <td style="padding: 5px 0; text-align: right; width: 100px;">₹' . $subtotal . '</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px 0; text-align: right;">Delivery Fee:</td>
+                        <td style="padding: 5px 0; text-align: right;">₹' . number_format($deliveryFee, 2) . '</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px 0; text-align: right; font-weight: bold; border-top: 2px solid #eee; font-size: 18px; color: #3a36e0;">Grand Total:</td>
+                        <td style="padding: 12px 0; text-align: right; font-weight: bold; border-top: 2px solid #eee; font-size: 18px; color: #3a36e0;">₹' . $grandTotal . '</td>
+                    </tr>
+                </table>
+                
+                <div style="margin: 30px 0; padding: 15px; background-color: #f5f5f5; border-radius: 8px;">
+                    <p style="margin: 0; font-size: 16px;"><strong>Payment Method:</strong> ' . $paymentMethodFormatted . '</p>
+                </div>
+                
+                <p style="margin-bottom: 20px; font-size: 16px;">If you have any questions about your order, please contact our customer support team.</p>
+                
+                <p style="margin-bottom: 5px; font-size: 16px;">Thank you for choosing Meri Gaddi!</p>
+                <p style="font-size: 16px;">The Meri Gaddi Team</p>
+            </td>
+        </tr>
+        
+        <!-- Footer -->
+        <tr>
+            <td align="center" bgcolor="#f5f5f5" style="padding: 20px; font-size: 14px; color: #767676;">
+                <p style="margin: 0 0 10px 0;">© 2025 Meri Gaddi. All rights reserved.</p>
+                <p style="margin: 0;">This is an automated email, please do not reply to this message.</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+';
+
+// Plain text alternative for email clients that don't support HTML
+$textBody = "Thank you for your purchase from Meri Gaddi!\n\n" .
+    "ORDER DETAILS:\n\n" . $itemList .
+    "\nSubtotal: ₹" . $subtotal .
+    "\nDelivery Fee: ₹" . number_format($deliveryFee, 2) .
+    "\nGrand Total: ₹" . $grandTotal .
+    "\n\nPayment Method: " . $paymentMethodFormatted .
+    "\n\nYour item(s) will be delivered within 3 days." .
+    "\n\nIf you have any questions, please contact our customer support team." .
+    "\n\nThank you for choosing Meri Gaddi!";
+
+// Send email
+$mail = new PHPMailer(true);
+try {
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'merigaddi0008@gmail.com';
+    $mail->Password = 'yqvqgtuselknvezr';
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port = 465;
     
-    $body = "Thank you for your purchase! Here are your order details:\n\n Your item will delivered in 3 Days" . $itemList . "\nPayment Method: " . strtoupper($payment_method);
+    $mail->setFrom('merigaddi0008@gmail.com', 'Meri Gaddi');
+    $mail->addAddress($emailTo);
     
-    // Send email
-    $mail = new PHPMailer(true);
-    try {
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com'; // Replace with your SMTP server
-        $mail->SMTPAuth = true;
-        $mail->Username = 'merigaddi0008@gmail.com'; // Replace with your email
-        $mail->Password = 'yqvqgtuselknvezr '; // Replace with your email password
-        $mail->SMTPSecure = 'ssl';
-        $mail->Port = 465;
-        
-        $mail->setFrom('merigaddi0008@gmail.com', 'Meri Gaddi');
-        $mail->addAddress($emailTo);
-        
-        $mail->Subject = $subject;
-        $mail->Body = $body;
-        
-        // yqvq gtus elkn vezr   PASSWORD
-        $mail->send();
-        echo "<script>alert('Order placed successfully! Email sent. $payment_message');
-        window.location.href = '../home.php';</script>";
-    } catch (Exception $e) {
-        echo "<script>alert('Email could not be sent. Error: " . $mail->ErrorInfo . "');</script>";
-    }
+    $mail->isHTML(true);
+    $mail->Subject = $subject;
+    $mail->Body = $htmlBody;
+    $mail->AltBody = $textBody;
+    
+    $mail->send();
+    echo "<script>alert('Order placed successfully! Email sent. $payment_message');
+    window.location.href = '../home.php';</script>";
+} catch (Exception $e) {
+    echo "<script>alert('Email could not be sent. Error: " . $mail->ErrorInfo . "');</script>";
+}
 }
 ?>
 

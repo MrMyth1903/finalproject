@@ -32,15 +32,16 @@ if (!isset($_SESSION['admin_email'])) {
         
         /* Sidebar styles */
         .sidebar {
-            position: fixed;
-            height: 100%;
-            width: 250px;
-            background: linear-gradient(135deg, #2c3e50, #1a2530);
-            padding-top: 20px;
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-        
+    position: fixed;
+    height: 100%;
+    width: 250px;
+    background: linear-gradient(135deg, #2c3e50, #1a2530);
+    padding-top: 20px;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    overflow-y: auto; /* Add scrolling for vertical overflow */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}
         .sidebar-header {
             padding: 20px;
             text-align: center;

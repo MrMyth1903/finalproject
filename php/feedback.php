@@ -392,7 +392,11 @@ if (isset($_GET['msg'])) {
                                         <td><?php echo htmlspecialchars($row['NAME']); ?></td>
                                         <td><?php echo htmlspecialchars($row['EMAIL']); ?></td>
                                         <td>
-                                            <img class="student-img" src="<?php echo !empty($row['IMAGE']) ? htmlspecialchars($row['IMAGE']) : 'default-avatar.png'; ?>" alt="Student Image">
+                                        <img class="student-img" 
+                                                 src="uploads/<?php echo !empty($row['IMAGE']) ? htmlspecialchars($row['IMAGE']) : 'default-avatar.png'; ?>" 
+                                                 
+                                                 alt="Student Image">
+                                        </img>         
                                         </td>
                                         <td class="feedback-cell"><?php echo htmlspecialchars($row['FEEDBACK']); ?></td>
                                         <td>

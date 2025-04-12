@@ -50,7 +50,7 @@ if (isset($_POST['submit'])) {
     } else {
         // Insert appointment
         $stmt = $con->prepare("INSERT INTO appointment (LEVEL, SERVICE, DATE, TIME, NAME, EMAIL,VEHICLE_NO, ENGINEE, CHASIS, PRICE, PHONE_NUMBER) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssssssssS", $Level, $Service_Name, $Date, $Time, $Name, $Email,$Vehicle, $Engien_No, $Chasis_No, $Price, $Phone);
+        $stmt->bind_param("sssssssssss", $Level, $Service_Name, $Date, $Time, $Name, $Email,$Vehicle, $Engien_No, $Chasis_No, $Price, $Phone);
 
         if ($stmt->execute()) {
             echo "<script>alert('Appointment successfully created.');</script>";
