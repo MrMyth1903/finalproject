@@ -425,23 +425,7 @@
 <body>
     <div class="dashboard">
         <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <div class="brand">
-                    <div class="logo">
-                        <i class="fas fa-users-cog"></i>
-                        User<span>Manager</span>
-                    </div>
-                    <p class="subtitle">Manage your user database efficiently</p>
-                </div>
-                <div class="header-actions">
-                    <a href="user_create.php" class="btn-add">
-                        <i class="fas fa-user-plus"></i>
-                        <span>Add New User</span>
-                    </a>
-                </div>
-            </div>
-        </header>
+        
 
         <!-- Main Content -->
         <main class="main-content">

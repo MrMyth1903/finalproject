@@ -348,7 +348,7 @@ if (!isset($_SESSION['email'])) {
             position: absolute;
             top: 100%;
             right: 0;
-            background-color: white;
+            background-color: red;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             min-width: 200px;

@@ -365,12 +365,7 @@ if (isset($_GET['msg'])) {
                     <h2 class="card-title">
                         <i class="fas fa-comments"></i> Customer Feedback List
                     </h2>
-                    <div class="search-bar">
-                        <input type="text" id="searchInput" class="search-input" placeholder="Search by name or email...">
-                        <button class="btn-search" onclick="searchTable()">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                    
                 </div>
                 <div class="card-body">
                     <?php if ($result->num_rows > 0): ?>

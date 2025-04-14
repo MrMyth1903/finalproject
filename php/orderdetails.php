@@ -178,28 +178,17 @@ if (!isset($_SESSION['email'])) {
         }
         
         .logout-menu {
-            display: none;
+            display: none; /* Hide by default */
             position: absolute;
             top: 120%;
             right: 0;
-            background: white;
+            background: red;
             border-radius: 8px;
             width: 180px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
             z-index: 1000;
             overflow: hidden;
             animation: slideDown 0.3s ease forwards;
-        }
-        
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
         
         .logout-menu-item {
@@ -232,16 +221,11 @@ if (!isset($_SESSION['email'])) {
         }
         
         .logout-menu-item.danger {
-            color: var(--danger);
+            color: black;
         }
         
         .logout-menu-item.danger:hover {
             background-color: rgba(247, 37, 133, 0.05);
-        }
-        
-        /* Show logout when hovering over email */
-        .user-menu:hover .logout-menu {
-            display: block;
         }
         
         /* Page Title Styles */
@@ -830,14 +814,20 @@ if (!isset($_SESSION['email'])) {
                 <a href="blog.php" class="nav-link"><i class="fas fa-blog"></i> Blog</a>
                 <a href="../appointment.php" class="accent-link"><i class="fas fa-calendar-check"></i> Book Appointment</a>
                 <div class="user-menu">
-                    <div class="user-email">
+                    <div class="user-email" id="userEmail">
                         <i class="fas fa-user-circle user-icon"></i>
                         <?php echo htmlspecialchars($_SESSION['email']); ?>
                         <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
                     </div>
-                    <div class="logout-menu">
+                    <div class="logout-menu" id="logoutMenu">
                         <a href="orderdetails.php" class="logout-menu-item">
                             <i class="fas fa-clipboard-list"></i> My Orders
+                        </a>
+                        <a href="appointmentdetails.php" class="logout-menu-item">
+                            <i class="fas fa-clipboard-check"></i> Appointment Details
+                        </a>
+                        <a href="../password.html" class="logout-menu-item">
+                            <i class="fas fa-clipboard-list"></i> Change Password
                         </a>
                         <a href="../logout.php" class="logout-menu-item danger">
                             <i class="fas fa-sign-out-alt"></i> Logout
@@ -956,8 +946,44 @@ if (!isset($_SESSION['email'])) {
                                 </div>
                                 <div class="location-display">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    <span><?php
+                                    <span><?php echo htmlspecialchars($order['LOCATION']); ?></span>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+        <?php } else { ?>
+        <div class="empty-state">
+            <i class="fas fa-exclamation-circle"></i>
+            <p>No service orders found. Please book an appointment.</p>
+            <a href="../appointment.php" class="btn">Book Appointment</a>
+        </div>
+        <?php } ?>
+    </div>
 
-                    }}
-                    
-                
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userEmail = document.getElementById('userEmail');
+            const logoutMenu = document.getElementById('logoutMenu');
+
+            userEmail.addEventListener('click', function() {
+                // Toggle the display of the logout menu
+                if (logoutMenu.style.display === 'block') {
+                    logoutMenu.style.display = 'none';
+                } else {
+                    logoutMenu.style.display = 'block';
+                }
+            });
+
+            // Optional: Close the dropdown if clicking outside of it
+            window.addEventListener('click', function(event) {
+                if (!userEmail.contains(event.target) && !logoutMenu.contains(event.target)) {
+                    logoutMenu.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

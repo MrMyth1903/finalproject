@@ -48,6 +48,12 @@ $totalRevenue = $totalRow['total'] ?? 0;
 // Calculate total service revenue
 $totalServiceRevenue = array_sum($revenues) + $totalRevenue;
 
+// Fetch inventory total cost
+$inventoryQuery = "SELECT SUM(total_price) AS total_inventory_cost FROM inventory";
+$inventoryResult = $conn->query($inventoryQuery);
+$inventoryRow = $inventoryResult->fetch_assoc();
+$totalInventoryCost = $inventoryRow['total_inventory_cost'] ?? 0;
+
 // Fetch payment data - Monthly payment analysis
 $sql3 = "SELECT 
             DATE_FORMAT(created_at, '%b %Y') AS month,
@@ -105,8 +111,35 @@ $result4 = $conn->query($sql4);
 $row4 = $result4->fetch_assoc();
 $totalPayments = $row4['total_payments'] ? $row4['total_payments'] : 0;
 
-// Calculate net profit (service revenue minus worker payments)
-$netProfit = $totalServiceRevenue - $totalPayments;
+// Calculate net profit (service revenue minus worker payments AND inventory costs)
+$netProfit = $totalServiceRevenue - $totalPayments - $totalInventoryCost;
+
+// Get inventory trend data (monthly)
+$inventoryTrendQuery = "SELECT 
+                          DATE_FORMAT(date_time, '%b %Y') AS month,
+                          SUM(total_price) AS monthly_inventory_cost,
+                          COUNT(*) AS purchase_count
+                       FROM inventory
+                       GROUP BY DATE_FORMAT(date_time, '%Y-%m')
+                       ORDER BY MIN(date_time)";
+$inventoryTrendResult = $conn->query($inventoryTrendQuery);
+
+$inventoryMonths = [];
+$inventoryCosts = [];
+$inventoryCounts = [];
+
+if ($inventoryTrendResult->num_rows > 0) {
+    while ($row = $inventoryTrendResult->fetch_assoc()) {
+        $inventoryMonths[] = $row['month'];
+        $inventoryCosts[] = $row['monthly_inventory_cost'];
+        $inventoryCounts[] = $row['purchase_count'];
+    }
+} else {
+    // If no data, use the same months as payment data for comparison
+    $inventoryMonths = $paymentMonths;
+    $inventoryCosts = array_fill(0, count($paymentMonths), 0);
+    $inventoryCounts = array_fill(0, count($paymentMonths), 0);
+}
 
 // Close connection
 $conn->close();
@@ -131,6 +164,7 @@ $conn->close();
             --light-color: #ecf0f1;
             --danger-color: #e74c3c;
             --profit-color: #16a085;
+            --inventory-color: #e67e22;
             --shadow: 0 4px 15px rgba(0,0,0,0.1);
             --transition: all 0.3s ease;
         }
@@ -365,6 +399,10 @@ $conn->close();
             border-left: 4px solid var(--profit-color);
         }
         
+        .stat-card.inventory {
+            border-left: 4px solid var(--inventory-color);
+        }
+        
         .stat-value {
             font-size: 26px;
             font-weight: 600;
@@ -423,6 +461,11 @@ $conn->close();
             animation: pulse-red 3s infinite;
         }
         
+        .finance-card.inventory {
+            background: linear-gradient(135deg, var(--inventory-color), #d35400);
+            animation: pulse-orange 3s infinite;
+        }
+        
         .finance-card.profit {
             background: linear-gradient(135deg, var(--profit-color), #1abc9c);
             animation: pulse-green 3s infinite;
@@ -438,6 +481,12 @@ $conn->close();
             0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); }
             70% { box-shadow: 0 0 0 15px rgba(231, 76, 60, 0); }
             100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+        
+        @keyframes pulse-orange {
+            0% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(230, 126, 34, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0); }
         }
         
         @keyframes pulse-green {
@@ -588,6 +637,10 @@ $conn->close();
                 <div class="stat-label"><i class="fas fa-car-mechanic"></i> Service Revenue</div>
                 <div class="stat-value">₹<?php echo number_format($totalServiceRevenue, 2); ?></div>
             </div>
+            <div class="stat-card inventory">
+                <div class="stat-label"><i class="fas fa-boxes"></i> Inventory Cost</div>
+                <div class="stat-value">₹<?php echo number_format($totalInventoryCost, 2); ?></div>
+            </div>
             <div class="stat-card danger">
                 <div class="stat-label"><i class="fas fa-user-hard-hat"></i> Worker Payments</div>
                 <div class="stat-value">₹<?php echo number_format($totalPayments, 2); ?></div>
@@ -615,6 +668,15 @@ $conn->close();
             </div>
         </div>
         
+        <!-- Third row of charts - Inventory Analysis -->
+        <div class="charts-row">
+            <div class="chart-container">
+                <h2><i class="fas fa-boxes"></i> Monthly Inventory Cost</h2>
+                <div class="canvas-holder">
+                    <canvas id="inventoryChart"></canvas>
+                </div>
+            </div>
+        </div>
         <!-- New chart for payment data -->
         <div class="charts-row">
             <div class="chart-container">
@@ -667,6 +729,48 @@ $conn->close();
             }
         };
 
+// Chart 4: Monthly Inventory Cost
+        const ctx4 = document.getElementById('inventoryChart').getContext('2d');
+        new Chart(ctx4, {
+            type: 'line',
+            data: {
+                labels: <?php echo json_encode($inventoryMonths); ?>,
+                datasets: [{
+                    label: 'Monthly Inventory Cost (₹)',
+                    data: <?php echo json_encode($inventoryCosts); ?>,
+                    backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                    borderColor: 'rgba(46, 204, 113, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(46, 204, 113, 1)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                ...chartConfig,
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Cost (₹)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    }
+                }
+            }
+        });
         // Chart 1: Appointments Per Service
         const ctx1 = document.getElementById('appointmentChart').getContext('2d');
         new Chart(ctx1, {

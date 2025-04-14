@@ -280,9 +280,10 @@ if (!isset($_SESSION['admin_email'])) {
         <ul class="sidebar-menu">
             <li><a href="graph.php" onclick="loadPage('graph')"><i class="fas fa-home"></i> <span>Graph</span></a></li>
             <li><a href="#" onclick="loadPage('vendor')"><i class="fas fa-store"></i> <span>Vendors</span></a></li>
-            <li><a href="vehicle.php" onclick="loadPage('vehicles')"><i class="fas fa-car"></i> <span>Vehicles</span></a></li>
+            <li><a href="vehicle.php" onclick="loadPage('vehicles')"><i class="fas fa-car"></i> <span>Appointment</span></a></li>
             <li><a href="#" onclick="loadPage('workers')"><i class="fas fa-users"></i> <span>Workers</span></a></li>
             <li><a href="#" onclick="loadPage('days')"><i class="fas fa-users"></i> <span>Attendence</span></a></li>
+            <li><a href="#" onclick="loadPage('inventory')"><i class="fas fa-money-bill-wave"></i> <span>Item Purches</span></a></li>
             <li><a href="worker_payment.php" onclick="loadPage('worker_payment')"><i class="fas fa-money-bill-wave"></i> <span>Payment</span></a></li>
             <li><a href="#" onclick="loadPage('history')"><i class="fas fa-money-bill-wave"></i> <span>Payment History</span></a></li>
             <li><a href="#" onclick="loadPage('service_record')"><i class="fas fa-clipboard-list"></i> <span>Sphare Parts Records</span></a></li>
@@ -334,9 +335,9 @@ if (!isset($_SESSION['admin_email'])) {
             let pageURL = '';
 
             switch (page) {
-                // case 'home':
-                //     pageURL = 'intro.php';
-                //     break;
+                case 'inventory':
+                    pageURL = 'inventory_show.php';
+                    break;
                 case 'vendor':
                     pageURL = 'vendor.php';
                     break;    

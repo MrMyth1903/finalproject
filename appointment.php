@@ -304,10 +304,10 @@ if (!isset($_SESSION['email'])) {
             position: absolute;
             top: 120%;
             right: 0;
-            background: white;
+            background: red;
             border-radius: 8px;
             width: 180px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 24px rgba(248, 5, 5, 0.15);
             z-index: 1000;
             overflow: hidden;
             animation: slideDown 0.3s ease forwards;
@@ -329,7 +329,7 @@ if (!isset($_SESSION['email'])) {
             align-items: center;
             gap: 10px;
             padding: 12px 16px;
-            color: var(--dark);
+            color: white;
             text-decoration: none;
             font-size: 14px;
             transition: all 0.2s ease;
@@ -338,23 +338,23 @@ if (!isset($_SESSION['email'])) {
         
         .logout-menu-item:last-child {
             border-bottom: none;
-            color:#18181b;
+            color:red;
         }
         
         .logout-menu-item i {
             font-size: 16px;
             width: 20px;
             text-align: center;
-            color:#18181b;
+            color:white;
         }
         
         .logout-menu-item:hover {
-            background-color:rgb(245, 245, 245);
+            background-color:rgb(240, 81, 81);
             padding-left: 20px;
         }
         
         .logout-menu-item.danger {
-            color: var(--danger);
+            color: black;
         }
         
         .logout-menu-item.danger:hover {
@@ -445,6 +445,273 @@ if (!isset($_SESSION['email'])) {
             color: white;
             text-align: center;
             padding: 1rem 0;
+        }
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --success-dark: #4361ee;
+            --danger: #f72585;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --border: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, rgba(24, 24, 27, 0.9), rgba(39, 39, 42, 0.8));
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 70px;
+            height: 70px;
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo img:hover {
+            transform: scale(1.05);
+        }
+        
+        .right-header {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .right-header a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .right-header a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .right-header a:hover::before {
+            left: 0;
+        }
+        
+        .nav-link {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .accent-link {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+        }
+        
+        .accent-link:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
+        }
+        
+        /* User Menu Styles */
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .user-email {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .user-email:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
+        }
+        
+        .user-icon {
+            font-size: 16px;
+        }
+        
+        .logout-menu {
+            display: none; /* Hide by default */
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: red;
+            border-radius: 8px;
+            width: 180px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            overflow: hidden;
+            animation: slideDown 0.3s ease forwards;
+        }
+        
+        .logout-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .logout-menu-item:last-child {
+            border-bottom: none;
+            color: black;
+        }
+        
+        .logout-menu-item i {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .logout-menu-item:hover {
+            background-color: rgb(240, 81, 81);
+            padding-left: 20px;
+        }
+        
+        /* Page Title Styles */
+        .page-header {
+            text-align: center;
+            margin: 40px 0 30px;
+            position: relative;
+        }
+        
+        .page-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .subtitle {
+            color: #6c757d;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Orders Table Styles */
+        .data-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .data-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .data-container {
+                padding: 15px;
+            }
         }
         header h1 {
             margin: 0;
@@ -697,7 +964,7 @@ if (!isset($_SESSION['email'])) {
             <div class="right-header">
                 <a href="home.php" class="nav-link"><i class="fas fa-home"></i> Home</a>
                 <a href="php/blog.php" class="nav-link"><i class="fas fa-blog"></i> Blog</a>
-                <a href="appointment.html" class="accent-link"><i class="fas fa-calendar-check"></i> Book Appointment</a>
+                <a href="appointment.php" class="accent-link"><i class="fas fa-calendar-check"></i> Book Appointment</a>
                 <div class="user-menu">
                     <div class="user-email">
                         <i class="fas fa-user-circle user-icon"></i>
@@ -705,12 +972,13 @@ if (!isset($_SESSION['email'])) {
                         <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
                     </div>
                     <div class="logout-menu">
-                        <a href="orderdetails.php" class="logout-menu-item">
+                        <a href="php/orderdetails.php" class="logout-menu-item">
                             <i class="fas fa-clipboard-list"></i> My Orders
                         </a>
                         <a href="php/appointmentdetails.php" class="logout-menu-item">
                             <i class="fas fa-clipboard-list"></i> Appointment Details
                         </a>
+                        
                         <a href="logout.php" class="logout-menu-item danger">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </a>
@@ -727,18 +995,18 @@ if (!isset($_SESSION['email'])) {
                 <button class="service-level-btn level-1-btn" id="level1Btn">
                     <i class="fas fa-check-circle"></i>
                     Level 1 Service
-                    <span>Basic Maintenance<br>₹9999/-</span>
+                    <span>Basic Maintenance<br>₹5000/-</span>
 
                 </button>
                 <button class="service-level-btn level-2-btn" id="level2Btn">
                     <i class="fas fa-tools"></i>
                     Level 2 Service
-                    <span>Intermediate Service<br>₹15000/-</span>
+                    <span>Intermediate Service<br>₹10000/-</span>
                 </button>
                 <button class="service-level-btn level-3-btn" id="level3Btn">
                     <i class="fas fa-cogs"></i>
                     Level 3 Service
-                    <span>Comprehensive Service<br>₹35000/-</span>
+                    <span>Comprehensive Service<br>₹25000/-</span>
                 </button>
                 <button class="service-level-btn level-4-btn" id="level4Btn">
                     <i class="fas fa-cogs"></i>
@@ -793,23 +1061,23 @@ if (!isset($_SESSION['email'])) {
 
                 <div class="form-group">
                     <label for="name1">Email</label>
-                    <input type="text" id="name2" name="email" placeholder="Enter your mail" required>
+                    <input type="text" id="name2" name="email" placeholder="Enter your mail" value="<?php echo htmlspecialchars($_SESSION['email']); ?>" required>
                 </div>
 
                 <div class="form-group">
                     <label for="vehicle1">Vehicle Number</label>
-                    <input type="text" id="vehicle1" name="vehicle" placeholder="Enter your vehicle number" required>
+                    <input type="text" id="vehicle1" name="vehicle"  placeholder="Enter your vehicle number" required>
                 </div>
                 <div class="form-group">
                     <label for="engine1">Engine Number</label>
-                    <input type="text" id="engine1" name="engine" placeholder="Enter your engine number" required>
+                    <input type="text" id="engine1" name="engine" maxlength="6" minlength="6" placeholder="Enter engine number not more the or less then 6 charcter" required>
                 </div>
 
                 <div class="form-group">
                     <label for="chassis1">Chassis Number</label>
-                    <input type="text" id="chassis1" name="chassis" placeholder="Enter your chassis number" required>
+                    <input type="text" id="chassis1" name="chassis" maxlength="6" minlength="6" placeholder="Enter chasis number not more then or less the 6 character" required>
                 </div>
-                <input type="hidden" name="price" value="9999">
+                <input type="hidden" name="price" value="5000">
                 <div class="form-group">
                     <label for="phone_number1">Phone Number</label>
                     <input type="text" id="phone_number1" name="phone_number" placeholder="Enter your phone number" required>
@@ -872,7 +1140,7 @@ if (!isset($_SESSION['email'])) {
 
                 <div class="form-group">
                     <label for="name1">Email</label>
-                    <input type="text" id="name2" name="email" placeholder="Enter your mail" required>
+                    <input type="text" id="name2" name="email" placeholder="Enter your mail" value="<?php echo htmlspecialchars($_SESSION['email']); ?>" required>
                 </div>
 
                 <div class="form-group">
@@ -881,14 +1149,14 @@ if (!isset($_SESSION['email'])) {
                 </div>
                 <div class="form-group">
                     <label for="engine1">Engine Number</label>
-                    <input type="text" id="engine1" name="engine" placeholder="Enter your engine number" required>
+                    <input type="text" id="engine1" name="engine" maxlength="6" minlength="6" placeholder="Enter engine number not more then or less then 6 charcter" required>
                 </div>
 
                 <div class="form-group">
                     <label for="chassis1">Chassis Number</label>
-                    <input type="text" id="chassis1" name="chassis" placeholder="Enter your chassis number" required>
+                    <input type="text" id="chassis1" name="chassis" maxlength="6" minlength="6" placeholder="Enter chasis number not more then or less then 6 character" required>
                 </div>
-                <input type="hidden" name="price" value="15000">
+                <input type="hidden" name="price" value="10000">
                 <div class="form-group">
                     <label for="phone_number1">Phone Number</label>
                     <input type="text" id="phone_number1" name="phone_number" placeholder="Enter your phone number" required>
@@ -952,23 +1220,23 @@ if (!isset($_SESSION['email'])) {
 
                 <div class="form-group">
                     <label for="name1">Email</label>
-                    <input type="text" id="name2" name="email" placeholder="Enter your mail" required>
+                    <input type="text" id="name2" name="email" placeholder="Enter your mail" value="<?php echo htmlspecialchars($_SESSION['email']); ?>" required>
                 </div>
 
                 <div class="form-group">
                     <label for="vehicle1">Vehicle Number</label>
-                    <input type="text" id="vehicle1" name="vehicle" placeholder="Enter your vehicle number" required>
+                    <input type="text" id="vehicle1" name="vehicle"  placeholder="Enter your vehicle number" required>
                 </div>
                 <div class="form-group">
                     <label for="engine1">Engine Number</label>
-                    <input type="text" id="engine1" name="engine" placeholder="Enter your engine number" required>
+                    <input type="text" id="engine1" name="engine" maxlength="6" minlength="6" placeholder="Enter engine number not more the or less then 6 charcter" required>
                 </div>
 
                 <div class="form-group">
                     <label for="chassis1">Chassis Number</label>
-                    <input type="text" id="chassis1" name="chassis" placeholder="Enter your chassis number" required>
+                    <input type="text" id="chassis1" name="chassis" maxlength="6" minlength="6" placeholder="Enter chasis number not more then or less the 6 character" required>
                 </div>
-                <input type="hidden" name="price" value="35000">
+                <input type="hidden" name="price" value="25000">
                 <div class="form-group">
                     <label for="phone_number1">Phone Number</label>
                     <input type="text" id="phone_number1" name="phone_number" placeholder="Enter your phone number" required>
@@ -1020,21 +1288,21 @@ if (!isset($_SESSION['email'])) {
 
                 <div class="form-group">
                     <label for="name1">Email</label>
-                    <input type="text" id="name2" name="email" placeholder="Enter your mail" required>
+                    <input type="text" id="name2" name="email" placeholder="Enter your mail" value="<?php echo htmlspecialchars($_SESSION['email']); ?>" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="vehicle1">Vehicle Number</label>
-                    <input type="text" id="vehicle1" name="vehicle" placeholder="Enter your vehicle number" required>
+                    <input type="text" id="vehicle1" name="vehicle"  placeholder="Enter your vehicle number" required>
                 </div>
                 <div class="form-group">
                     <label for="engine1">Engine Number</label>
-                    <input type="text" id="engine1" name="engine" placeholder="Enter your engine number" required>
+                    <input type="text" id="engine1" name="engine" maxlength="6" minlength="6" placeholder="Enter engine number not more the or less then 6 charcter" required>
                 </div>
 
                 <div class="form-group">
                     <label for="chassis1">Chassis Number</label>
-                    <input type="text" id="chassis1" name="chassis" placeholder="Enter your chassis number" required>
+                    <input type="text" id="chassis1" name="chassis" maxlength="6" minlength="6" placeholder="Enter chasis number not more then or less the 6 character" required>
                 </div>
                 <div class="form-group">
                     <label for="phone_number1">Phone Number</label>
@@ -1477,6 +1745,28 @@ if (!isset($_SESSION['email'])) {
     
 });
 
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userEmail = document.getElementById('userEmail');
+            const logoutMenu = document.getElementById('logoutMenu');
+
+            userEmail.addEventListener('click', function() {
+                // Toggle the display of the logout menu
+                if (logoutMenu.style.display === 'block') {
+                    logoutMenu.style.display = 'none';
+                } else {
+                    logoutMenu.style.display = 'block';
+                }
+            });
+
+            // Close the dropdown if clicking outside of it
+            window.addEventListener('click', function(event) {
+                if (!userEmail.contains(event.target) && !logoutMenu.contains(event.target)) {
+                    logoutMenu.style.display = 'none';
+                }
+            });
+        });
     </script>
 </body>
 </html>
