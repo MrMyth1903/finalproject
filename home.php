@@ -259,7 +259,7 @@ $result = $conn->query($sql);
             color: var(--dark);
             text-decoration: none;
             font-size: 14px;
-            transition: all 0.2s ease;
+            transition: all 0.9s ease;
             border-bottom: 1px solid var(--border);
         }
         
@@ -842,6 +842,7 @@ $result = $conn->query($sql);
                         <a href="php/appointmentdetails.php" class="logout-menu-item">
                             <i class="fas fa-clipboard-list"></i> Appointment Details
                         </a>
+                        
                         <a href="logout.php" class="logout-menu-item danger">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </a>

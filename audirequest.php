@@ -318,7 +318,7 @@ if (!isset($_SESSION['email'])) {
                         <label for="email">Email Address</label>
                         <div class="icon-input">
                             <i class="fas fa-envelope"></i>
-                            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                            <input type="email" id="email" name="email" placeholder="Enter your email address" value="<?php echo htmlspecialchars($_SESSION['email']); ?>" required>
                         </div>
                     </div>
                     

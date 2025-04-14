@@ -1,8 +1,7 @@
-<?php
-use PHPMailer\PHPMailer\PHPMailer;
+<?php  
+use PHPMailer\PHPMailer\PHPMailer; 
 use PHPMailer\PHPMailer\Exception;
 
-// Include PHPMailer classes
 require 'PHPMailer/PHPMailer-master/src/Exception.php';
 require 'PHPMailer/PHPMailer-master/src/PHPMailer.php';
 require 'PHPMailer/PHPMailer-master/src/SMTP.php';
@@ -11,8 +10,8 @@ session_start();
 if (!isset($_SESSION['email'])) {
     exit("User not logged in.");
 }
-$emailTo = $_SESSION['email']; // Email comes from session
-$payment_method = 'Cash on Delivery'; // You can hardcode or pull this from a dropdown input
+
+$emailTo = $_SESSION['email'];
 
 // Database connection
 $con = mysqli_connect('localhost', 'root', '', 'final');
@@ -21,7 +20,7 @@ if (!$con) {
 }
 
 if (isset($_POST['submit'])) {
-    // Sanitize user inputs
+    // Sanitize inputs
     $Level = mysqli_real_escape_string($con, $_POST['service_level']);
     $Service_Name = mysqli_real_escape_string($con, $_POST['service']);
     $Date = mysqli_real_escape_string($con, $_POST['date']);
@@ -33,10 +32,32 @@ if (isset($_POST['submit'])) {
     $Chasis_No = mysqli_real_escape_string($con, $_POST['chassis']);
     $Price = mysqli_real_escape_string($con, $_POST['price']);
     $Phone = mysqli_real_escape_string($con, $_POST['phone_number']);
-    $Sphere = mysqli_real_escape_string($con, $_POST['custom_services']);
-    $payment_message = "Waiting for the Meri Gaddi to confirm your appointment!<br><br>Payment will be done at the time of delivery.";
+    $payment_method = "Cash on Delivery";
+    $payment_message = "Your appointment is successfully created!<br>Payment will be done at the time of delivery.";
 
-    // Check for existing appointment
+    // ✅ Validate current month only
+    $currentMonthStart = date('Y-m-01');
+    $currentMonthEnd = date('Y-m-t');
+    if ($Date < $currentMonthStart || $Date > $currentMonthEnd) {
+        echo "<script>alert('Error: Appointments can only be booked within the current month.'); window.history.back();</script>";
+        exit;
+    }
+
+    // ✅ Validate date and time are not in the past
+    $selectedDateTime = strtotime("$Date $Time");
+    $currentDateTime = time();
+    if ($selectedDateTime < $currentDateTime) {
+        echo "<script>alert('Error: Appointment date and time cannot be in the past.'); window.history.back();</script>";
+        exit;
+    }
+
+    // ✅ Validate Engine No and Chassis No are exactly 6 characters
+    if (strlen($Engien_No) != 6 || strlen($Chasis_No) != 6) {
+        echo "<script>alert('Error: Engine Number and Chassis Number must be exactly 6 characters.'); window.history.back();</script>";
+        exit;
+    }
+
+    // Check for conflicting appointments
     $checkQuery = "SELECT * FROM appointment WHERE SERVICE = ? AND DATE = ? AND TIME = ?";
     $stmtCheck = $con->prepare($checkQuery);
     $stmtCheck->bind_param("sss", $Service_Name, $Date, $Time);
@@ -44,16 +65,15 @@ if (isset($_POST['submit'])) {
     $result = $stmtCheck->get_result();
 
     if ($result->num_rows > 0) {
-        echo "<script>alert('Error: This service is already booked for the selected time slot.');</script>";
+        echo "<script>alert('Error: This service is already booked for the selected time slot. Please choose a different service or time.');</script>";
     } else {
         // Insert appointment
-        $stmt = $con->prepare("INSERT INTO appointment (LEVEL, SERVICE, DATE, TIME, NAME, EMAIL,VEHICLE_NO, ENGINEE, CHASIS, PRICE, PHONE_NUMBER, SPHERE_PART) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssssssssss", $Level, $Service_Name, $Date, $Time, $Name,$Email, $Vehicle, $Engien_No, $Chasis_No, $Price, $Phone, $Sphere);
+        $stmt = $con->prepare("INSERT INTO appointment (LEVEL, SERVICE, DATE, TIME, NAME, EMAIL, VEHICLE_NO, ENGINEE, CHASIS, PRICE, PHONE_NUMBER) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssssssss", $Level, $Service_Name, $Date, $Time, $Name, $Email, $Vehicle, $Engien_No, $Chasis_No, $Price, $Phone);
 
         if ($stmt->execute()) {
             echo "<script>alert('Appointment successfully created.');</script>";
 
-            // Appointment summary for email
             $itemList = "
                 <tr>
                     <td>$Level</td>
@@ -66,7 +86,6 @@ if (isset($_POST['submit'])) {
                     <td>$Chasis_No</td>
                     <td>₹$Price</td>
                     <td>$Phone</td>
-                    <td>$Sphere</td>
                 </tr>";
 
             $body = "
@@ -86,7 +105,6 @@ if (isset($_POST['submit'])) {
                             <th>CHASSIS NO</th>
                             <th>PRICE</th>
                             <th>PHONE</th>
-                            <th>SPHERE PART</th>
                         </tr>
                     </thead>
                     <tbody>$itemList</tbody>
@@ -104,7 +122,7 @@ if (isset($_POST['submit'])) {
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
                 $mail->Username = 'merigaddi0008@gmail.com';
-                $mail->Password = 'yqvqgtuselknvezr'; // Use environment variable in production
+                $mail->Password = 'yqvqgtuselknvezr';
                 $mail->SMTPSecure = 'ssl';
                 $mail->Port = 465;
 
@@ -123,6 +141,7 @@ if (isset($_POST['submit'])) {
         } else {
             echo "<script>alert('Error: Unable to create appointment. Please try again.');</script>";
         }
+
         $stmt->close();
     }
 
