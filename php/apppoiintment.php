@@ -32,10 +32,15 @@ if (isset($_POST['submit'])) {
     $Chasis_No = mysqli_real_escape_string($con, $_POST['chassis']);
     $Price = mysqli_real_escape_string($con, $_POST['price']);
     $Phone = mysqli_real_escape_string($con, $_POST['phone_number']);
+
+    // Retrieve selected services
+    $selected_services = isset($_POST['want']) ? $_POST['want'] : [];
+    $services_string = mysqli_real_escape_string($con, implode(", ", $selected_services));
+print_r($services_string);
     $payment_method = "Cash on Delivery";
     $payment_message = "Your appointment is successfully created!<br>Payment will be done at the time of delivery.";
 
-    // ✅ Validate current month only
+    // Current month check
     $currentMonthStart = date('Y-m-01');
     $currentMonthEnd = date('Y-m-t');
     if ($Date < $currentMonthStart || $Date > $currentMonthEnd) {
@@ -43,7 +48,7 @@ if (isset($_POST['submit'])) {
         exit;
     }
 
-    // ✅ Validate date and time are not in the past
+    // Time check
     $selectedDateTime = strtotime("$Date $Time");
     $currentDateTime = time();
     if ($selectedDateTime < $currentDateTime) {
@@ -51,13 +56,13 @@ if (isset($_POST['submit'])) {
         exit;
     }
 
-    // ✅ Validate Engine No and Chassis No are exactly 6 characters
+    // Engine/Chassis check
     if (strlen($Engien_No) != 6 || strlen($Chasis_No) != 6) {
         echo "<script>alert('Error: Engine Number and Chassis Number must be exactly 6 characters.'); window.history.back();</script>";
         exit;
     }
 
-    // Check for conflicting appointments
+    // Duplicate check
     $checkQuery = "SELECT * FROM appointment WHERE SERVICE = ? AND DATE = ? AND TIME = ?";
     $stmtCheck = $con->prepare($checkQuery);
     $stmtCheck->bind_param("sss", $Service_Name, $Date, $Time);
@@ -67,13 +72,14 @@ if (isset($_POST['submit'])) {
     if ($result->num_rows > 0) {
         echo "<script>alert('Error: This service is already booked for the selected time slot. Please choose a different service or time.');</script>";
     } else {
-        // Insert appointment
-        $stmt = $con->prepare("INSERT INTO appointment (LEVEL, SERVICE, DATE, TIME, NAME, EMAIL, VEHICLE_NO, ENGINEE, CHASIS, PRICE, PHONE_NUMBER) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssssssss", $Level, $Service_Name, $Date, $Time, $Name, $Email, $Vehicle, $Engien_No, $Chasis_No, $Price, $Phone);
+        // Insert
+        $stmt = $con->prepare("INSERT INTO appointment (LEVEL, SERVICE, DATE, TIME, NAME, EMAIL, VEHICLE_NO, ENGINEE, CHASIS, PRICE, PHONE_NUMBER, SPHERE_PART) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssssssss", $Level, $Service_Name, $Date, $Time, $Name, $Email, $Vehicle, $Engien_No, $Chasis_No, $Price, $Phone, $services_string);
 
         if ($stmt->execute()) {
             echo "<script>alert('Appointment successfully created.');</script>";
 
+            // Email content
             $itemList = "
                 <tr>
                     <td>$Level</td>
@@ -84,6 +90,7 @@ if (isset($_POST['submit'])) {
                     <td>$Vehicle</td>
                     <td>$Engien_No</td>
                     <td>$Chasis_No</td>
+                    <td>$services_string</td>
                     <td>₹$Price</td>
                     <td>$Phone</td>
                 </tr>";
@@ -103,6 +110,7 @@ if (isset($_POST['submit'])) {
                             <th>VEHICLE NO</th>
                             <th>ENGINE NO</th>
                             <th>CHASSIS NO</th>
+                            <th>SPHERE PART</th>
                             <th>PRICE</th>
                             <th>PHONE</th>
                         </tr>

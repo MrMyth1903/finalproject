@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2025 at 09:06 AM
+-- Generation Time: Apr 14, 2025 at 03:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,24 +48,7 @@ CREATE TABLE `appointment` (
 --
 
 INSERT INTO `appointment` (`ID`, `LEVEL`, `SERVICE`, `TIME`, `DATE`, `NAME`, `EMAIL`, `VEHICLE_NO`, `ENGINEE`, `CHASIS`, `PRICE`, `PHONE_NUMBER`, `SPHERE_PART`) VALUES
-(40, 'Customized Service', 'Bike Servicing', '13:34:00', '2025-04-18', 'CHANDAN SINGH ', 'chaandaan42@gmail.com', 'JH/05/CH/2345', 3456, 2345, '150', 8340300338, 'Head Light'),
-(41, 'Level 3', 'Bike Servicing', '14:54:00', '2025-04-25', 'SURYA PRAKASH TIWARY', 'tiwarysurya861@gmail.com', 'JH/05/CH/2345', 3456, 2345, '35000', 6789034567, ''),
-(42, 'Level 3', 'Car Maintenance', '14:05:00', '2025-04-15', 'CHANDAN SINGH ', 'chaandaan42@gmail.com', 'JH/05/CH/2345', 3456, 2345, '35000', 8340300338, ''),
-(43, 'Level 1', 'Car Maintenance', '19:36:00', '2025-04-16', 'CHANDAN SINGH', 'chaandaan42@gmail.com', 'JH/05/EF/2345', 233456, 658745, '9999', 8340300338, ''),
-(44, 'Level 1', 'Car Maintenance', '19:36:00', '2025-04-17', 'CHANDAN SINGH', 'chaandaan42@gmail.com', 'JH/05/EF/2345', 3456, 8745, '9999', 8340300338, ''),
-(45, 'Level 3', 'Bike Servicing', '21:38:00', '2025-04-16', 'MANGU RAM HEMBRAM', 'chaandaan42@gmail.com', 'JH/05/CH/2345', 3456, 2345, '35000', 7050601433, ''),
-(46, 'Level 3', 'Bike Servicing', '21:38:00', '2025-04-15', 'MANGU RAM HEMBRAM', 'chaandaan42@gmail.com', 'JH/05/CH/2345', 3456, 2345, '35000', 7050601433, ''),
-(47, 'Customized Service', 'Car Maintenance', '21:43:00', '2025-04-15', 'SNEHA CHANDAN SINGH', 'chaandaan42@gmail.com', 'JH/05/CH/2345', 3456, 8745, '300', 8340300338, 'Head Light'),
-(48, 'Level 3', 'Car Maintenance', '19:48:00', '2025-04-14', 'MANGU RAM HEMBRAM', 'chaandaan42@gmail.com', 'JH/05/CH/2345', 3456, 2345, '35000', 7050601433, ''),
-(49, 'Level 1', 'Car Maintenance', '09:00:00', '2025-04-15', 'Soham', 'sohamchakraborty23@gmail.com', 'JH/05/CH/2320', 3459, 9887, '9999', 9021688265, ''),
-(50, 'Customized Service', 'Bike Servicing', '10:15:00', '3000-04-14', 'MANGU RAM HEMBRAM', 'manguramhembram@gmail.com', 'JH/05/CH/2345', 3456, 8745, '0', 7903428956, 'Other'),
-(51, 'Level 2', 'Bike Servicing', '10:31:00', '2025-04-16', 'MANGU RAM HEMBRAM', 'manguramhembram@gmail.com', 'JH/05/CH/2345', 3456, 2345, '15000', 7050601433, ''),
-(52, 'Level 3', 'Car Maintenance', '10:32:00', '2025-04-16', 'MANGU RAM HEMBRAM', 'manguramhembram@gmail.com', 'JH/05/CH/2345', 345634, 234545, '35000', 7050601433, ''),
-(53, 'Customized Service', 'Car Maintenance', '10:48:00', '2025-05-14', 'MANGU RAM HEMBRAM', 'manguramhembram@gmail.com', 'JH/05/', 3456, 8745, '8000', 7903428956, 'Pistons'),
-(54, 'Level 3', 'Car Maintenance', '10:59:00', '2025-04-08', 'MANGU RAM HEMBRAM', 'manguramhembram@gmail.com', 'JH/05/DL/9843', 345636, 234544, '25000', 7050601433, ''),
-(55, 'Level 3', 'Car Maintenance', '11:59:00', '2025-04-07', 'MANGU RAM HEMBRAM', 'manguramhembram@gmail.com', 'JH/05/DL/9843', 345636, 234544, '25000', 7050601433, ''),
-(56, 'Customized Service', 'Car Maintenance', '11:01:00', '2025-04-15', 'MANGU RAM HEMBRAM', 'manguramhembram@gmail.com', 'JH/05/DL/4567', 345667, 874567, '', 7903428956, ''),
-(57, 'Level 2', 'Car Maintenance', '11:06:00', '2025-04-16', 'MANGU RAM HEMBRAM', 'manguramhembram@gmail.com', 'JH/05/CH/2345', 345678, 234578, '10000', 7050601433, '');
+(47, 'Customized Service', 'Car Maintenance', '21:43:00', '2025-04-15', 'SNEHA CHANDAN SINGH', 'chaandaan42@gmail.com', 'JH/05/CH/2345', 3456, 8745, '300', 8340300338, 'Head Light');
 
 -- --------------------------------------------------------
 
@@ -211,10 +194,7 @@ CREATE TABLE `payments` (
 
 INSERT INTO `payments` (`id`, `email`, `working_days`, `amount_paid`, `payment_date`) VALUES
 (37, 'tiwarysurya861@gmail.com', 1, 500.00, '2025-04-12 13:54:41'),
-(38, 'tiwarysurya861@gmail.com', 2, 1000.00, '2025-04-13 12:07:19'),
-(39, 'tiwarysurya861@gmail.com', 2, 1800.00, '2025-04-13 20:01:49'),
-(40, 'manguramhembram@gmail.com', 1, 500.00, '2025-04-14 09:05:50'),
-(41, 'tiwarysurya861@gmail.com', 3, 1500.00, '2025-04-14 09:05:59');
+(38, 'tiwarysurya861@gmail.com', 2, 1000.00, '2025-04-13 12:07:19');
 
 -- --------------------------------------------------------
 
@@ -250,7 +230,7 @@ CREATE TABLE `service` (
   `V_NUMBER` varchar(14) NOT NULL,
   `EMAIL` varchar(30) NOT NULL,
   `PHONE` varchar(12) NOT NULL,
-  `WANT` varchar(20) NOT NULL,
+  `WANT` varchar(500) NOT NULL,
   `DATE` date NOT NULL DEFAULT current_timestamp(),
   `PRICE` int(100) NOT NULL,
   `QUANTITY` int(10) NOT NULL,
@@ -263,17 +243,11 @@ CREATE TABLE `service` (
 --
 
 INSERT INTO `service` (`ID`, `V_TYPE`, `V_NUMBER`, `EMAIL`, `PHONE`, `WANT`, `DATE`, `PRICE`, `QUANTITY`, `ADDRESS`, `SESSION_ID`) VALUES
-(72, 'Audi Sedan', 'JH/05/CH/2345', 'sohamchakroborty2005@gmail.com', '8340300338', 'Timing Belt Kit', '2025-04-12', 16000, 2, 'Gamharia ,Jagannathpur', ''),
-(73, '4 Wheelers HONDA', 'JH/05/CH/2345', 'chaandaan42@gmail.com', '8340300338', 'Spark Plug Replaceme', '2025-04-12', 400, 2, 'ELECTRONIC CITY BANGALORE', ''),
-(74, '4 Wheelers BMW', 'JH/05/CH/2345', 'sohamchakroborty2005@gmail.com', '8340300338', 'Engine Control Modul', '2025-04-12', 30000, 2, 'Gamharia ,Jagannathpur', ''),
-(75, '4 Wheelers FORD', 'JH/05/CH/2345', 'chaandaan42@gmail.com', '8340300338', 'DPF Filter', '2025-04-12', 36000, 2, 'ELECTRONIC CITY BANGALORE', ''),
-(76, '2 Wheelers BMW', 'JH/05/CH/2345', 'chaandaan42@gmail.com', '8340300338', 'Brake Shoe Change', '2025-04-12', 1600, 4, 'ELECTRONIC CITY BANGALORE', ''),
-(77, '2 Wheelers BMW', 'JH/05/CH/2345', 'chaandaan42@gmail.com', '8340300338', 'Engine Control Modul', '2025-04-12', 30000, 2, 'ELECTRONIC CITY, NTTF BOYS HOSTEL', ''),
-(78, '4 Wheelers TATA', 'JH/05/CH/2345', 'chaandaan42@gmail.com', '8340300338', 'Gear Selector', '2025-04-13', 5000, 1, 'ELECTRONIC CITY, NTTF BOYS HOSTEL', ''),
-(79, '2 Wheelers AUDI', 'JH/05/CH/2345', 'chaandaan42@gmail.com', '8340300338', 'Deeper', '2025-04-13', 2000, 2, 'Gamharia ,Jagannathpur', ''),
-(80, '4 Wheelers HONDA', 'JH/05/CH/2345', 'chaandaan42@gmail.com', '8340300338', 'Spark Plug Replaceme', '2025-04-13', 400, 2, 'ELECTRONIC CITY BANGALORE', ''),
-(81, '4 Wheelers FORD', 'JH/05/CH/2345', 'chaandaan42@gmail.com', '8340300338', 'Mobile Tank', '2025-04-13', 350, 1, 'ELECTRONIC CITY BANGALORE', ''),
-(82, '2 Wheelers BMW', 'JH/05/CH/2345', 'manguramhembram@gmail.com', '8340300338', 'Tire Change', '2025-04-14', 2000, 4, 'Gamharia ,Jagannathpur', '');
+(82, '2 Wheelers BMW', 'JH/05/CH/2345', 'manguramhembram@gmail.com', '8340300338', 'Tire Change', '2025-04-14', 2000, 4, 'Gamharia ,Jagannathpur', ''),
+(83, 'Audi SUV', 'JH/05/CH/2345', 'chaandaan42@gmail.com', '7050601433', 'Intercooler', '2025-04-14', 18000, 2, 'Gamharia ,Jagannathpur', ''),
+(84, 'Audi SUV', 'JH/05/CH/2345', 'chaandaan42@gmail.com', '7050601433', 'Expansion Valve', '2025-04-14', 4000, 1, 'Gamharia ,Jagannathpur', ''),
+(85, 'Audi SUV', 'JH/05/CH/2345', 'chaandaan42@gmail.com', '7050601433', 'Tire Change,Mobil Ch', '2025-04-14', 3600, 3, 'Gamharia ,Jagannathpur', ''),
+(86, '2 Wheelers AUDI', 'JH/05/CH/2345', 'chaandaan42@gmail.com', '7050601433', 'Mobil Change,Brake S', '2025-04-14', 1050, 1, 'ELECTRONIC CITY, NTTF BOYS HOSTEL', '');
 
 -- --------------------------------------------------------
 
@@ -291,18 +265,6 @@ CREATE TABLE `user` (
   `DOB` date NOT NULL,
   `City` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`ID`, `FirstName`, `LastName`, `Phone`, `Mail`, `Password`, `DOB`, `City`) VALUES
-(26, 'Nikita', 'Kumari', 8884949597, 'rntc0822031@nttf.co.in', '$2y$10$baFPLgS7Z', '2004-11-06', 'JAMSHEDPUR'),
-(28, 'MANGU', 'HEMBRAM', 7050601433, 'sohamchakroborty2005@gmail.com', 'P@ssw0rd', '2016-06-15', 'KARNATAKA'),
-(30, 'CHANDAN', 'SINGH', 8340300338, 'chaandaan42@gmail.com', 'P@ssw0rd', '2004-05-29', 'JAMSHEDPUR'),
-(32, 'Soham', 'Chakraborty', 9031688275, 'sohamchakraborty232005@gmail.c', 'P@ssw0rd', '2005-02-05', 'JAMSHEDPUR'),
-(33, 'Soham', 'Chakraborty', 9031688275, 'sohamchakraborty23@gmail.com', 'P@ssw0rd', '2005-02-01', 'JAMSHEDPUR'),
-(34, 'MANGU RAM', 'HEMBRAM', 7903428956, 'manguramhembram@gmail.com', 'AarChaRan@1903', '2001-12-09', 'Jamshedpur');
 
 -- --------------------------------------------------------
 
@@ -408,7 +370,7 @@ ALTER TABLE `vendor`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `attendance`
@@ -444,7 +406,7 @@ ALTER TABLE `members`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `posts`
@@ -456,7 +418,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `user`
