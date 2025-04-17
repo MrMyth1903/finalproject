@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
     // Retrieve selected services
     $selected_services = isset($_POST['want']) ? $_POST['want'] : [];
     $services_string = mysqli_real_escape_string($con, implode(", ", $selected_services));
-print_r($services_string);
+
     $payment_method = "Cash on Delivery";
     $payment_message = "Your appointment is successfully created!<br>Payment will be done at the time of delivery.";
 

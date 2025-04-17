@@ -946,7 +946,7 @@ if (!isset($_SESSION['email'])) {
                                 </div>
                                 <div class="location-display">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    <span><?php echo htmlspecialchars($order['LOCATION']); ?></span>
+                                    <span><?php echo htmlspecialchars($order['ADDRESS']); ?></span>
                                 </div>
                             </td>
                         </tr>
