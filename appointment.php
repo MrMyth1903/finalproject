@@ -82,6 +82,7 @@ if (!isset($_SESSION['email'])) {
         .submit-button {
             text-align: center;
             margin-top: 30px;
+            color: red;
         }
         
         button {
@@ -1126,6 +1127,7 @@ if (!isset($_SESSION['email'])) {
         .submit-button {
             text-align: center;
             margin-top: 30px;
+            color: red;
         }
         
         button {

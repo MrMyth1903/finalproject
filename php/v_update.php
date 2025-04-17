@@ -15,27 +15,27 @@ if ($conn->connect_error) {
 // Fetch Data for Editing
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     $id = $_GET['id'];
-    
-    // Get the appointment data
+
+    // Get appointment data
     $sql = "SELECT * FROM appointment WHERE ID = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
-    
-    // If no record is found
+
     if ($result->num_rows == 0) {
         die("Appointment not found!");
     }
-    
+
     $appointment = $result->fetch_assoc();
+
 } else {
     die("No appointment ID provided!");
 }
 
 // Update Appointment Data
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
-    // Check if form fields are set
+    // Collect form data
     $id = $_POST["ID"];
     $level = $_POST["LEVEL"];
     $service = $_POST["SERVICE"];
@@ -48,31 +48,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
     $chasis = $_POST["CHASIS"];
     $price = $_POST["PRICE"];
     $phone_number = $_POST["PHONE_NUMBER"];
-    $sphere_part = $_FILES["SPHERE_PART"]["name"] ? $_FILES["SPHERE_PART"]["name"] : $appointment["SPHERE_PART"];
-    
-    // Ensure all required fields are filled
-    if (!empty($id) && !empty($service) && !empty($date) && !empty($time) && !empty($name) && !empty($vehicle_no) && !empty($phone_number)) {
-        // File upload logic for SPHERE_PART
-        if ($_FILES['SPHERE_PART']['error'] == 0) {
-            $target_dir = "uploads/";
-            $target_file = $target_dir . basename($_FILES["SPHERE_PART"]["name"]);
-            move_uploaded_file($_FILES["SPHERE_PART"]["tmp_name"], $target_file);
-        }
 
-        // Update the database record
-        $sql = "UPDATE appointment SET LEVEL=?, SERVICE=?, TIME=?, DATE=?, NAME=?, EMAIL=?, VEHICLE_NO=?, ENGINEE=?, CHASIS=?, PRICE=?, SPHERE_PART=?, PHONE_NUMBER=? WHERE ID=?";
+    // Handle SPHERE_PART update (text input)
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
+        // Collect form data
+        $id = $_POST["ID"];
+        $level = $_POST["LEVEL"];
+        $service = $_POST["SERVICE"];
+        $time = $_POST["TIME"];
+        $date = $_POST["DATE"];
+        $name = $_POST["NAME"];
+        $email = $_POST["EMAIL"];
+        $vehicle_no = $_POST["VEHICLE_NO"];
+        $enginee = $_POST["ENGINEE"];
+        $chasis = $_POST["CHASIS"];
+        $price = $_POST["PRICE"];
+        $phone_number = $_POST["PHONE_NUMBER"];
+        $sphere_parts = isset($_POST["SPHERE_PARTS"]) ? trim($_POST["SPHERE_PARTS"]) : "";
+    
+        // Clean up sphere parts input
+        $sphere_parts = preg_replace('/\s*,\s*/', ',', $sphere_parts); // remove spaces around commas
+        $sphere_parts = preg_replace('/,+/', ',', $sphere_parts); // remove duplicate commas
+    
+        // Validate required fields
+        if (!empty($id) && !empty($service) && !empty($date) && !empty($time) && !empty($name) && !empty($vehicle_no) && !empty($phone_number)) {
+            $sql = "UPDATE appointment SET LEVEL=?, SERVICE=?, TIME=?, DATE=?, NAME=?, EMAIL=?, VEHICLE_NO=?, ENGINEE=?, CHASIS=?, PRICE=?, PHONE_NUMBER=?, SPHERE_PART=? WHERE ID=?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ssssssssssssi", $level, $service, $time, $date, $name, $email, $vehicle_no, $enginee, $chasis, $price, $phone_number, $sphere_parts, $id);
+    
+            if ($stmt->execute()) {
+                echo "<p style='color:green;'>Appointment updated successfully!</p>";
+                header("refresh:1;url=adminIndex.php");
+            } else {
+                echo "<p style='color:red;'>Error updating record: " . $conn->error . "</p>";
+            }
+        } else {
+            echo "<p style='color:red;'>Please fill all required fields.</p>";
+        }
+    }
+    
+
+    // Validate and update other appointment fields
+    if (!empty($id) && !empty($service) && !empty($date) && !empty($time) && !empty($name) && !empty($vehicle_no) && !empty($phone_number)) {
+        $sql = "UPDATE appointment SET LEVEL=?, SERVICE=?, TIME=?, DATE=?, NAME=?, EMAIL=?, VEHICLE_NO=?, ENGINEE=?, CHASIS=?, PRICE=?, PHONE_NUMBER=? WHERE ID=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssssssssi", $level, $service, $time, $date, $name, $email, $vehicle_no, $enginee, $chasis, $price, $sphere_part, $phone_number, $id);
-        
+        $stmt->bind_param("sssssssssssi", $level, $service, $time, $date, $name, $email, $vehicle_no, $enginee, $chasis, $price, $phone_number, $id);
+
         if ($stmt->execute()) {
-            $success_message = "Appointment updated successfully!";
-            // Redirect after 1 second
+            echo "<p style='color:green;'>Appointment updated successfully!</p>";
             header("refresh:1;url=adminIndex.php");
         } else {
-            $error_message = "Error updating record: " . $conn->error;
+            echo "<p style='color:red;'>Error updating record: " . $conn->error . "</p>";
         }
     } else {
-        $error_message = "Please fill all required fields.";
+        echo "<p style='color:red;'>Please fill all required fields.</p>";
     }
 }
 ?>
@@ -463,7 +492,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
                         <label for="PRICE"><i class="fas fa-rupee-sign"></i> Sphere Parts</label>
                         <div class="input-with-icon">
                             <i class="fas fa-rupee-sign input-icon"></i>
-                            <input type="text" id="SPHERE_PART" name="SPHERE_PART" class="form-control" value="<?php echo htmlspecialchars($appointment['SPHERE_PART']); ?>" required>
+                            <input type="text" id="SPHERE_PARTS" name="SPHERE_PARTS" class="form-control" value="<?php echo htmlspecialchars($appointment['SPHERE_PART']); ?>" required>
                         </div>
                     </div>
                 </div>
