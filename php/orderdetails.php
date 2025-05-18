@@ -840,8 +840,8 @@ if (!isset($_SESSION['email'])) {
 
     <div class="container">
         <div class="page-header">
-            <h1 class="page-title">My Service Orders</h1>
-            <p class="subtitle">Track and manage all your vehicle service appointments</p>
+            <h1 class="page-title">My Sphere Parts Order Details</h1>
+            <p class="subtitle">Track and manage all your vehicle Order details </p>
         </div>
         
         <?php

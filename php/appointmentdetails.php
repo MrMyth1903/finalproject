@@ -674,7 +674,7 @@ if (!isset($_SESSION['email'])) {
 
     <div class="container">
         <div class="page-header">
-            <h1 class="page-title">My Service Orders</h1>
+            <h1 class="page-title">My Appointment History</h1>
             <p class="subtitle">Track and manage all your vehicle service appointments</p>
         </div>
         
